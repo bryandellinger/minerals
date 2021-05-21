@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29318.209
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minerals", "Minerals\Minerals.csproj", "{43A2E414-1E7E-446B-BE4E-E126D76C02B1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ADImportBatch", "ADImportBatch\ADImportBatch.csproj", "{DDBDCA79-C083-4858-8D55-C0ADDC5B3CC9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "accessdataimport", "accessdataimport\accessdataimport.csproj", "{E6BC19EA-65FF-408D-9E44-3D1EF9E96636}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minerals.Tests", "Minerals.Tests\Minerals.Tests.csproj", "{7C23F1E1-101F-40DF-B8EF-82C644F2E2A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{96BB179B-0BEB-424C-82A5-6A5E7D26AF6F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{43A2E414-1E7E-446B-BE4E-E126D76C02B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43A2E414-1E7E-446B-BE4E-E126D76C02B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43A2E414-1E7E-446B-BE4E-E126D76C02B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43A2E414-1E7E-446B-BE4E-E126D76C02B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDBDCA79-C083-4858-8D55-C0ADDC5B3CC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDBDCA79-C083-4858-8D55-C0ADDC5B3CC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDBDCA79-C083-4858-8D55-C0ADDC5B3CC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDBDCA79-C083-4858-8D55-C0ADDC5B3CC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6BC19EA-65FF-408D-9E44-3D1EF9E96636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6BC19EA-65FF-408D-9E44-3D1EF9E96636}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6BC19EA-65FF-408D-9E44-3D1EF9E96636}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6BC19EA-65FF-408D-9E44-3D1EF9E96636}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C23F1E1-101F-40DF-B8EF-82C644F2E2A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C23F1E1-101F-40DF-B8EF-82C644F2E2A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C23F1E1-101F-40DF-B8EF-82C644F2E2A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C23F1E1-101F-40DF-B8EF-82C644F2E2A9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {374D0BE0-9131-4585-8EA9-7650AD87DD5A}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://padep.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ADImportBatch\\ADImportBatch.csproj
+		SccProjectName1 = ADImportBatch
+		SccLocalPath1 = ADImportBatch
+		SccProjectUniqueName2 = Minerals\\Minerals.csproj
+		SccProjectName2 = Minerals
+		SccLocalPath2 = Minerals
+		SccProjectUniqueName3 = accessdataimport\\accessdataimport.csproj
+		SccProjectName3 = accessdataimport
+		SccLocalPath3 = accessdataimport
+		SccProjectUniqueName4 = Minerals.Tests\\Minerals.Tests.csproj
+		SccProjectName4 = Minerals.Tests
+		SccLocalPath4 = Minerals.Tests
+	EndGlobalSection
+EndGlobal
