@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Minerals</name>
+    </assembly>
+    <members>
+        <member name="T:Minerals.Controllers.AccountController">
+            <summary> Account Controller </summary>
+        </member>
+        <member name="M:Minerals.Controllers.AccountController.Index">
+            <summary> Returns Skeleton page for Account
+            SPA.</summary>
+        </member>
+        <member name="M:Minerals.Controllers.ContractMgrApiController.Get">
+            <summary> Returns all Contracts as JSON</summary>
+        </member>
+        <member name="M:Minerals.Controllers.ContractMgrApiController.Get(System.Int64)">
+            <summary> Returns Contract given a contract id</summary>
+        </member>
+        <member name="M:Minerals.Controllers.ContractsController.Index">
+            <summary> Returns Skeleton page for Contracts
+            SPA.</summary>
+        </member>
+        <member name="M:Minerals.Controllers.ContractSubTypeMgrApiController.Get">
+            <summary> Returns all Contract  as JSON</summary>
+        </member>
+        <member name="M:Minerals.Controllers.ContractTypeMgrApiController.Get">
+            <summary> Returns all Contract Types as JSON</summary>
+        </member>
+        <member name="M:Minerals.Controllers.HomeController.Index">
+            <summary>Entry Point for Application Returns Skeleton page for Account
+            Dashboard.</summary>
+        </member>
+        <member name="M:Minerals.Controllers.LesseeMgrApiController.Get(System.Int64)">
+            <summary> Returns a Lessee object as JSON given an id</summary>
+        </member>
+        <member name="M:Minerals.Controllers.LesseeMgrApiController.Get">
+            <summary> Returns all Lessees as JSON </summary>
+        </member>
+        <member name="M:Minerals.Controllers.PadMgrApiController.Get(System.Int64)">
+            <summary> Given a tract id get all pads as JSON</summary>
+        </member>
+        <member name="M:Minerals.Controllers.PadMgrApiController.Get">
+            <summary> Return all pads as JSON</summary>
+        </member>
+        <member name="M:Minerals.Controllers.RevenueReceivedMgrApiController.Get">
+            <summary> Get all Revenue Received as JSON</summary>
+        </member>
+        <member name="M:Minerals.Controllers.RoyaltyAdjustmentCardApiController.Get(System.String)">
+            <summary> Return Royalty Adjustment Information as JSON given a search parameter as a string </summary>
+        </member>
+        <member name="M:Minerals.Controllers.RoyaltyAdjustmentCardApiController.Post(Minerals.ViewModels.RoyaltyAdjustmentCardViewModel)">
+            <summary> Return Royalty Adjustment Information as JSON given a search parameter as an object JSON</summary>
+        </member>
+        <member name="M:Minerals.Controllers.RoyaltyPaymentMgrApiController.Post(Minerals.ViewModels.RoyaltyPaymentViewModel)">
+            <summary> Insert a new Royalty</summary>
+        </member>
+        <member name="M:Minerals.Controllers.TractLesseeJunctionMgrApiController.Get(System.Int64)">
+            <summary> given a lessee id get all tracts as JSON</summary>
+        </member>
+        <member name="M:Minerals.Controllers.TractMgrApiController.Get">
+            <summary>get all tracts as JSON</summary>
+        </member>
+        <member name="M:Minerals.Controllers.TractMgrApiController.Get(System.Int64)">
+            <summary>get a tracts as JSON given a tract id</summary>
+        </member>
+        <member name="M:Minerals.Controllers.UserMgrApiController.Put(System.Int64,Models.User)">
+            <summary>given id update user</summary>
+        </member>
+        <member name="M:Minerals.Controllers.UserMgrApiController.Get">
+            <summary>return all users as JSON</summary>
+        </member>
+        <member name="M:Minerals.Controllers.WellMgrApiController.Get(System.Int64)">
+            <summary>given pad id return all pads as JSON</summary>
+        </member>
+        <member name="M:Minerals.Controllers.WellMgrApiController.Get">
+            <summary>get all wells as JSON</summary>
+        </member>
+        <member name="M:Minerals.Infrastructure.AuthorizeUserAttribute.OnAuthorization(Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext)">
+            <summary> Authorization filter accepts a comma delimited list of roles and checks if user has necessary roles</summary>
+        </member>
+        <member name="M:Minerals.Infrastructure.ErrorLoggingAttribute.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+            <summary> Global exception handler. writes all exceptions to the database</summary>
+        </member>
+        <member name="M:Minerals.Infrastructure.SessionExtensions.SetJson(Microsoft.AspNetCore.Http.ISession,System.String,System.Object)">
+            <summary> Sets session variables as JSON</summary>
+        </member>
+        <member name="M:Minerals.Infrastructure.SessionExtensions.GetJson``1(Microsoft.AspNetCore.Http.ISession,System.String)">
+            <summary> Retusrns JSON session variables as Object </summary>
+        </member>
+        <member name="T:Models.ADDepUser">
+            <summary> Active Directory Information Class </summary>
+        </member>
+    </members>
+</doc>
