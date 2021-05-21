@@ -1,0 +1,145 @@
+﻿ <form id="addUpdatePaymentForm" novalidate onsubmit="event.preventDefault()">
+    <h3 class="card-title" style="display: inline;  position:relative; top: 5px;">
+        {{this.title}}
+    </h3>
+    {{#if this.updateInd}}
+    {{#if this.editmode}}
+    <button type="submit" class="btn btn-secondary btn-sm">
+        <i class="fas fa-save"></i> Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal">
+        <i class="fas fa-times"></i> Cancel
+    </button>
+    {{#if this.contract.contractTypeId}}
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{/if}}
+    {{/if}}
+    {{#unless this.editmode}}
+    {{#if wellId}}
+    <a href="{{wellUrl}}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-arrow-left"></i> Back to Well
+    </a>
+    {{/if}}
+    {{#if storageRentalId}}
+    <a href="./Accounting?container=addUpdateStorageFieldContainer&storageRentalId={{storageRentalId}}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-arrow-left"></i> Back to Storage Field Payment
+    </a>
+    {{/if}}
+    {{#if contractRentalId}}
+    <a href="./Accounting?container=addUpdateContractRentalContainer&contractRentalId={{contractRentalId}}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-arrow-left"></i> Back to Contract Rental Payment
+    </a>
+    {{/if}}
+    {{#if suretyId}}
+    <a href="./Surety?container=addUpdateSuretyContainer&suretyId={{suretyId}}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-arrow-left"></i> Back to Surety
+    </a>
+    {{/if}}
+    <button type="button" class="btn btn-secondary btn-sm" id="editContractBtn">
+        <i class="fas fa-edit"></i> Edit
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm" id="addNewContract">
+        <i class="fas fa-plus"></i> New
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm" id="backToManageContractsBtn">
+        <i class="fas fa-binoculars"></i> Search Contracts
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{/unless}}
+    {{/if}}
+    <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">General Information</h3>
+    <hr class="mt-2 mb-5">
+    {{> generalInfo}}
+
+
+    {{#if this.contract.contractTypeId}}
+
+    <div id="contractEventDetailsContainer" class="col-12"> </div>
+
+    <div class="col-sm-12">
+        {{#if this.editmode}}
+        <button type="submit" class="btn btn-secondary btn-sm" data-continue="true">
+            <i class="fas fa-save"></i> Save and Continue
+        </button>
+        <button type="submit" class="btn btn-secondary btn-sm">
+            <i class="fas fa-save"></i> Save and Close
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal">
+            <i class="fas fa-times"></i> Cancel
+        </button>
+        {{/if}}
+    </div>
+
+    {{> paymentRequirement}}
+
+
+    {{/if}}
+
+
+    {{#if this.editmode}}
+    <hr class="mt-2 mb-5">
+    <div class="row">
+        <div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" id="contractSubmitbtn">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-primary" disabled id="contractSubmitBtnDisabled" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                {{#if this.contract.contractTypeId}}
+                <button type="button" class="btn btn-info scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    {{/if}}
+    {{#unless this.editmode}}
+    <hr class="mt-2 mb-5">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                {{#if wellId}}
+                <a href="{{wellUrl}}" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Back to Well
+                </a>
+                {{/if}}
+                {{#if storageRentalId}}
+                <a href="./Accounting?container=addUpdateStorageFieldContainer&storageRentalId={{storageRentalId}}" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Back to Storage Field Payment
+                </a>
+                {{/if}}
+                {{#if contractRentalId}}
+                <a href="./Accounting?container=addUpdateContractRentalContainer&contractRentalId={{contractRentalId}}" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Back to Contract Rental Payment
+                </a>
+                {{/if}}
+                {{#if suretyId}}
+                <a href="./Surety?container=addUpdateSuretyContainer&suretyId={{suretyId}}" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Back to Surety
+                </a>
+                {{/if}}
+                <button type="button" class="btn btn-secondary" id="editContractBtn2">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button type="button" class="btn btn-info scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+
+            </div>
+        </div>
+    </div>
+    {{/unless}}
+</form>
+

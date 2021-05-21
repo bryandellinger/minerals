@@ -1,0 +1,835 @@
+﻿<form id="addUpdatePaymentForm" novalidate autocomplete="off" onsubmit="event.preventDefault()">
+    <h3 class="card-title" style="display: inline;  position:relative; top: 5px;">
+        {{#if payment.id}}
+        View / Edit Royalty Payment
+        {{else}}
+        Add Royalty Payment
+        {{/if}}
+    </h3>
+    {{#if editmode}}
+    <button type="submit" class="btn btn-secondary btn-sm paymentSubmitbtn">
+        <i class="fas fa-save"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm  paymentSubmitBtnDisabled" disabled style="display: none;">
+        <i class="fas fa-spinner fa-spin"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal2">
+        <i class="fas fa-times"></i> Cancel
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{else}}
+
+    <button type="button" class="btn btn-secondary btn-sm editPaymentBtn">
+        <i class="fas fa-edit"></i> Edit
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm clonePaymentBtn">
+        <i class="fas fa-clone"></i> Clone
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm addNewPayment">
+        <i class="fas fa-plus"></i> New
+    </button>
+    <a href="./Accounting?container=managePaymentsContainer" class="btn btn-secondary btn-sm">
+        <i class="fas fa-binoculars"></i> Search Royalties
+    </a>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{/if}}
+
+<div class="row my-3">
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="paymentType">
+                Payment Type
+            </label>
+            <select class="form-control" id="paymentType"
+                    {{#if editmode}}
+                    {{#if payment.id}}
+                    {{#if adjustmentInd}}
+                    disabled readonly
+                    {{/if}}
+                    {{/if}}
+                    {{else}}
+                    disabled readonly
+                    {{/if}}>
+                {{#each paymentTypes}}
+                <option value="{{id}}" {{#if selected}} selected {{/if}}>
+                    {{paymentTypeName}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    {{#if payment.id}}
+    {{#if editmode}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Adjustment or Correction?
+            </label>
+            <div>
+
+                <input id="adjustmentIndToggle" type="checkbox"
+                       {{#if adjustmentInd}}
+                       checked
+                       {{/if}}
+                       data-style="ios">
+            </div>
+        </div>
+    </div>
+
+    {{#if adjustmentInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="adjustmentEntryDate">
+                Adjustment Entry Date
+            </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="adjustmentEntryDate" name="adjustmentEntryDate" readonly required />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="adjustmentEntryDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="adjustmentEntryDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div style="display:none;" id="adjustmentEntryDateError"><span class="text-danger small">Please select an Adjustment Date</span></div>
+        </div>
+    </div>
+    {{/if}}
+    {{/if}}
+    {{/if}}
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="entryDate">
+                Payment Entry Date
+            </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="entryDate" name="entryDate" readonly
+                       {{#if this.editmode}}
+                       {{#if payment.id}}
+                       {{#if adjustmentInd}}
+                       disabled
+                       {{/if}}
+                       {{/if}}
+                       {{else}}
+                       disabled
+                       {{/if}} />
+
+                {{#if this.editmode}}
+                {{#if payment.id}}
+                {{#unless adjustmentInd}}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="entryDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="entryDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                {{/unless}}
+                {{else}}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="entryDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="entryDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                {{/if}}
+                {{/if}}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Production Month / Year
+            </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="prodMonth" readonly required
+                       {{#if this.editmode}}
+                       {{#if payment.id}}
+                       {{#if adjustmentInd}}
+                       disabled
+                       {{/if}}
+                       {{/if}}
+                       {{else}}
+                       disabled
+                       {{/if}} />
+                {{#if this.editmode}}
+                {{#if payment.id}}
+                {{#unless adjustmentInd}}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="prodMonthBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="prodMonthClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                {{/unless}}
+                {{else}}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="prodMonthBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="prodMonthClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                {{/if}}
+                {{/if}}
+            </div>
+            <div style="display:none;" id="prodMonthError"><span class="text-danger small">Please select a Production Month</span></div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">Check Information</h3>
+        <hr class="mt-2 mb-5">
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="form-group">
+            <label for="Name">
+                Check Number
+            </label>
+            {{#if editmode}}
+            <br />
+            <select name="ajaxSelect2" class="form-control" id="ajaxSelect2" required style="width: 90%">
+            </select>
+            {{else}}
+            <div>
+                <a href="./Accounting?container=addUpdateCheckContainer&checkId={{payment.checkId}}&paymentId={{payment.id}}">
+                    <i class="fas fa-link"></i> {{payment.checkNum}}
+                </a>
+            </div>
+            {{/if}}
+            <div style="display:none;" id="ajaxSelect2Error"><span class="text-danger small">Please select a Check Number</span></div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="form-group">
+            <label>
+                Check Date
+            </label>
+            <input class="form-control" id="paymentCheckDate" disabled readonly value="{{check.checkDate}}" />
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="form-group">
+            <label>
+                Check Received Date
+            </label>
+            <input class="form-control" id="paymentCheckReceivedDate" disabled readonly value="{{check.receivedDate}}" />
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="form-group">
+            <label>
+                Company
+            </label>
+            {{#if check.lesseeId}}
+            <div>
+                <a target="_blank" href="./Contracts?container=manageLesseesContainer&lesseeId={{check.lesseeId}}">
+                    <i class="fas fa-link"></i> {{lessee.lesseeName}}
+                </a>
+                {{#if showLesseeNameFromCheckInd}}
+                <div>
+                    <small><i>Name on Check: {{check.lesseeName}}</i></small>
+                </div>
+                {{/if}}
+            </div>
+            {{else}}
+            <input class="form-control" disabled readonly />
+            {{/if}}
+        </div>
+    </div>
+
+
+
+
+
+    <div class="col-sm-12">
+        <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">
+            Well Ownership Information
+
+            {{#if this.editmode}}
+            {{#if payment.id}}
+            {{#unless adjustmentInd}}
+            <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" id="wellOwnershipModalBtn" data-target="#wellOwnershipModal">
+                <i class="fas fa-border-all"></i> Choose Well Owner
+            </button>
+            {{/unless}}
+            {{else}}
+            <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" id="wellOwnershipModalBtn" data-target="#wellOwnershipModal">
+                <i class="fas fa-border-all"></i> Choose Well Owner
+            </button>
+            {{/if}}
+            {{/if}}
+        </h3>
+        <hr class="mt-2 mb-5">
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Unit/s
+            </label>
+            {{#if wellTractInformation.units.length}}
+            {{#each  wellTractInformation.units}}
+            <div>
+                <a href="./Units?container=addUpdateUnitContainer&unitId={{this.id}}&paymentId={{../payment.id}}">
+                    <i class="fas fa-link"></i> {{this.unitName}}
+                </a>
+            </div>
+            {{/each}}
+            {{else}}
+            <input class="form-control" id="wellTractInformationWellId" disabled readonly required />
+            {{/if}}
+        </div>
+      </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Well
+                </label>
+                {{#if wellTractInformation.wellId}}
+                {{#if editmode}}
+                <input class="form-control" id="wellTractInformationWellId" disabled readonly required value="{{wellTractInformation.wellNum}}( {{wellTractInformation.apiNum}})" />
+                {{else}}
+                <div>
+                    <a href="./Wells?container=addUpdateWellContainer&wellId={{wellTractInformation.wellId}}&paymentId={{payment.id}}">
+                        <i class="fas fa-link"></i> {{wellTractInformation.wellNum}}( {{wellTractInformation.apiNum}} )
+                    </a>
+                </div>
+                {{/if}}
+                {{else}}
+                <input class="form-control" disabled readonly required />
+                {{/if}}
+                <div style="display:none;" id="wellTractInformationWellIdError"><span class="text-danger small">Please choose a well owership record</span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Tract
+                </label>
+                {{#if wellTractInformation.tractNum}}
+                {{#if editmode}}
+                <input class="form-control" disabled readonly value="{{wellTractInformation.tractNum}}" />
+                {{else}}
+                <div>
+                    <a href="./Contracts?container=manageTractsContainer&tractNum={{wellTractInformation.tractNum}}" target="_blank">
+                        <i class="fas fa-link"></i> {{wellTractInformation.tractNum}}
+                    </a>
+                </div>
+                {{/if}}
+                {{else}}
+                <input class="form-control" disabled readonly />
+                {{/if}}
+
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Pad
+                </label>
+                <input class="form-control" disabled readonly value="{{wellTractInformation.padName}}" />
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Status
+                </label>
+                <input class="form-control" disabled readonly
+                       {{#if wellTractInformation.id}}
+                       {{#if wellTractInformation.activeInd}}
+                       value="Active"
+                       {{else}}
+                       value="Historic"
+                       {{/if}}
+                       {{/if}} />
+            </div>
+        </div>
+        {{#if duplicatePaymentId}}
+        <div class="alert alert-info" style="width:100%" role="alert">
+            There is already a payment for well {{wellTractInformation.wellNum}}( {{wellTractInformation.apiNum}}) by {{lessee.lesseeName}} for this production month.
+            Would you like to make an <a href="./Accounting?container=addUpdatePaymentContainer&paymentId={{duplicatePaymentId}}" class="alert-link">adjustment</a>. instead?
+        </div>
+        {{/if}}
+
+        <div class="col-sm-12">
+            <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">Volume</h3>
+            <hr class="mt-2 mb-5">
+        </div>
+
+        {{#if showLiqVolumeInd}}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="liqVolume">
+                    Liquid Volume {{#if showChangeInput}} <small><i>value / change</i>{{/if}}</small>
+                </label>
+                <div class="input-group">
+
+                    <input type="number" class="form-control paymentinput" id="liqVolume" placeholder="0.00"
+                           min="0" step=".01"
+                           name="liqVolume" value="{{payment.liqVolume}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}}>
+                    {{#if showChangeInput}}
+                    <input type="number" class="form-control paymentinput" id="liqVolumeChange" placeholder="0.00"
+                           step=".01"
+                           name="liqVolumeChange" value="{{payment.liqVolumeChange}}" />
+                    {{/if}}
+                </div>
+                <div style="display:none;" id="liqVolumeError"><span class="text-danger small">Please enter a valid Liquid Volume</span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="productTypeId">
+                    Product
+                </label>
+                <select class="form-control paymentinput" id="productTypeId"
+                        {{#if editmode}}
+                        {{#if payment.id}}
+                        {{#if adjustmentInd}}
+                        disabled readonly
+                        {{/if}}
+                        {{/if}}
+                        {{else}}
+                        disabled readonly
+                        {{/if}}>
+                    {{#each productTypes}}
+                    <option value="{{id}}" {{#if selected}} selected {{/if}}>
+                        {{productTypeName}}
+                    </option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+
+
+        {{/if}}
+
+        {{#if showGasOilInd}}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Type <small><i>gas or oil</i></small>
+                </label>
+                <div>
+                    {{#if this.editmode}}
+
+                    {{#if this.payment.id}}
+
+                    {{#if adjustmentInd}}
+                    <input type="text" class="form-control" disabled readonly
+                           {{#if this.oilInd}}
+                           value="Oil"
+                           {{else}}
+                           value="Gas"
+                           {{/if}} />
+                    {{else}}
+                    <input id="gasOilToggle" type="checkbox"
+                           {{#if this.oilInd}}
+                           checked
+                           {{/if}}
+                           data-style="ios">
+                    {{/if}}
+
+                    {{else}}
+                    <input id="gasOilToggle" type="checkbox"
+                           {{#if this.oilInd}}
+                           checked
+                           {{/if}}
+                           data-style="ios">
+                    {{/if}}
+                    {{else}}
+                    <input type="text" class="form-control" disabled readonly
+                           {{#if this.oilInd}}
+                           value="Oil"
+                           {{else}}
+                           value="Gas"
+                           {{/if}} />
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        {{/if}}
+
+        {{#if showGasOilInd}}
+        {{#if this.oilInd}}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="oilProd">
+                    Oil Volume {{#if showChangeInput}} <small><i>value / change</i>{{/if}}</small>
+                </label>
+                <div class="input-group">
+                    <input type="number" class="form-control paymentinput" id="oilProd" placeholder="0.00"
+                           min="0" step=".01"
+                           name="oilProd" value="{{payment.oilProd}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}}>
+                    {{#if showChangeInput}}
+                    <input type="number" class="form-control paymentinput" id="gasProdChange" placeholder="0.00"
+                           step=".01"
+                           name="oilProdChange" value="{{payment.oilProdChange}}" />
+                    {{/if}}
+                </div>
+                <div style="display:none;" id="oilProdError"><span class="text-danger small">Please enter a valid Oil Volume</span></div>
+            </div>
+        </div>
+        {{else}}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="gasProd">
+                    Gas Volume {{#if showChangeInput}} <small><i>value / change</i>{{/if}}</small>
+                </label>
+                <div class="input-group">
+                    <input type="number" class="form-control paymentinput" id="gasProd" placeholder="0.00"
+                           min="0" step=".01"
+                           name="gasProd" value="{{payment.gasProd}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}} />
+                    {{#if showChangeInput}}
+                    <input type="number" class="form-control paymentinput" id="gasProdChange" placeholder="0.00"
+                           step=".01"
+                           name="gasProdChange" value="{{payment.gasProdChange}}" />
+                    {{/if}}
+                </div>
+                <div style="display:none;" id="gasProdError"><span class="text-danger small">Please enter a valid Gas Volume</span></div>
+            </div>
+        </div>
+        {{/if}}
+        {{/if}}
+
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="nri">
+                    NRI {{#if showChangeInput}} <small><i>value / change</i>{{/if}}</small>
+                </label>
+                <div class="input-group">
+                    <input type="number" class="form-control paymentinput" id="nri" placeholder="0.000000000"
+                           min="0" step=".000000001"
+                           name="nri" value="{{payment.nri}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}}>
+                    {{#if showChangeInput}}
+                    <input type="number" class="form-control paymentinput" id="nriChange" placeholder="0.00"
+                           step=".000000001"
+                           name="nriChange" value="{{payment.nriChange}}" />
+                    {{/if}}
+                </div>
+                <div style="display:none;" id="nriError"><span class="text-danger small">Please enter a valid NRI</span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="salesPrice">
+                    Price Per Unit  {{#if showChangeInput}} <small><i>value / change</i>{{/if}}</small>
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    <input type="number" class="form-control paymentinput" id="salesPrice" placeholder="0.0000"
+                           min="0" step=".0001"
+                           name="salesPrice" value="{{payment.salesPrice}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}}>
+                    {{#if showChangeInput}}
+                    <input type="number" class="form-control paymentinput" id="salesPriceChange" placeholder="0.00"
+                           step=".0001"
+                           name="salesPriceChange" value="{{payment.salesPriceChange}}" />
+                    {{/if}}
+                </div>
+                <div style="display:none;" id="salesPriceError"><span class="text-danger small">Please enter a valid Price Per Unit</span></div>
+            </div>
+        </div>
+
+        {{#if showLiqVolumeInd}}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="liqPayment">
+                    Liquid Payment  {{#if showChangeInput}} <small><i>value / change</i>{{/if}}</small>
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    <input type="number" class="form-control paymentinput" id="liqPayment" placeholder="0.00"
+                           min="0" step=".01"
+                           name="liqPayment" value="{{payment.liqPayment}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}}>
+                    {{#if showChangeInput}}
+                    <input type="number" class="form-control paymentinput" id="liqPaymentChange" placeholder="0.00"
+                           step=".01"
+                           name="liqPaymentChange" value="{{payment.liqPaymentChange}}" />
+                    {{/if}}
+                </div>
+                <div style="display:none;" id="liqPaymentError"><span class="text-danger small">Please enter a valid Liquid Payment</span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Unit <small><i>Gallons or Barrels</i></small>
+                </label>
+                <div>
+                    {{#if this.editmode}}
+
+                    {{#if this.payment.id}}
+
+                    {{#if adjustmentInd}}
+                    <input type="text" class="form-control" disabled readonly
+                           value="{{payment.liqMeasurement}}" />
+                    {{else}}
+                    <input id="unitToggle" type="checkbox"
+                           {{#if this.barrelsInd}}
+                           checked
+                           {{/if}}
+                           data-style="ios">
+                    {{/if}}
+
+                    {{else}}
+                    <input id="unitToggle" type="checkbox"
+                           {{#if this.barrelsInd}}
+                           checked
+                           {{/if}}
+                           data-style="ios">
+                    {{/if}}
+                    {{else}}
+                    <input type="text" class="form-control" disabled readonly
+                           value="{{payment.liqMeasurement}}" />
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        {{/if}}
+
+        {{#if showGasOilInd}}
+        {{#if this.oilInd}}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="oilRoyalty">
+                    Oil Payment  {{#if showChangeInput}} <small><i>value / change</i>{{/if}}</small>
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    <input type="number" class="form-control paymentinput" id="oilRoyalty" placeholder="0.00"
+                           min="0" step=".01"
+                           name="oilRoyalty" value="{{payment.oilRoyalty}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}}>
+                    {{#if showChangeInput}}
+                    <input type="number" class="form-control paymentinput" id="oilRoyaltyChange" placeholder="0.00"
+                           step=".01"
+                           name="oilRoyaltyChange" value="{{payment.oilRoyaltyChange}}" />
+                    {{/if}}
+                </div>
+                <div style="display:none;" id="oilRoyaltyError"><span class="text-danger small">Please enter a valid Oil Payment</span></div>
+            </div>
+        </div>
+        {{else}}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="gasRoyalty">
+                    Gas Payment  {{#if showChangeInput}} <small><i>value / change</i>{{/if}}</small>
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    <input type="number" class="form-control paymentinput" id="gasRoyalty" placeholder="0.00"
+                           min="0" step=".01"
+                           name="gasRoyalty" value="{{payment.gasRoyalty}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}}>
+                    {{#if showChangeInput}}
+                    <input type="number" class="form-control paymentinput" id="gasRoyaltyChange" placeholder="0.00"
+                           step=".01"
+                           name="gasRoyaltyChange" value="{{payment.gasRoyaltyChange}}" />
+                    {{/if}}
+                </div>
+                <div style="display:none;" id="gasRoyaltyError"><span class="text-danger small">Please enter a valid Gas Payment</span></div>
+            </div>
+        </div>
+        {{/if}}
+        {{/if}}
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="deduction">
+                    Deduction  {{#if showChangeInput}} <small><i>value / change</i>{{/if}}</small>
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    <input type="number" class="form-control paymentinput" id="deduction" placeholder="0.00"
+                           min="0" step=".01"
+                           name="deduction" value="{{payment.deduction}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}}>
+                    {{#if showChangeInput}}
+                    <input type="number" class="form-control paymentinput" id="deductionChange" placeholder="0.00"
+                           step=".01"
+                           name="deductionChange" value="{{payment.deductionChange}}" />
+                    {{/if}}
+                </div>
+                <div style="display:none;" id="deductionError"><span class="text-danger small">Please enter a valid Deduction</span></div>
+            </div>
+        </div>
+
+        {{#if showGasOilInd}}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="transDeduction">
+                    Transportation Deduction  {{#if showChangeInput}} <small><i>value / change</i>{{/if}}</small>
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    <input type="number" class="form-control paymentinput" id="transDeduction" placeholder="0.00"
+                           min="0" step=".01"
+                           name="transDeduction" value="{{payment.transDeduction}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}}>
+                    {{#if showChangeInput}}
+                    <input type="number" class="form-control paymentinput" id="transDeductionChange" placeholder="0.00"
+                           step=".01"
+                           name="transDeductionChange" value="{{payment.transDeductionChange}}" />
+                    {{/if}}
+                </div>
+                <div style="display:none;" id="transDeductionError"><span class="text-danger small">Please enter a valid Transportation Deduction</span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="compressDeduction">
+                    Compression Deduction  {{#if showChangeInput}} <small><i>value / change</i>{{/if}}</small>
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    <input type="number" class="form-control paymentinput" id="compressDeduction" placeholder="0.00"
+                           min="0" step=".01"
+                           name="compressDeduction" value="{{payment.compressDeduction}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}}>
+                    {{#if showChangeInput}}
+                    <input type="number" class="form-control paymentinput" id="compressDeductionChange" placeholder="0.00"
+                           step=".01"
+                           name="compressDeductionChange" value="{{payment.compressDeductionChange}}" />
+                    {{/if}}
+                </div>
+                <div style="display:none;" id="compresDeductionError"><span class="text-danger small">Please enter a valid Compression Deduction</span></div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Flaring
+                </label>
+                <div>
+                    {{#if this.editmode}}
+                    <input id="flaringToggle" type="checkbox"
+                           {{#if payment.flaring}}
+                           checked
+                           {{/if}}
+                           data-style="ios">
+
+                    {{else}}
+                    <input type="text" class="form-control" disabled readonly
+                           {{#if payment.flaring}}
+                           value="Yes"
+                           {{else}}
+                           value="No"
+                           {{/if}} />
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        {{/if}}
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea class="form-control paymentinput" id="royaltyNotes" name="royaltyNotes" rows="3"
+                          {{#unless this.editmode}}
+                          disabled
+                          {{/unless}}>{{payment.royaltyNotes}}</textarea>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    {{#if editmode}}
+    <div class="row mt-1">
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-info paymentSubmitbtn">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-info paymentSubmitBtnDisabled" disabled style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal2">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-primary scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+            </div>
+        </div>
+    </div>
+    {{else}}
+    <div class="row mt-1">
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="button" class="btn btn-secondary editPaymentBtn">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button type="button" class="btn btn-info clonePaymentBtn">
+                    <i class="fas fa-clone"></i> Clone
+                </button>
+                <button type="button" class="btn btn-primary scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+
+</form>

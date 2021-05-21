@@ -1,0 +1,21 @@
+﻿{{#if check.id}}
+<table id="paymentWellTractInfoTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Well Num</th>
+            <th>Api</th>
+            <th>Tract</th>
+            <th>Pad</th>
+            <th>Contract</th>
+            <th>Percent Ownership</th>
+            <th>Royalty Percent</th>
+            <th>Unit/s</th>
+        </tr>
+    </thead>
+</table>
+{{else}}
+<div class="alert alert-danger" role="alert">
+    You must select a check before choosing a well owner.
+</div>
+{{/if}}

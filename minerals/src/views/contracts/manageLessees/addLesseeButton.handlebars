@@ -1,0 +1,11 @@
+﻿{{#if this.isIE}}
+{{#if this.addCloseButton}}
+<a tabindex="0" class="dt-button buttons-html5" id="lesseeBackBtn" aria-controls="TractsTable" href="#"><span>Back</span></a>
+{{/if}}
+<a tabindex="0" class="dt-button buttons-html5" id="addLesseeBtn" aria-controls="lesseeTable" href="#"><span>Add Lessee</span></a>
+{{else}}
+{{#if this.addCloseButton}}
+<button class="dt-button buttons-html5 pl-2" id="lesseeBackBtn">Back</button>
+{{/if}}
+<button class="dt-button buttons-html5 pl-2" id="addLesseeBtn">Add Lessee</button>
+{{/if}}

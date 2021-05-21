@@ -1,0 +1,183 @@
+﻿<form id="addUpdateTemplateForm" novalidate autocomplete="off" onsubmit="event.preventDefault()">
+    <h3 class="card-title" style="display: inline;  position:relative; top: 5px;">
+        {{#if unit.id}}
+        View / Edit Upload Template
+        {{else}}
+        Add Upload Template
+        {{/if}}
+    </h3>
+    {{#if editmode}}
+    <button type="submit" class="btn btn-secondary btn-sm templateSubmitbtn">
+        <i class="fas fa-save"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm  templateSubmitBtnDisabled" disabled style="display: none;">
+        <i class="fas fa-spinner fa-spin"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal">
+        <i class="fas fa-times"></i> Cancel
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{else}}
+    {{#if uploadPaymentId}}
+    <a href="./Accounting?container=addUpdateUploadPaymentContainer&uploadPaymentId={{uploadPaymentId}}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-arrow-left"></i> Back to Payment Upload
+    </a>
+    {{/if}}
+    <button type="button" class="btn btn-secondary btn-sm editTemplateBtn">
+        <i class="fas fa-edit"></i> Edit
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm addNewTemplateBtn">
+        <i class="fas fa-plus"></i> New
+    </button>
+    <a href="./Administration" class="btn btn-secondary btn-sm">
+        <i class="fas fa-binoculars"></i> Search Templates
+    </a>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+
+    {{/if}}
+
+    <div class="alert alert-info alert-dismissible fade show mt-2" role="alert">
+        <h4 class="alert-heading">Instructions</h4>
+        <p>Place the page in edit mode and use the upload document section to  upload a csv file to use as a template.</p>
+        <p>Click the upload headers button to extract the headers from the csv file.</p>
+        <p>Drag and drop the extracted headers to the correct boxes.</p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+    <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">General Template Information</h3>
+    <hr class="mt-2 mb-5">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="templateName">
+                    Template Name
+                </label>
+                <input type="text" class="form-control templateInput"
+                       id="templateName" name="templateName" required
+                       value="{{uploadTemplate.templateName}}"
+                       {{#unless editmode}}
+                       disabled readonly
+                       {{/unless}}>
+                <div style="display:none;" id="templateNameError"><span class="text-danger small">Please enter a Template Name </span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="lesseeId">Company</label>
+                {{#if this.editmode}}
+                </br>
+                <select id="lesseeId" name="lesseeId" style="min-width: 100%;" class="form-control select2 templateInput" required>
+                    <option></option>
+                    {{#each this.lessees}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.lesseeName}}
+                    </option>
+                    {{/each}}
+                </select>
+                <div style="display:none;" id="lesseeIdError"><span class="text-danger small">Please select a company</span></div>
+                {{else}}
+                <div>
+                    {{#each this.lessees}}
+                    {{#if this.selected}}
+                    <a target="_blank" href="./Contracts?container=manageLesseesContainer&lesseeId={{this.id}}">
+                        <i class="fas fa-link"></i> {{this.lesseeName}}
+                    </a>
+                    {{/if}}
+                    {{/each}}
+                </div>
+                {{/if}}
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="templateNotes">Notes</label>
+                <textarea class="form-control templateInput" id="templateNotes" name="templateNotes" rows="3"
+                          {{#unless this.editmode}}
+                          disabled
+                          {{/unless}}>{{uploadTemplate.templateNotes}}</textarea>
+            </div>
+        </div>
+    </div>
+
+
+    <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">
+        CSV to Royalty Payment Mapping
+    </h3>
+    <hr class="mt-2 mb-5">
+
+
+    <div class="row" id="csvToRoyaltyPaymentContainer"></div>
+
+    <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">
+        Upload a CSV Document
+        <small>
+            <i>
+                {{#if editmode}}
+                drag and drop to add a csv file, click a file to download it.
+                {{else}}
+                click a file to download it.
+                {{/if}}
+            </i>
+        </small>
+    </h3>
+    <div id="uploadDocuments" class="dropzone">
+    </div>
+
+
+    {{#if editmode}}
+    <div class="row mt-1">
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-info templateSubmitbtn">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-info templateSubmitBtnDisabled" disabled style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-primary scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+            </div>
+        </div>
+    </div>
+    {{else}}
+    <div class="row mt-1">
+        <div class="col-md-12">
+            <div class="form-group">
+                {{#if uploadPaymentId}}
+                <a href="./Accounting?container=addUpdateUploadPaymentContainer&uploadPaymentId={{uploadPaymentId}}" class="btn btn-info">
+                    <i class="fas fa-arrow-left"></i> Back to Payment Upload
+                </a>
+                {{/if}}
+                <button type="button" class="btn btn-secondary editTemplateBtn">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button type="button" class="btn btn-primary scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+</form>

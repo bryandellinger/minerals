@@ -1,0 +1,301 @@
+﻿<div class="row">
+    {{#if this.showReasonsForChangeInd}}
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label for="reasonForChange">Reason for Changing the Current Lessee Information </label>
+            </br>
+            <select id="reasonForChange" name="reasonforChange" style="min-width: 100%;" class="form-control select2">
+                <option></option>
+                {{#each this.contractEventDetailReasonsForChange}}
+                <option value="{{this.id}}"
+                        {{#if this.selected}}
+                        selected
+                        {{/if}}>
+                    {{this.reason}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    {{#if showReasonForChangeDescriptionInd}}
+    <div class="col-sm-3">
+        <div class="form-group">
+            <label for="lesseeEffectiveDate">
+                Amendment Description
+            </label>
+            <input type="text" class="form-control" id="reasonForChangeDescription" value="{{this.reasonForChangeDescription}}" />
+        </div>
+    </div>
+    {{/if}}
+
+    {{/if}}
+
+    {{#if editmode}}
+    <div class="col-sm-3">
+        <div class="form-group">
+            <label for="lesseeEffectiveDate">
+                Lessee Effective Date
+            </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="lesseeEffectiveDate" name="lesseeEffectiveDate" readonly required />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="lesseeEffectiveDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="lesseeEffectiveDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div id="lesseeEffectiveDateError" style="display: none"><span class="text-danger small">Please select a date</span></div>
+        </div>
+    </div>
+    {{/if}}
+</div>
+
+        {{#if this.contractEventDetails.length}}
+        <table class="table table-sm table-bordered ">
+            <thead>
+                <tr>
+                    <th scope="col">Lessee / Grantee</th>
+                    <th scope="col">Interest Type</th>
+                    <th scope="col">Industry Lease</th>
+                    <th scope="col">Acreage</th>
+                    <th scope="col">Royalty </th>
+                    {{#if showExtentOfOwnershipInd}}
+                    <th scope="col"> Extent of Ownership</th>
+                    {{/if}}
+                    {{#if editmode}}
+                    <th></th>
+                    {{/if}}
+                </tr>
+            </thead>
+            <tbody id="currentContractEventDetailsTableTbody">
+
+                {{#each this.contractEventDetails}}
+                <tr id="currentContractEventDetails_{{@index}}">
+                    <td>
+                        {{#if @root.editmode}}
+                        <select class="form-control eventDetailLesseeSelect currentEventValidatedField" required>
+                            <option></option>
+                            {{#each this.lessees}}
+                            <option value="{{this.id}}"
+                                    {{#if this.selected}}
+                                    selected
+                                    {{/if}}>
+                                {{this.lesseeName}}
+                            </option>
+                            {{/each}}
+                        </select>
+                        {{else}}
+                        {{#each this.lessees}}
+                        {{#if this.selected}}
+                        <a target="_blank" href="{{@root.baseUrl}}?container=manageLesseesContainer&lesseeId={{this.id}}">
+                            <i class="fas fa-link"></i> {{this.lesseeName}}
+                        </a>
+                        {{/if}}
+                        {{/each}}
+                        {{/if}}
+                        <div style="display:none;" class="currentEventError"><span class="text-danger small">enter valid acreage</span></div>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control interestType
+                         {{#if @root.editmode}}
+                        currentEventValidatedField
+                         {{/if}}
+                       " value="{{this.interestType}}" required
+                               {{#unless @root.editmode}}
+                               disabled readonly
+                               {{/unless}} />
+                        <div style="display:none;" class="currentEventError"><span class="text-danger small">enter type</span></div>
+                    </td>
+                    <td>
+                        <input type="checkbox" class="form-control industryLeaseIndToggle"
+                               {{#if this.industryLeaseInd}} checked {{/if}}
+                               {{#unless @root.editmode}}
+                               disabled readonly
+                               {{/unless}}
+                               data-style="ios"/>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <label>
+                              Interest
+                            </label>
+                            <input type="number" class="form-control eventDetailAcres
+                         {{#if @root.editmode}}
+                        currentEventValidatedField
+                         {{/if}}
+                       " placeholder="00000000.0000" value="{{this.acres}}"
+                                   step=".0001" min="0" max="99999999.9999" required
+                                   {{#unless  @root.editmode}}
+                                   disabled readonly
+                                   {{/unless}} />
+                            <div style="display:none;" class="currentEventError"><span class="text-danger small">enter valid acreage</span></div>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Percent Share
+                            </label>
+                            <input type="number"
+                                   required
+                                   class="form-control shareOfLeasePercentage
+                         {{#if @root.editmode}}
+                        currentEventValidatedField
+                         {{/if}}
+                       "
+                                   placeholder="0.00"
+                                   step=".01"
+                                   min="0"
+                                   max="100"
+                                   value="{{this.shareOfLeasePercentage}}"
+                                   {{#unless @root.editmode}}
+                                   disabled readonly
+                                   {{/unless}} />
+
+                            <div style="display:none;" class="currentEventError"><span class="text-danger small">enter valid percent</span></div>
+                        </td>
+                    <td>
+                        <div class="form-group">
+                            <label>
+                                 Percent
+                            </label>
+                            <input type="number"
+                                   required
+                                   class="form-control royaltyPercent
+                         {{#if @root.editmode}}
+                        currentEventValidatedField
+                         {{/if}}
+                       " placeholder="0.00"
+                                   step=".01"
+                                   min="0"
+                                   max="100"
+                                   value="{{this.royaltyPercent}}"
+                                   {{#unless @root.editmode}}
+                                   disabled readonly
+                                   {{/unless}} />
+                            <div style="display:none;" class="currentEventError"><span class="text-danger small">enter valid percent</span></div>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Minimum
+                            </label>
+                            <input type="number"
+                                   class="form-control minimumRoyalty
+                         {{#if @root.editmode}}
+                        currentEventValidatedField
+                         {{/if}}
+                       " placeholder="0.00"
+                                   step=".01"
+                                   min="0"
+                                   value="{{this.minimumRoyalty}}"
+                                   {{#unless @root.editmode}}
+                                   disabled readonly
+                                   {{/unless}} />
+                            <div style="display:none;" class="currentEventError"><span class="text-danger small">enter valid value</span></div>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Min Sales Price
+                            </label>
+
+                            {{#if @root.editmode}}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox"
+                                               class="overrideMinimumRoyaltySalesPriceIn"
+                                               {{#if overrideMinimumRoyaltySalesPriceIn}}
+                                               checked
+                                               {{/if}} />
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" value="Override" readonly>
+                            </div>
+                            {{/if}}
+                            <input type="number"
+                                   class="form-control minimumRoyaltySalesPrice
+                         {{#if @root.editmode}}
+                        currentEventValidatedField
+                         {{/if}}
+                       " placeholder="0.0000"
+                                   step=".0001"
+                                   min="0" 
+                                   value="{{this.minimumRoyaltySalesPrice}}"
+                                   {{#if @root.editmode}}
+                                    {{#unless this.overrideMinimumRoyaltySalesPriceIn}}
+                                   disabled readonly
+                                    {{/unless}}
+                                   {{else}}
+                                     disabled readonly
+                                   {{/if}}                          
+                                   />
+                            <div style="display:none;" class="currentEventError"><span class="text-danger small">enter valid value</span></div>
+                        </div>
+                    </td>
+                    {{#if @root.showExtentOfOwnershipInd}}
+                    <td>
+                        <div class="form-group">
+                            <label>
+                                Horizon
+                            </label>
+                            <input type="text" class="form-control horizon" value="{{this.horizon}}"
+                                   {{#unless @root.editmode}}
+                                   disabled readonly
+                                   {{/unless}}
+                                   placeholder="enter horizon" />
+                        </div>
+                        <div class="form-group">
+                            <label>
+                              Top
+                            </label>
+                            <input type="text" class="form-control topVerticalExtentOfOwnership" value="{{this.topVerticalExtentOfOwnership}}"
+                                   {{#unless @root.editmode}}
+                                   disabled readonly
+                                   {{/unless}}
+                                   placeholder="enter top" />
+                        </div>
+                        <div class="form-group">
+                            <label>
+                               Bottom
+                            </label>
+                            <input type="text" class="form-control bottomVerticalExtentOfOwnership" value="{{this.bottomVerticalExtentOfOwnership}}"
+                                   {{#unless @root.editmode}}
+                                   disabled readonly
+                                   {{/unless}}
+                                   placeholder="enter bottom" />
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Excluded
+                            </label>
+                            <input type="text" class="form-control excludedFromVerticalExtentOfOwnership" value="{{this.excludedFromVerticalExtentOfOwnership}}"
+                                   {{#unless @root.editmode}}
+                                   disabled readonly
+                                   {{/unless}}
+                                   placeholder="enter excluded" />
+                        </div>
+                    </td>
+                    {{/if}}
+
+                    {{#if @root.editmode}}
+                    <td>
+                        <div class="btn-group btn-group btn-group-sm btn-group-vertical" role="group">
+                            <button type="button" class="btn btn-success addCurentEvent"><i class="fa fa-plus" aria-hidden="true"></i> </button>
+                            <button type="button" class="btn btn-danger removeCurrentEvent"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        </div>
+                    </td>
+                    {{/if}}
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{else}}
+        <tr>
+            <td colspan="{{#if this.editmode}} 6 {{else}} 5 {{/if}}">
+                <div class="alert alert-secondary" role="alert">
+                    There is no Lessee / Grantee Information.
+                    {{#if this.editmode}}
+                    Would you like to  <a href="#" id="createCurrentEventDetailLink" class="alert-link">add a record</a>?
+                    {{/if}}
+                </div>
+            </td>
+        </tr>
+        {{/if}}

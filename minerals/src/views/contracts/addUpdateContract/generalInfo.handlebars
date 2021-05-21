@@ -1,0 +1,561 @@
+﻿<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="contractType">
+                Contract Type
+            </label>
+            {{#if this.editmode}}
+            <select class="form-control" id="contractType" name="contractType" required>
+                <option value="">--Please choose a contract type--</option>
+                {{#each this.contractTypesWithSelection}}
+                <option value="{{this.id}}"
+                        {{#if this.selected}}
+                        selected
+                        {{/if}}>
+                    {{this.contractTypeName}}
+                </option>
+                {{/each}}
+            </select>
+            <div id="contractTypeError" style="display: none"><span class="text-danger small">Please select a contract type</span></div>
+            {{else}}
+            {{#each this.contractTypesWithSelection}}
+            {{#if this.selected}}
+            <input type="text" disabled readonly class="form-control" value="{{this.contractTypeName}}" />
+            {{/if}}
+            {{/each}}
+            {{/if}}
+        </div>
+    </div>
+    {{#if this.filteredContractSubTypes}}
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="contractSubType">
+                Contract Subtype
+            </label>
+            {{#if this.editmode}}
+            <select class="form-control" id="contractSubType" name="contractSubType" required>
+                <option value="">--Please choose a contract subtype--</option>
+                {{#each this.filteredContractSubTypes}}
+                <option value="{{this.id}}"
+                        {{#if this.selected}}
+                        selected
+                        {{/if}}>
+                    {{this.contractSubTypeName}}
+                </option>
+                {{/each}}
+            </select>
+            {{else}}
+            {{#each this.filteredContractSubTypes}}
+            {{#if this.selected}}
+            <input type="text" disabled readonly class="form-control" value="{{this.contractSubTypeName}}" />
+            {{/if}}
+            {{/each}}
+            {{/if}}
+            <div id="contractSubTypeError" style="display: none"><span class="text-danger small">Please select a contract subtype</span></div>
+        </div>
+    </div>
+    {{/if}}
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="additionalContractInformation">
+                Additional Contract Information
+            </label>
+            {{#if this.editmode}}
+            <select class="form-control" id="additionalContractInformation" name="additionalContractInformation">
+                <option></option>
+                {{#each this.additionalContractInformations}}
+                <option value="{{this.id}}"
+                        {{#if this.selected}}
+                        selected
+                        {{/if}}>
+                    {{this.additionalContractInformationName}}
+                </option>
+                {{/each}}
+            </select>
+            {{else}}
+            {{#if contract.additionalContractInformationId}}
+            {{#each this.additionalContractInformations}}
+            {{#if this.selected}}
+            <input type="text" disabled readonly class="form-control" value="{{this.additionalContractInformationName}}" />
+            {{/if}}
+            {{/each}}
+            {{else}}
+            <input type="text" disabled readonly class="form-control"  />
+            {{/if}}
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {{#unless this.showSequenceInd}}
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="tractNumber">{{this.contractLabel}}</label>
+            {{#if this.editmode}}
+            <input type="text" class="form-control" id="tractNumber" required
+                   name="tractNum" value="{{this.tractNum}}">
+            <div style="display:none;" id="tractNumberError"><span class="text-danger small">Please enter a tract</span></div>
+            {{else}}
+            {{#if this.tractNum}}
+            <div>
+                <a target="_blank" href="{{baseUrl}}?container=manageTractsContainer&tractNum={{this.tractNum}}"><i class="fas fa-link"></i>{{this.tractNum}}</a>
+            </div>
+            {{else}}
+            <input type="text" class="form-control" disabled readonly />
+            {{/if}}
+            {{/if}}
+        </div>
+    </div>
+    {{/unless}}
+
+
+    {{#if this.showSequenceInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="sequence">
+                {{this.contractLabel}}
+            </label>
+            <input type="text" class="form-control" id="sequence" name="sequence" value="{{contract.sequence}}" required
+                   {{#unless this.editmode}}
+                   disabled readonly
+                   {{/unless}} />
+            <div style="display:none;" id="sequenceError"><span class="text-danger small">Please enter a sequence</span></div>
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="districtid">Districts</label>
+            </br>
+            <select id="districtid" name="districtid" style="min-width: 100%;" multiple="multiple" class="form-control select2"
+                    required
+                    {{#unless this.editmode}}
+                    disabled
+                    {{/unless}}>
+                <option></option>
+                {{#each this.districts}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.name}}
+                </option>
+                {{/each}}
+            </select>
+            <div style="display:none;" id="districtidError"><span class="text-danger small">Please enter a district</span></div>
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="contractNum">
+                Contract Number
+            </label>
+            <div class="input-group">
+                {{#if this.editmode}}
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="checkbox" id="contractNumOverrideIn"
+                               {{#if contractNumOverrideIn}}
+                               checked
+                               {{/if}}>
+                    </div>
+                    <span class="input-group-text">Override</span>
+                </div>
+                {{/if}}
+                <input type="text"
+                       {{#if contractNumAlreadyExists}}
+                       class="form-control is-invalid"
+                       {{else if contractNumisEmpty}}
+                       class="form-control is-invalid"
+                       {{else}}
+                       class="form-control"
+                       {{/if}}
+                       id="contractNum" name="contractNum"
+                       {{#unless enableContractEdit}}
+                       disabled readonly
+                       {{/unless}}
+                       value="{{this.contract.contractNum}}">
+            </div>
+            {{#if contractNumAlreadyExists}}
+            <div><span class="text-danger small">Contract Number already exists</span></div>
+            {{/if}}
+            {{#if contractNumisEmpty}}
+            <div><span class="text-danger small">Please enter a Contract Number</span></div>
+            {{/if}}
+        </div>
+    </div>
+
+
+
+
+    {{#if this.showAlternateIdInd}}
+    <div {{#if this.showStorageFieldInd}}
+         class="col-sm-6"
+         {{else}}
+         class="col-sm-12 col-md-6 col-lg-4"
+         {{/if}}>
+        <div class="form-group">
+            <label for="altIdCategories">
+                Alternate Id
+            </label>
+            <div class="input-group">
+                <select class="form-control" id="altIdCategories"
+                        {{#unless this.editmode}}
+                        disabled
+                        {{/unless}}>
+                    {{#each this.altIdCategoriesWithSelection}}
+                    <option value="{{this.id}}" {{#if this.selected}} selected {{/if}}>{{this.altIdName}}</option>
+                    {{/each}}
+                </select>
+                {{#if this.showAltIdInformationInd}}
+                <input type="text" class="form-control"
+                       placeholder="enter info"
+                       value="{{agreement.altIdInformation}}"
+                       required
+                       id="altIdInformation"
+                       {{#unless this.editmode}}
+                       disabled
+                       {{/unless}}>
+                {{/if}}
+            </div>
+            <div style="display:none;" id="altIdInformationError"><span class="text-danger small">Please enter alternate id information</span></div>
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if this.showStorageFieldInd}}
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label for="leaseNum">
+                Lease Number
+            </label>
+            <input type="text" class="form-control" id="leaseNum" name="leaseNum" required
+                   value="{{this.storage.leaseNum}}"
+                   {{#unless this.editmode}}
+                   disabled readonly
+                   {{/unless}} />
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if this.showDateFieldsInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="effectiveDate">
+                Contract Effective Date
+            </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="effectiveDate" name="effectiveDate" readonly
+                       {{#unless this.editmode}}
+                       disabled
+                       {{/unless}} />
+                {{#if this.editmode}}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="effectiveDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="effectiveDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+
+    {{#if this.showStorageFieldInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="effectiveDate">
+                Expiration Date
+            </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="expirationDate" name="expirationDate" readonly
+                       {{#unless this.editmode}}
+                       disabled
+                       {{/unless}} />
+                {{#if this.editmode}}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="expirationDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="expirationDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="terminationDate">
+                Contract Termination Date
+            </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="terminationDate" name="terminationDate" readonly
+                       {{#unless this.editmode}}
+                       disabled
+                       {{/unless}} />
+                {{#if this.editmode}}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="terminationDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="terminationDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                {{/if}}
+            </div>
+            <div id="contractTypeError" style="display: none"><span class="text-danger small">Please select a contract type</span></div>
+        </div>
+    </div>
+
+    {{#if agreement.terminationDate}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="terminationReason">
+                Termination Reason
+            </label>
+            <input type="text" class="form-control" id="terminationReason" name="terminationReason" required
+                   value="{{this.agreement.terminationReason}}"
+                   {{#unless this.editmode}}
+                   disabled readonly
+                   {{/unless}} />
+            <div id="terminationReasonError" style="display: none"><span class="text-danger small">Please enter a termination reason</span></div>
+        </div>
+    </div>
+    {{/if}}
+
+    {{/if}}
+
+    {{#if showTownshipsInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="townshipid">Municipalities</label>
+            </br>
+            <select id="townshipid" name="townshipid" style="min-width: 100%;" multiple="multiple" class="form-control select2"
+                    autocomplete="anything_but_off"
+                    {{#unless this.editmode}}
+                    disabled
+                    {{/unless}}>
+                <option></option>
+                {{#each this.townships}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.name}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if this.showAssociatedContractInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="associatedContract">Associated Contracts</label>
+            </br>
+            <select id="associatedContract" name="associatedContract" multiple="multiple" style="min-width: 100%;" class="form-control select2"
+                    {{#unless this.editmode}}
+                    disabled
+                    {{/unless}}>
+                <option></option>
+                {{#each this.associatedContracts}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.name}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if this.showAssociatedTractInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="associatedTract">Associated Tracts</label>
+            </br>
+            <select id="associatedTract" name="associatedTract" multiple="multiple" style="min-width: 100%;" class="form-control select2"
+                    {{#unless this.editmode}}
+                    disabled
+                    {{/unless}}>
+                <option></option>
+                {{#each this.associatedTracts}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.name}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    {{/if}}
+
+
+    {{#if this.showRowContractInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="rowContract">ROW Contracts</label>
+            {{#if this.editmode}}
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    {{#each this.rowContracts}}
+                    <label class="btn btn-secondary">
+                        {{this}} <span class="badge badge-light delete-row-contract" data-rowcontract="{{this}}"><i class="fas fa-times delete-row-contract" data-rowcontract="{{this}}"></i></span>
+                    </label>
+                    {{/each}}
+                </div>
+                <input type="text" id="rowContract" class="form-control" placeholder="Type value and press enter to add">
+            </div>
+            {{/if}}
+            {{#unless this.editmode}}
+            </br>
+
+            {{#if this.rowContracts}}
+            <select id="rowcontractselect" name="rowcontractselect" multiple="multiple" style="min-width: 100%;" class="form-control select2"
+                    disabled>
+                <option></option>
+                {{#each this.rowContracts}}
+                <option selected
+                        value="{{this}}">
+                    {{this}}
+                </option>
+                {{/each}}
+            </select>
+            {{/if}}
+            {{#unless this.rowContracts}}
+            <input type="text" class="form-control disabled" disabled />
+            {{/unless}}
+            {{/unless}}
+        </div>
+    </div>
+    {{/if}}
+    {{#if showStorageFieldInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="inPoolAcreage">
+                In Pool Acreage
+            </label>
+            <input type="number" class="form-control" placeholder="00000000.0000" id="inPoolAcreage" name="inPoolAcreage" value="{{this.agreement.inPoolAcreage}}"
+                   step=".0001" min="0" max="99999999.9999" ;
+                   {{#unless this.editmode}}
+                   disabled readonly
+                   {{/unless}} />
+            <div style="display:none;" id="inPoolAcreageError"><span class="text-danger small">Please enter a number from 0 - 99999999.9999 </span></div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="bufferAcreage">
+                Buffer Acreage
+            </label>
+            <input type="number" class="form-control" placeholder="00000000.0000" id="bufferAcreage" name="bufferAcreage" value="{{this.agreement.bufferAcreage}}"
+                   step=".0001" min="0" max="99999999.9999" ;
+                   {{#unless this.editmode}}
+                   disabled readonly
+                   {{/unless}} />
+            <div style="display:none;" id="bufferAcreageError"><span class="text-danger small">Please enter a number from 0 - 99999999.9999 </span></div>
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="acreage">
+                Acreage
+            </label>
+            <input type="number" class="form-control" placeholder="00000000.0000" id="acreage" name="acreage" value="{{this.agreement.acreage}}"
+                   step=".0001" min="0" max="99999999.9999" ;
+                   {{#unless this.editmode}}
+                   disabled readonly
+                   {{/unless}} />
+            <div style="display:none;" id="acreageError"><span class="text-danger small">Please enter a number from 0 - 99999999.9999 </span></div>
+        </div>
+    </div>
+
+    {{#if showNSDAcreageInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="nsdAcreage">
+                NSD Acreage
+            </label>
+            <input type="number" class="form-control" placeholder="00000000.0000" id="nsdAcreage" name="nsdAcreage" value="{{this.agreement.nsdAcreage}}"
+                   step=".0001" min="0" max="99999999.9999" ;
+                   {{#unless this.editmode}}
+                   disabled readonly
+                   {{/unless}} />
+            <div style="display:none;" id="nsdAcreageError"><span class="text-danger small">Please enter a number from 0 - 99999999.9999 </span></div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+               Does NSD acreage apply to all acreage on the contract?
+            </label>
+            <div>
+                {{#if this.editmode}}
+                <input id="nsdAcreageAppliesToAllInd" type="checkbox"
+                       {{#if this.agreement.nsdAcreageAppliesToAllInd}}
+                       checked
+                       {{/if}}
+                       data-style="ios">
+                {{else}}
+                <input type="text" class="form-control" disabled readonly value="{{#if this.agreement.nsdAcreageAppliesToAllInd}} Yes {{else}} No {{/if}}" />
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if this.showReversionDateInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="reversionDate">
+                Reversion Date
+            </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="reversionDate" name="reversionDate" readonly
+                       {{#unless this.editmode}}
+                       disabled
+                       {{/unless}} />
+                {{#if this.editmode}}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="reversionDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="reversionDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if this.showDataReceivedDateInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="dataReceivedDate">
+                Data Received Date
+            </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="dataReceivedDate" name="dataReceivedDate" readonly
+                       {{#unless this.editmode}}
+                       disabled
+                       {{/unless}} />
+                {{#if this.editmode}}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="dataReceivedDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="dataReceivedDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+</div>

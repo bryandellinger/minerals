@@ -1,0 +1,635 @@
+﻿<form id="addUpdateWellForm" novalidate autocomplete="off" onsubmit="event.preventDefault()">
+    <h3 class="card-title" style="display: inline;  position:relative; top: 5px;">
+        {{#if id}}
+        View / Edit Well
+        {{else}}
+        Add Well
+        {{/if}}
+    </h3>
+    {{#if editmode}}
+    <button type="submit" class="btn btn-secondary btn-sm wellSubmitbtn">
+        <i class="fas fa-save"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm  wellSubmitBtnDisabled" disabled style="display: none;">
+        <i class="fas fa-spinner fa-spin"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal">
+        <i class="fas fa-times"></i> Cancel
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{else}}
+    {{#if contractId}}
+    <a href="{{contractsUrl}}?container=addUpdateContractContainer&contractId={{contractId}}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-arrow-left"></i> Back to Contract
+    </a>
+    {{/if}}
+    {{#if unitId}}
+    <a href="{{unitsUrl}}?container=addUpdateUnitContainer&unitId={{unitId}}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-arrow-left"></i> Back to Unit
+    </a>
+    {{/if}}
+    {{#if paymentId}}
+    <a href="./Accounting?container=addUpdatePaymentContainer&paymentId={{paymentId}}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-arrow-left"></i> Back to Payment
+    </a>
+    {{/if}}
+    {{#if suretyId}}
+    <a href="./Surety?container=addUpdateSuretyContainer&suretyId={{suretyId}}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-arrow-left"></i> Back to Surety
+    </a>
+    {{/if}}
+    <button type="button" class="btn btn-secondary btn-sm editWellBtn">
+        <i class="fas fa-edit"></i> Edit
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm addNewWell">
+        <i class="fas fa-plus"></i> New
+    </button>
+    <a href="{{baseUrl}}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-binoculars"></i> Search Wells
+    </a>
+    {{#if well.long}}
+    {{#if well.lat}}
+    <a href="http://maps.google.com/maps?t=k&q=loc:{{well.lat}}+{{well.long}}" target="_blank" class="btn btn-secondary btn-sm">
+        <i class="fas fa-map-marker-alt"></i> View Map
+    </a>
+    {{/if}}
+    {{/if}}
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{/if}}
+
+
+    <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">Well Ownership and Well Log Information</h3>
+    <hr class="mt-2 mb-5">
+    <input type="checkbox" id="autoUpdatedAllowedInd" {{#if well.autoUpdatedAllowedInd}} checked {{/if}}
+           {{#unless editmode}} disabled {{/unless}} />
+
+
+    <ul class="nav nav-tabs mt-3" id="myWellTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="well-home-tab" data-toggle="tab" href="#wellhome" role="tab" aria-controls="home" aria-selected="true">
+                <i class="fas fa-address-card"></i> Current Ownership
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="well-history-tab" data-toggle="tab" href="#wellhistory" role="tab" aria-controls="history" aria-selected="false">
+                <i class="fas fa-history"></i> Well Ownership History
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="well-testlog-tab" data-toggle="tab" href="#welltestlog" role="tab" aria-controls="testlog" aria-selected="false">
+                <i class="fas fa-flask"></i> Well Logs
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="well-surety-tab" data-toggle="tab" href="#wellsurety" role="tab" aria-controls="testlog" aria-selected="false">
+                <i class="fas fa-hand-holding-usd"></i> Well Surety
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myWellTabContent">
+        <div class="tab-pane fade show active" id="wellhome" role="tabpanel" aria-labelledby="wellhome-tab">
+            <div id="wellTractTableContainer"></div>
+        </div>
+        <div class="tab-pane fade" id="wellhistory" role="tabpanel" aria-labelledby="wellhistory-tab">
+            <div class="mt-3"></div>
+            <table id="historicalOwnershipTable" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Change Date</th>
+                        <th>Change Reason</th>
+                        <th>Tract</th>
+                        <th>Contract</th>
+                        <th>Owner</th>
+                        <th>Percent Ownership</th>
+                        <th>Royalty Percent</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="welltestlog" role="tabpanel" aria-labelledby="welltestlog-tab">
+            <div id="testLogContainer"></div>
+        </div>
+        <div class="tab-pane fade" id="wellsurety" role="tabpanel" aria-labelledby="wellsurety-tab">
+            <div class="mt-3"></div>
+            <table id="wellSuretyTable" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Surety Number</th>
+                        <th>Initial Surety Value</th>
+                        <th>Total Surety Value</th>
+                        <th>Surety Value for {{well.apiNum}} </th>
+                        <th>Issued Date</th>
+                        <th>Released Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">General Well Information</h3>
+    <hr class="mt-2 mb-5">
+
+
+    {{#if editmode}}
+    <div class="row" id="apiNumContainer"></div>
+    {{/if}}
+
+    <div id="mainform" class="row">
+
+        {{#unless editmode}}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>Api Number</label>
+                <input type="text" class="form-control" value="{{well.apiNum}}" disabled readonly />
+            </div>
+        </div>
+        {{/unless}}
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="wellNum">Well Name</label>
+                <input type="text" class="form-control wellinput" id="wellNum" required
+                       name="wellNum" value="{{well.wellNum}}"
+                       {{#unless editmode}}
+                       disabled readonly
+                       {{/unless}}>
+                <div style="display:none;" id="wellNumError"><span class="text-danger small">Please enter a name</span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4" id="alternateIdContainer">
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="wellStatusId">Well Status</label>
+                </br>
+                <select id="wellStatusId" name="wellStatusId" style="min-width: 100%;" class="form-control select2 wellinput"
+                        required
+                        {{#unless this.editmode}}
+                        disabled
+                        {{/unless}}>
+                    <option></option>
+                    {{#each this.wellStatuses}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.wellStatusName}}
+                    </option>
+                    {{/each}}
+                </select>
+                <div style="display:none;" id="wellStatusIdError"><span class="text-danger small">Please select a status</span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="lesseeId">Operator</label>
+                {{#if this.editmode}}
+                </br>
+                <select id="lesseeId" name="lesseeId" style="min-width: 100%;" class="form-control select2 wellinput" required>
+                    <option></option>
+                    {{#each this.lessees}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.lesseeName}}
+                    </option>
+                    {{/each}}
+                </select>
+                {{else}}
+                {{#if showOperatorLinkInd}}
+                <div>
+                    {{#each this.lessees}}
+                    {{#if this.selected}}
+                    <a target="_blank" href="{{@root.contractsUrl}}?container=manageLesseesContainer&lesseeId={{this.id}}">
+                        <i class="fas fa-link"></i> {{this.lesseeName}}
+                    </a>
+                    {{/if}}
+                    {{/each}}
+                </div>
+                {{else}}
+                <input class="form-control" disabled readonly />
+                {{/if}}
+                {{/if}}
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="wellTypeId">Well Type</label>
+                </br>
+                <select id="wellTypeId" name="wellTypeId" style="min-width: 100%;" class="form-control select2 wellinput"
+                        required
+                        {{#unless this.editmode}}
+                        disabled
+                        {{/unless}}>
+                    <option></option>
+                    {{#each this.wellTypes}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.wellTypeName}}
+                    </option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="townshipId">Municipality</label>
+                </br>
+                <select id="townshipId" name="townshipId" style="min-width: 100%;" class="form-control select2 wellinput"
+                        required
+                        {{#unless this.editmode}}
+                        disabled
+                        {{/unless}}>
+                    <option></option>
+                    {{#each this.townships}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.name}}
+                    </option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="elevation">
+                    Elevation
+                    {{#if this.editmode}}
+                    <input type="checkbox" id="elevationTypeToggle" {{#if well.belowGroundInd }} checked {{/if}} />
+                    {{else}}
+                    {{#if well.belowGroundInd }} Below Ground {{else}} Above Sea {{/if}}
+                    {{/if}}
+                    Level
+                </label>
+                <div class="input-group">
+                    <input type="number" class="form-control wellinput" id="elevation" placeholder="0"
+                           min="0" step="1"
+                           name="elevation" value="{{well.elevation}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}}>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Ft.</span>
+                    </div>
+                </div>
+                <div style="display:none;" id="elevationError"><span class="text-danger small">Please enter a postive integer</span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="vDepth">
+                    TVD
+                </label>
+                <div class="input-group">
+                    <input type="number" class="form-control wellinput" id="vDepth" placeholder="0"
+                           min="0" step="1"
+                           name="vDepth" value="{{well.vDepth}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}}>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Ft.</span>
+                    </div>
+                </div>
+                <div style="display:none;" id="vDepthError"><span class="text-danger small">Please enter a postive integer</span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="hDepth">
+                    TMD
+                </label>
+                <div class="input-group">
+                    <input type="number" class="form-control wellinput" id="hDepth" placeholder="0"
+                           min="0" step="1"
+                           name="hDepth" value="{{well.hDepth}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}}>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Ft.</span>
+                    </div>
+                </div>
+                <div style="display:none;" id="hDepthError"><span class="text-danger small">Please enter a postive integer</span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="spudDate">
+                    Spud Date
+                </label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="spudDate" name="spudDate" readonly
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    {{#if this.editmode}}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="spudDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                        <button class="btn btn-outline-secondary" id="spudDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="initialProductionDate">
+                    Initial Production Date
+                </label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="initialProductionDate" name="initialProductionDate" readonly
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    {{#if this.editmode}}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="initialProductionDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                        <button class="btn btn-outline-secondary" id="initialProductionDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="bofAppDate">
+                    Approval Date
+                </label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="bofAppDate" name="bofAppDate" readonly
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    {{#if this.editmode}}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="bofAppDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                        <button class="btn btn-outline-secondary" id="bofAppDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="plugDate">
+                    Plug Date
+                </label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="plugDate" name="plugDate" readonly
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    {{#if this.editmode}}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="plugDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                        <button class="btn btn-outline-secondary" id="plugDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="shutInDate">
+                    Shut In Date
+                </label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="shutInDate" name="shutInDate" readonly
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    {{#if this.editmode}}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="shutInDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                        <button class="btn btn-outline-secondary" id="shutInDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="completionDate">
+                    Completion Date
+                </label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="completionDate" name="completionDate" readonly
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    {{#if this.editmode}}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="completionDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                        <button class="btn btn-outline-secondary" id="completionDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="lat">Latitude</label>
+                <input type="number" class="form-control wellinput" id="lat" required
+                       name="wellNum" value="{{well.lat}}"
+                       {{#unless editmode}}
+                       disabled readonly
+                       {{/unless}}>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="long">Longitude</label>
+                <input type="number" class="form-control wellinput" id="long" required
+                       name="wellNum" value="{{well.long}}"
+                       {{#unless editmode}}
+                       disabled readonly
+                       {{/unless}}>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Is this well on private property?
+                </label>
+                <div>
+                    {{#if this.editmode}}
+                    <input id="privatePropertyIndToggle" type="checkbox"
+                           {{#if this.well.privatePropertyInd}}
+                           checked
+                           {{/if}}
+                           data-style="ios">
+
+                    {{else}}
+                    <input type="text" class="form-control" disabled readonly
+                           {{#if this.well.privatePropertyInd}}
+                           value="Yes"
+                           {{else}}
+                           value="No"
+                           {{/if}} />
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="producingFormationId">Producing Formation</label>
+                </br>
+                <select id="producingFormationId" name="producingFormationId" style="min-width: 100%;" class="form-control select2 wellinput"
+                        {{#unless this.editmode}}
+                        disabled
+                        {{/unless}}>
+                    <option></option>
+                    {{#each this.producingFormations}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.formationName}}
+                    </option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="deepestFormationId">Deepest Producing Formation</label>
+                </br>
+                <select id="deepestFormationId" name="deepestFormationId" style="min-width: 100%;" class="form-control select2 wellinput"
+                        {{#unless this.editmode}}
+                        disabled
+                        {{/unless}}>
+                    <option></option>
+                    {{#each this.deepestFormations}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.formationName}}
+                    </option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+
+        {{#if showUnitsInd}}
+        {{#unless editmode}}
+        <!--
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Units</label>
+                </br>
+                <select style="min-width: 100%;" multiple="multiple" class="form-control select2" disabled id="units">
+                </select>
+            </div>
+        </div>
+            -->
+        {{/unless}}
+        {{else}}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="acreageAttributableToWells">Acreage Attributable To Wells</label>
+                <input type="number" class="form-control wellinput" id="acreageAttributableToWells" required
+                       name="acreageAttributableToWells" value="{{well.acreageAttributableToWells}}"
+                       {{#unless editmode}}
+                       disabled readonly
+                       {{/unless}} />
+            </div>
+        </div>
+        {{/if}}
+
+    </div>
+
+    <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">NRI Information</h3>
+    <hr class="mt-2 mb-5">
+    <div id="nriInformationContainer">
+
+    </div>
+
+    {{#if editmode}}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary wellSubmitbtn">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-primary wellSubmitBtnDisabled" disabled style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-info scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+            </div>
+        </div>
+    </div>
+    {{else}}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                {{#if contractId}}
+                <a href="{{contractsUrl}}?container=addUpdateContractContainer&contractId={{contractId}}" class="btn btn-info">  <i class="fas fa-arrow-left"></i> Back to Contract </a>
+                {{/if}}
+                {{#if unitId}}
+                <a href="{{unitsUrl}}?container=addUpdateUnitContainer&unitId={{unitId}}" class="btn btn-info">
+                    <i class="fas fa-arrow-left"></i> Back to Unit
+                </a>
+                {{/if}}
+                {{#if paymentId}}
+                <a href="./Accounting?container=addUpdatePaymentContainer&paymentId={{paymentId}}" class="btn btn-info">
+                    <i class="fas fa-arrow-left"></i> Back to Payment
+                </a>
+                {{/if}}
+                {{#if suretyId}}
+                <a href="./Surety?container=addUpdateSuretyContainer&suretyId={{suretyId}}" class="btn btn-info">
+                    <i class="fas fa-arrow-left"></i> Back to Surety
+                </a>
+                {{/if}}
+                <button type="button" class="btn btn-secondary editWellBtn">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button type="button" class="btn btn-primary scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+</form>

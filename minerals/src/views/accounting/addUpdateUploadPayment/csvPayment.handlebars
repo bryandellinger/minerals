@@ -1,0 +1,38 @@
+﻿<div class="col-sm-12">
+    <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">
+        Payment Information from File
+        {{#if editmode}}
+        {{#if files.length}}
+        <button type="button" id="createPaymentBtn" class="btn btn-outline-info">Get Payments from CSV</button>
+        {{/if}}
+        {{else}}
+        <button type="button" class="btn btn-secondary btn-sm editUploadPaymentBtn">
+            <i class="fas fa-edit"></i> Edit
+        </button>
+        {{/if}}
+    </h3>
+    <hr class="mt-2 mb-5">
+
+    <div class="table-responsive">
+        <table id="csvPaymentsTable" class="display" style="width:100%; font-size: 0.8em;">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Well</th>
+                    <th>Gas Volume</th>
+                    <th>Gas Payment</th>
+                    <th>Price Per Unit</th>
+                    <th>NRI</th>
+                    <th>Prod Year</th>
+                    <th>Prod  Month</th>
+                    <th>Error</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div id="csvEditFormModalContainer">
+
+    </div>
+
+</div>

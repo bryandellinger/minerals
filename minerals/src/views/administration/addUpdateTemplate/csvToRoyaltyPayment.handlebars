@@ -1,0 +1,52 @@
+﻿{{#each mappedHeaders}}
+<div class="col-sm-12 col-md-6 col-lg-2">
+    <div class="form-group">
+        <label>
+            {{this.label}}
+        </label>
+        <div class="border border-secondary col-sm-12 pt-3 pb-3 pl-4 pr-4
+              {{#if @root.editmode}}droppable{{/if}} mappedHeaders"
+             {{#unless @root.editmode}}style="background-color: #E8E8E8"{{/unless}}
+             data-label="{{this.label}}" data-attribute="{{this.attribute}}">
+            {{#if this.header}}
+            <span class="badge badge-pill badge-dark p-1
+           {{#if @root.editmode}}draggable{{/if}}
+          "
+                  data-index="{{this.index}}"
+                  data-header="{{this.header}}">{{this.header}}</span>
+            {{/if}}
+        </div>
+
+    </div>
+</div>
+{{/each}}
+
+<div class="col-sm-12">
+    <h5 class="font-weight-light text-center text-lg-left mt-4 mb-0 ml-2 d-block">
+        Headers from CSV
+        {{#if editmode}}
+        <button type="button" class="btn btn-secondary btn-sm ml-1 mb-1"
+                id="csvToRoyaltyHeaderBtn">
+            <i class="fas fa-file-csv"></i> Get Headers from CSV
+        </button>
+        {{/if}}
+    </h5>
+  
+</div>
+
+
+<div class="border border-secondary col-sm-11 p-4 ml-3
+     {{#if editmode}} droppable {{/if}}  unmappedHeaders"
+      {{#unless @root.editmode}}style="background-color: #E8E8E8"{{/unless}}>
+    {{#each unmappedHeaders}}
+    <span class="badge badge-pill badge-dark p-1
+           {{#if @root.editmode}}draggable{{/if}}
+          "
+          data-index="{{this.index}}"
+          data-header="{{this.header}}">{{this.header}}</span>
+    {{/each}}
+</div>
+
+
+
+

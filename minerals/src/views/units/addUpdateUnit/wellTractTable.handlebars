@@ -1,0 +1,122 @@
+﻿{{#if this.tractUnitJunctions.length}}
+<div class="mt-3"></div>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Tract</th>
+            <th scope="col">CoPa Acres</th>
+            <!--<th scope="col">Wells <i><small>well name (api num)</small></i></th>-->
+            <th scope="col">Acreage Attributable To Wells</th>
+            {{#if editmode}}
+            <th></th>
+            {{/if}}
+        </tr>
+    </thead>
+    <tbody id="wellTractInfoTbody">
+        {{#each this.tractUnitJunctions}}
+        <tr id="tractUnitJunction_{{@index}}">
+            <td style="min-width: 100px">
+                {{#if @root.editmode}}
+                <select style="min-width: 100%;" class="form-control select2 tractId" required>
+                    <option></option>
+                    {{#each this.tracts}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.name}}
+                    </option>
+                    {{/each}}
+                </select>
+                <div style="display:none;" class="tractIdError"><span class="text-danger small">Please enter a tract</span></div>
+                {{else}}
+                {{#each this.tracts}}
+                {{#if this.selected}}
+                <a target="_blank" href="{{@root.contractsUrl}}?container=manageTractsContainer&tractNum={{this.tractNum}}"><i class="fas fa-link"></i>{{this.tractNum}}</a>
+                {{/if}}
+                {{/each}}
+                {{/if}}
+            </td>
+            <td style="min-width: 150px">
+                <input type="number" class="form-control copAcres"
+                       step=".000001" min="0" value="{{this.copAcres}}"
+                       {{#unless @root.editmode}}
+                       disabled readonly
+                       {{/unless}}>
+                <div style="display:none;" class="copAcresError"><span class="text-danger small">invalid acreage</span></div>
+            </td>
+            <!--
+            <td>
+                {{#if this.wells.length}}
+                <select multiple style="min-width: 100%;" class="form-control select2 select2-selectall wells"
+                        {{#unless @root.editmode}}
+                        disabled
+                        {{/unless}}>
+                    <option value="0">
+                        select all
+                    </option>
+                    {{#each this.wells}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.wellNum}}({{this.apiNum}})
+                    </option>
+                    {{/each}}
+                </select>
+                {{else}}
+                <input type="text" class="form-control" disabled readonly placeholder="no available wells"/>
+                {{/if}}
+            </td>
+                -->
+            <td style="min-width: 150px">
+                <input type="text" class="form-control acreageAttributableToWells" disabled readonly placeholder="0" />
+            </td>
+            {{#if @root.editmode}}
+            <td>
+                <div class="btn-group btn-group" role="group">
+                    <button type="button" class="btn btn-success addTractUnitJunction"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-danger removeTractUnitJunction"><i class="fa fa-times" aria-hidden="true"></i></button>
+                </div>
+            </td>
+            {{/if}}
+            {{/each}}
+</tbody>
+<tfoot id="wellTractInfoTfoot">
+    <tr>
+        <td colspan="{{#if editmode}} 4 {{else}} 3 {{/if}}">
+            <label for="wells">Wells</label>
+            </br>
+            {{#if this.wells.length}}
+            <select multiple style="min-width: 100%;" class="form-control select2 select2-selectall wells"
+                    {{#unless editmode}}
+                    disabled
+                    {{/unless}}>
+                <option value="0">
+                    select all
+                </option>
+                {{#each this.wells}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.wellNum}}({{this.apiNum}})
+                </option>
+                {{/each}}
+            </select>
+            {{else}}
+            <input type="text" class="form-control" disabled readonly placeholder="no available wells" />
+            {{/if}}
+        </td>
+    </tr>
+</tfoot>
+</table>
+{{else}}
+<div class="alert alert-secondary mt-3" role="alert">
+    <p>There is no tract / well information for this unit.</p>
+    {{#if this.editmode}}
+    <p> Would you like to  <a href="#" id="createTractUnitJunctionLink" class="alert-link">add a record</a>?</p>
+    {{/if}}
+</div>
+{{/if}}
+

@@ -1,0 +1,170 @@
+﻿{{#if this.wellTractInfos.length}}
+<div class="mt-3"></div>
+{{#if this.showReasonForChangeInd}}
+<div class="form-group row">
+    <label class="col-sm-5 col-form-label">Reason for Changing the Current Ownership Information:</label>
+    <div class="col-sm-7">
+        <select id="reasonForChange" name="reasonforChange" style="min-width: 100%;" class="form-control select2">
+            <option></option>
+            {{#each this.contractEventDetailReasonsForChange}}
+            <option value="{{this.id}}"
+            {{#if this.selected}}
+             selected
+            {{/if}}>
+            {{this.reason}}
+            </option>
+            {{/each}}
+        </select>
+    </div>
+</div>
+{{/if}}
+
+{{#if editmode}}
+<select style="min-width: 100%;" class="form-control select2 wellOwnerInfoFromContract">
+    <option></option>
+    {{#each this.contracts}}
+    <option value="{{this.id}}">
+        {{this.contractNum}}
+    </option>
+    {{/each}}
+</select>
+{{/if}}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Tract</th>
+            <th scope="col">Pad      {{#if editmode}} <small><i>select pad or type a new one</i></small> {{/if}}</th>
+            <th scope="col">Contract</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Percent Ownership</th>
+            <th scope="col">Royalty Percent</th>
+            {{#if editmode}}
+            <th></th>
+            {{/if}}
+        </tr>
+    </thead>
+    <tbody id="wellTractInfoTbody">
+        {{#each this.wellTractInfos}}
+        <tr id="wellTractInfo_{{@index}}">
+            <td>
+                {{#if @root.editmode}}
+                <select style="min-width: 100%;" class="form-control select2 tractId" required>
+                    <option></option>
+                    {{#each this.tracts}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.name}}
+                    </option>
+                    {{/each}}
+                </select>
+                <div style="display:none;" class="tractIdError"><span class="text-danger small">Please enter a tract</span></div>
+                {{else}}
+                {{#each this.tracts}}
+                {{#if this.selected}}
+                <a target="_blank" href="{{@root.contractsUrl}}?container=manageTractsContainer&tractNum={{this.tractNum}}"><i class="fas fa-link"></i>{{this.tractNum}}</a>
+                {{/if}}
+                {{/each}}
+                {{/if}}
+            </td>
+            <td>
+                <input type="text" autocomplete="new-password" class="form-control pad" required
+                       value="{{pad.padName}}"
+                       {{#unless @root.editmode}}
+                       disabled readonly
+                       {{/unless}}>
+                <div style="display: none;" class="padNameError"><span class="text-danger small">Please enter a pad</span></div>
+            </td>
+            <td>
+                {{#if contracts.length}}
+                {{#if @root.editmode}}
+                <select style="min-width: 100%;" class="form-control select2 contractId">
+                    <option></option>
+                    {{#each this.contracts}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.contractNum}}
+                    </option>
+                    {{/each}}
+                </select>
+                {{else}}
+                <a href="{{@root.contractsUrl}}?container=addUpdateContractContainer&contractId={{this.contractId}}&wellId={{this.wellId}}">
+                    <i class="fas fa-link"></i>
+                    {{#each this.contracts}}
+                    {{#if this.selected}}
+                    {{this.contractNum}}
+                    {{/if}}
+                    {{/each}}
+                </a>
+                {{/if}}
+                {{else}}
+                <input type="text" class="form-control" disabled readonly placeholder="no contracts available" />
+                {{/if}}
+            </td>
+            <td>
+                {{#if @root.editmode}}
+                <select style="min-width: 100%;" class="form-control select2 lesseeId">
+                    <option></option>
+                    {{#each this.lessees}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.lesseeName}}
+                    </option>
+                    {{/each}}
+                </select>
+                {{else}}
+                {{#each this.lessees}}
+                {{#if this.selected}}
+                <a target="_blank" href="{{@root.contractsUrl}}?container=manageLesseesContainer&lesseeId={{this.id}}">
+                    <i class="fas fa-link"></i> {{this.lesseeName}}
+                </a>
+                {{/if}}
+                {{/each}}
+                {{/if}}
+            </td>
+            <td>
+                <input type="number" class="form-control percentOwnership" placeholder="0" value="{{this.percentOwnership}}"
+                       {{#unless @root.editmode}}
+                       disabled readonly
+                       {{/unless}} />
+            </td>
+            <td>
+                <input type="number" class="form-control royaltyPercent" placeholder="0" value="{{this.royaltyPercent}}"
+                       {{#unless @root.editmode}}
+                       disabled readonly
+                       {{/unless}} />
+            </td>
+            {{#if @root.editmode}}
+            <td>
+                <div class="btn-group btn-group" role="group">
+                    <button type="button" class="btn btn-success addWellTractInfo"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-danger removeWell"><i class="fa fa-times" aria-hidden="true"></i></button>
+                </div>
+            </td>
+            {{/if}}
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{else}}
+<div class="alert alert-secondary mt-3" role="alert">
+    <p>There is no ownership information for this well.</p>
+    {{#if this.editmode}}
+    <p> Would you like to  <a href="#" id="createWellTractInfoLink" class="alert-link">add a record</a>?</p>
+    <h5 ml-5>OR</h5>
+    <select style="min-width: 100%;" class="form-control select2 wellOwnerInfoFromContract">
+        <option></option>
+        {{#each this.contracts}}
+        <option value="{{this.id}}">
+            {{this.contractNum}}
+        </option>
+        {{/each}}
+    </select>
+    {{/if}}
+</div>
+{{/if}}

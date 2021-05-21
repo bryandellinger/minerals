@@ -1,0 +1,99 @@
+﻿<h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">
+    Wells
+</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Well</th>
+            <th scope="col">Value</th>
+            {{#if this.editmode}}
+            <th></th>
+            {{/if}}
+        </tr>
+    </thead>
+    <tbody id="suretyWellTableTbody">
+        {{#if this.suretyWells.length}}
+        {{#each this.suretyWells}}
+        <tr id="suretyWellRow_{{@index}}">
+            <td>
+                {{#if @root.editmode}}
+                <select class="form-control suretyWells suretyWellInput"
+                        data-element="wellId"
+                        data-index="{{@index}}"
+                        data-type="int">
+                    <option></option>
+                    {{#each this.wells}}
+                    <option value="{{this.id}}"
+                            {{#if this.selected}}
+                            selected
+                            {{/if}}>
+                        {{this.apiNum}}
+                    </option>
+                    {{/each}}
+                </select>
+                {{else}}
+                {{#each this.wells}}
+                {{#if this.selected}}
+                <a href="./Wells?container=addUpdateWellContainer&wellId={{this.id}}&suretyId={{../suretyId}}">
+                    <i class="fas fa-link"></i> {{this.wellNum}}( {{this.apiNum}} )
+                </a>
+                {{/if}}
+                {{/each}}
+                {{/if}}
+            </td>
+            <td>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    <input type="number"
+                           placeholder="0.00"
+                           class="form-control suretyWellInput"
+                           step=".01"
+                           min="0"
+                           value="{{this.suretyWellValue}}"
+                           {{#unless @root.editmode}}
+                           disabled readonly
+                           {{/unless}}
+                           data-element="suretyWellValue"
+                           data-index="{{@index}}"
+                           data-type="decimal" />
+                </div>
+
+            </td>
+            {{#if @root.editmode}}
+            <td>
+                <div class="btn-group btn-group" role="group">
+                    <button type="button" class="btn btn-success addWellRecord" data-index="{{@index}}"><i class="fa fa-plus" aria-hidden="true"></i> </button>
+                    <button type="button" class="btn btn-danger removeWellRecord" data-index="{{@index}}"><i class="fa fa-times" aria-hidden="true"></i></button>
+                </div>
+            </td>
+            {{/if}}
+        </tr>
+        {{/each}}
+        {{else}}
+        <tr>
+            <td colspan="2">
+                <div class="alert alert-secondary" role="alert">
+                    There are no wells.
+                    {{#if this.editmode}}
+                    Would you like to  <a href="#" id="createSuretyWellLink" class="alert-link">add a well</a>?
+                    {{/if}}
+                </div>
+            </td>
+        </tr>
+        {{/if}}
+    </tbody>
+    {{#if showFooterInd}}
+    <tfoot>
+        <tr class="table-dark">
+            <td colspan="{{#if editmode}} 3 {{else}} 2 {{/if}} "
+                class="text-center">
+                <h5>Total Amount for Wells:  ${{totalAmountForWells}}</h5>
+            </td>
+        </tr>
+    </tfoot>
+    {{/if}}
+</table>
+

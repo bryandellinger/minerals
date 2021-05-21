@@ -1,0 +1,28 @@
+﻿<div class="form-group">
+    <label for="wellNum">Alternate Id</label>
+    {{#if editmode}}
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary dropdown-toggle"
+                    type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{alternateIdDropDownLabel}}
+            </button>
+            <div class="dropdown-menu">
+                {{#each choices}}
+                <a class="dropdown-item altIdChoice" href="#">{{this}}</a>
+                {{/each}}
+            </div>
+        </div>
+        <input type="text" id="altId" name="altId" class="form-control wellinput"
+               {{#if alternateIdRequiredInd}}
+               required
+               {{else}}
+               disabled readonly
+               {{/if}}
+               value="{{well.altId}}">
+    </div>
+    <div style="display:none;" id="altIdError"><span class="text-danger small">Please enter an alt id</span></div>
+    {{else}}
+    <input type="text" disabled readonly class="form-control" value="{{well.altId}}" />
+    {{/if}}
+</div>

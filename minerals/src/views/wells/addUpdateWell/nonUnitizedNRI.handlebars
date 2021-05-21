@@ -1,0 +1,44 @@
+﻿<div class="row">
+    <div class="alert alert-warning col-12" role="alert">
+        <p class="text-center"> <strong>This well is not unitized </strong></p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Tract</th>
+                    <th scope="col">Royalty%</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Ownership%</th>
+                    <th scope="col">NRI</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this.nonUnitizedWellTractInfos}}
+                <tr>
+                    <td>
+                        <a target="_blank" href="{{@root.contractsUrl}}?container=manageTractsContainer&tractNum={{this.tract.tractNum}}">
+                            <i class="fas fa-link"></i>{{this.tract.tractNum}}
+                        </a>
+                    </td>
+                    <td>{{this.royaltyPercentAsString}} </td>
+                    <td>
+                        <a target="_blank" href="{{@root.contractsUrl}}?container=manageLesseesContainer&lesseeId={{this.lessee.id}}">
+                            <i class="fas fa-link"></i> {{this.lessee.lesseeName}}
+                        </a>
+                    </td>
+                    <td> {{this.percentOwnershipAsString}} </td>
+                    <td> {{this.nri}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>{{totalNRI}}</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

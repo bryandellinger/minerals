@@ -1,0 +1,68 @@
+﻿<div class="card">
+    {{> ../../shared/cardheader}}
+    <div class="card-body">
+        <h3 class="card-title">Search Royalty Payments</h3>
+        <div class="row">
+            <div class="col-sm-12 col-lg-4">
+                <div class="form-group">
+                    <label for="from">
+                        From Payment Date:
+                    </label>
+                    <div class="input-group">
+                        <input type="text" class="form-control paymentDatepicker" id="from" name="to" readonly  />
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" id="fromBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                            <button class="btn btn-outline-secondary" id="fromClearBtn" type="button"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-4">
+                <div class="form-group">
+                    <label for="to">
+                        To Payment Date:
+                    </label>
+                    <div class="input-group">
+                        <input type="text" class="form-control paymentDatepicker" id="to" name="to" readonly />
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" id="toBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                            <button class="btn btn-outline-secondary" id="toClearBtn" type="button"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-4">
+                <div class="form-group">
+                    <label for="paymentTypeDropDownId">
+                        Payment Type
+                    </label>
+                    <select class="form-control" name="paymentTypeDropDownId" id="paymentTypeDropDownId">
+                        {{#each paymentTypes}}
+                        <option value="{{this.id}}" {{#if this.selected}} selected {{/if}}>{{this.paymentTypeName }}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="paymentsTable" class="display" style="width:100%; font-size: 0.8em;">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Check Number</th>
+                        <th>Company</th>
+                        <th>Well Name</th>
+                        <th>API</th>
+                        <th>Payment Amount</th>
+                        <th>Check Date</th>
+                        <th>Payment Date</th>
+                        <th>Payment Type</th>
+                        <th>Tract</th>
+                        <th>Production Month</th>
+                        <th>Unit/s</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,160 @@
+﻿
+    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#csvEditFormModal" id="openEditFormModal"
+            style="display:none;">
+    </button>
+
+    <div class="modal fade" id="csvEditFormModal" tabindex="-1" role="dialog" aria-labelledby="csvEditFormModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="csvEditFormModalLabel">Edit Uploaded Payment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label">Well</label">
+                                <br />
+                                <select id="csvWellId" name="wellId"
+                                        style="min-width: 100%"
+                                        class="form-control select2">
+                                    <option></option>
+                                    {{#each this.wells}}
+                                    <option {{#if this.selected}}
+                                            selected
+                                            {{/if}}
+                                            value="{{this.id}}">
+                                        {{this.apiNum}}
+                                    </option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label>
+                                    Gas Volume
+                                </label>
+                                <input name="gasProd"
+                                       type="number"
+                                       class="form-control modalInput"
+                                       placeholder="0.00"
+                                       step=".01"
+                                       min="0"
+                                       value="{{csvPayment.gasProd}}" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label>
+                                    Gas Payment
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                    </div>
+                                    <input name="gasRoyalty"
+                                           type="number"
+                                           class="form-control modalInput"
+                                           placeholder="0.00"
+                                           step=".01"
+                                           min="0"
+                                           value="{{csvPayment.gasRoyalty}}" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label>
+                                    Price Per Unit
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                    </div>
+                                    <input name="salesPrice"
+                                           type="number"
+                                           class="form-control modalInput"
+                                           placeholder="0.00"
+                                           step=".01"
+                                           min="0"
+                                           value="{{csvPayment.salesPrice}}" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label>
+                                    NRI
+                                </label>
+                                <input name="nri"
+                                       type="number"
+                                       class="form-control modalInput"
+                                       placeholder="0.00"
+                                       step=".000000001"
+                                       min="0"
+                                       value="{{csvPayment.nri}}" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label">Production Year</label">
+                                <br />
+                                <select id="csvPostYear" name="postYear"
+                                        style="min-width: 100%"
+                                        class="form-control select2 modalInput">
+                                    <option></option>
+                                    {{#each this.postYears}}
+                                    <option {{#if this.selected}}
+                                            selected
+                                            {{/if}}
+                                            value="{{this.postYear}}">
+                                        {{this.postYear}}
+                                    </option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label">Production Month</label">
+                                <br />
+                                <select id="csvPostMonth" name="postMonth"
+                                        style="min-width: 100%"
+                                        class="form-control select2 modalInput">
+                                    <option></option>
+                                    {{#each this.postMonths}}
+                                    <option {{#if this.selected}}
+                                            selected
+                                            {{/if}}
+                                            value="{{this.postMonth}}">
+                                        {{this.postMonth}}
+                                    </option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary"  id="updateFromModalBtn">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>

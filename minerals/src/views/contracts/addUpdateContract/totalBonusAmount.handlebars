@@ -1,0 +1,52 @@
+﻿<div class="form-group">
+    <label for="totalBonusAmount">
+        Total Bonus Amount
+        {{#unless additionalBonuses.length}}
+        {{#if this.editmode}}
+        <a href="#" class="addAdditionalBonus ml-3">
+            <small>
+                <i class="fas fa-plus"></i>
+                <i>add another bonus </i>
+            </small>
+        </a>
+        {{/if}}
+        {{/unless}}
+    </label>
+    <div class="form-row">
+        {{#if this.editmode}}
+        <div class="col-5">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="checkbox"
+                               id="overrideTotalBonusAmountIn"
+                               {{#if overrideTotalBonusAmountIn}}
+                               checked
+                               {{/if}} />
+                    </div>
+                </div>
+                <input type="text" class="form-control" value="Override" readonly>
+            </div>
+        </div>
+        {{/if}}
+        <div class="{{#if this.editmode}} col-7 {{else}} col {{/if}}">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="totalBonusAmount"
+                       class="form-control"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{paymentRequirement.totalBonusAmount}}"
+                        {{#unless this.enableTotalBonusAmountEdit}}
+                       disabled readonly
+                        {{/unless}}
+                       />
+            </div>
+            <div style="display:none;" id="totalBonusAmountError"><span class="text-danger small">Please enter a valid price </span></div>
+        </div>
+    </div>
+</div>

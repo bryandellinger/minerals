@@ -1,0 +1,59 @@
+﻿<div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="form-group">
+        <label for="tracts">Tract</label>
+        </br>
+        <select id="tractId" name="tractId" style="min-width: 100%;" class="form-control select2"
+                required
+                {{#unless this.editmode}}
+                disabled
+                {{/unless}}>
+            <option></option>
+            {{#each this.tracts}}
+            <option {{#if this.selected}}
+                    selected
+                    {{/if}}
+                    value="{{this.id}}">
+                {{this.name}}
+            </option>
+            {{/each}}
+        </select>
+        <div style="display:none;" id="tractIdError"><span class="text-danger small">Please enter a tract</span></div>
+    </div>
+</div>
+
+<div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="pad">Pad{{#if editmode}}<small class="pl-2"><i>select a pad or type a new one</i></small>{{/if}}</label>
+            <input type="text" autocomplete="new-password" class="form-control" id="pad" required                  
+                   value="{{well.padName}}"
+                   {{#unless editmode}}
+                   disabled readonly
+                   {{/unless}}>
+            <div style="display:none;" id="padNameError"><span class="text-danger small">Please enter a pad</span></div>
+        </div>
+</div>
+
+<div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="form-group">
+        <label for="contractId">Contract</label>
+        </br>
+        {{#if contracts.length}}
+        <select id="contractId" name="contractId" style="min-width: 100%;" class="form-control select2"
+                {{#unless this.editmode}}
+                disabled
+                {{/unless}}>
+            <option></option>
+            {{#each this.contracts}}
+            <option {{#if this.selected}}
+                    selected
+                    {{/if}}
+                    value="{{this.id}}">
+                {{this.contractNum}}
+            </option>
+            {{/each}}
+        </select>
+        {{else}}
+        <input type="text" class="form-control" disabled readonly placeholder="no contracts available"/>
+        {{/if}}
+    </div>
+</div>

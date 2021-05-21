@@ -1,0 +1,725 @@
+﻿<div class="row">
+
+
+    <div class="col-sm-12">
+        <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">Payment Requirements</h3>
+        <hr class="mt-2 mb-5">
+    </div>
+
+    {{#if this.showLandLeaseInd}}
+    {{#unless showStorageFieldInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="firstYearRentalBonusAmount">
+                1st Year Rental Bonus
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="firstYearRentalBonusAmount"
+                       class="form-control"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{paymentRequirement.firstYearRentalBonusAmount}}"
+                       {{#unless this.editmode}}
+                       disabled readonly
+                       {{/unless}} />
+                <div class="input-group-append">
+                    <span class="input-group-text">per acre</span>
+                </div>
+            </div>
+            <div style="display:none;" id="firstYearRentalBonusAmountError"><span class="text-danger small">Please enter a valid price </span></div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-4" id="totalBonusAmountContainer">
+    </div>
+    {{/unless}}
+
+    {{/if}}
+
+    {{#if this.showCheckSubmissionPeriodInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Check Submission Period <small><i>(in days)</i></small>
+            </label>
+            {{#if this.editmode}}
+            <div>
+                <div class="btn-group" role="group">
+                    {{#each this.checkSubmissionPeriods}}
+                    <input type="button"
+                           name="checkSubmissionPeriods"
+                           value="{{this.value}}"
+                           class="btn {{#if this.checked}} btn-primary {{else}} btn-secondary {{/if}}" />
+                    {{/each}}
+                </div>
+            </div>
+            {{else}}
+            <input type="text" disabled readonly class="form-control" value="{{paymentRequirement.checkSubmissionPeriod}}" />
+            {{/if}}
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if showStorageFeeInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="storageFee">
+                Storage Fee
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="storageFee"
+                       class="form-control"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{paymentRequirement.storageFee}}"
+                       {{#unless this.editmode}}
+                       disabled readonly
+                       {{/unless}} />
+            </div>
+            <div style="display:none;" id="storageFeeError"><span class="text-danger small">Please enter a valid price </span></div>
+        </div>
+    </div>
+    {{/if}}
+
+
+    {{#if this.showAgreementFeeInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="agreementFee">
+                Agreement Fee
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="agreementFee"
+                       class="form-control"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{paymentRequirement.agreementFee}}"
+                       {{#unless this.editmode}}
+                       disabled readonly
+                       {{/unless}} />
+            </div>
+            <div style="display:none;" id="agreementFeeError"><span class="text-danger small">Please enter a valid price </span></div>
+        </div>
+    </div>
+    {{/if}}
+
+
+    {{#if this.showLandLeaseInd}}
+    {{#unless showStorageFieldInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="leaseExtensionBonus">
+                Lease Extension Bonus
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="leaseExtensionBonus"
+                       class="form-control"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{paymentRequirement.leaseExtensionBonus}}"
+                       {{#unless this.editmode}}
+                       disabled readonly
+                       {{/unless}} />
+            </div>
+            <div style="display:none;" id="leaseExtensionBonusError"><span class="text-danger small">Please enter a valid price </span></div>
+        </div>
+    </div>
+    {{/unless}}
+    {{/if}}
+
+    {{#if this.showShutInInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="rentalShutInDueDate">
+                {{#if showStorageFieldInd}}
+                Rental Due Date
+                {{else}}
+                Rental / Shut-In Due Date
+                {{/if}}
+            </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="rentalShutInDueDate" name="rentalShutInDueDate" readonly
+                       {{#unless this.editmode}}
+                       disabled
+                       {{/unless}} />
+                {{#if this.editmode}}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="rentalShutInDueDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="rentalShutInDueDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+
+
+
+
+    {{#if showAllowableVariancePerAuditFieldPercentInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="allowableVariancePerAuditFieldPercent">
+                Allowable Variance Per Audit
+            </label>
+            <div class="input-group">
+
+                <input type="number"
+                       id="allowableVariancePerAuditFieldPercent"
+                       class="form-control"
+                       step="1"
+                       min="0"
+                       max="100"
+                       value="{{paymentRequirement.allowableVariancePerAuditFieldPercent}}"
+                       {{#unless this.editmode}}
+                       disabled readonly
+                       {{/unless}} />
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                </div>
+            </div>
+            <div style="display:none;" id="allowableVariancePerAuditFieldPercentError"><span class="text-danger small"> Please enter a whole number from 1 - 100 </span></div>
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if this.showProducerPriceIndexInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="producerPriceIndex">
+                Producer Price Index
+            </label>
+            <input type="number"
+                   id="producerPriceIndex"
+                   class="form-control"
+                   placeholder="000.0"
+                   step=".1"
+                   min="0"
+                   max="999.9"
+                   value="{{paymentRequirement.producerPriceIndex}}"
+                   {{#unless this.editmode}}
+                   disabled readonly
+                   {{/unless}} />
+            <div style="display:none;" id="producerPriceIndexError"><span class="text-danger small">Please enter a number in xxx.x format </span></div>
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if this.showInflationIntervalPeriodInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Inflation Interval Period<small><i>(N/A or 5 Years)</i></small>
+            </label>
+            <div>
+                {{#if this.editmode}}
+                <input id="fiveYearInflationIntervalPeriodIndToggle" type="checkbox"
+                       {{#if this.paymentRequirement.fiveYearInflationIntervalPeriodInd}}
+                       checked
+                       {{/if}}
+                       data-style="ios">
+
+                {{else}}
+                <input type="text" class="form-control" disabled readonly
+                       {{#if this.paymentRequirement.fiveYearInflationIntervalPeriodInd}}
+                       value="5 Years"
+                       {{else}}
+                       value="N/A"
+                       {{/if}} />
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if this.showTestOfWellEcomonyInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="testOfWellEconomy">
+                Test of Well Economy Value
+            </label>
+            <div class="input-group">
+
+                <input type="number"
+                       id="testOfWellEconomy"
+                       placeholder="0"
+                       class="form-control"
+                       step="1"
+                       min="0"
+                       value="{{paymentRequirement.testOfWellEconomy}}"
+                       {{#unless this.editmode}}
+                       disabled readonly
+                       {{/unless}} />
+                <div class="input-group-append">
+                    <span class="input-group-text">Mcf per day</span>
+                </div>
+            </div>
+            <div style="display:none;" id="testOfWellEconomyError"><span class="text-danger small"> Please enter a whole number greater than 0</span></div>
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if this.showLandLeaseInd}}
+
+    {{#if this.sureties.length}}
+<div class="col-sm-12">
+    {{#if this.editmode}}
+    <button type="submit" class="btn btn-secondary btn-sm" data-continue="true">
+        <i class="fas fa-save"></i> Save and Continue
+    </button>
+    <button type="submit" class="btn btn-secondary btn-sm">
+        <i class="fas fa-save"></i> Save and Close
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal">
+        <i class="fas fa-times"></i> Cancel
+    </button>
+    {{/if}}
+    <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">Sureties</h3>
+    <hr class="mt-2 mb-5">
+    <table id="contractSuretyTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Surety Number</th>
+                <th>Initial Surety Value</th>
+                <th>Current Surety Value</th>
+                <th>Issued Date</th>
+                <th>Released Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+    {{/if}}
+
+    <div class="col-sm-12">
+        {{#if this.editmode}}
+        <button type="submit" class="btn btn-secondary btn-sm" data-continue="true">
+            <i class="fas fa-save"></i> Save and Continue
+        </button>
+        <button type="submit" class="btn btn-secondary btn-sm">
+            <i class="fas fa-save"></i> Save and Close
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal">
+            <i class="fas fa-times"></i> Cancel
+        </button>
+        {{/if}}
+        <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">Rentals</h3>
+        <hr class="mt-2 mb-5">
+    </div>
+
+    {{#if showStorageFieldInd}}
+    <div class="col-sm-12 col-md-6 ">
+        <div class="form-group">
+            <label for="baseRentalPaymentsDue">Base Rental Payments Due </label>
+            </br>
+            <select id="baseRentalPaymentsDue" name="baseRentalPaymentsDue" style="min-width: 100%;" multiple="multiple" class="form-control select2"
+                    required
+                    {{#unless this.editmode}}
+                    disabled
+                    {{/unless}}>
+                <option></option>
+                {{#each this.storageBaseRentalPaymentMonths}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.monthName}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label for="storageBaseRentalPayment">
+                Base Rental Payment
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="storageBaseRentalPayment"
+                       class="form-control"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{storage.storageBaseRentalPayment}}"
+                       {{#unless this.editmode}}
+                       disabled readonly
+                       {{/unless}} />
+            </div>
+            <div style="display:none;" id="storageBaseRentalPaymentError"><span class="text-danger small">Please enter a valid price </span></div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 ">
+        <div class="form-group">
+            <label for="rentalPaymentsDue">Rental Payments Due </label>
+            </br>
+            <select id="rentalPaymentsDue" name="rentalPaymentsDue" style="min-width: 100%;" multiple="multiple" class="form-control select2"
+                    required
+                    {{#unless this.editmode}}
+                    disabled
+                    {{/unless}}>
+                <option></option>
+                {{#each this.storageRentalPaymentMonths}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.monthName}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label for="storageRentalPayment">
+                Rental Payment
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="storageRentalPayment"
+                       class="form-control"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{storage.storageRentalPayment}}"
+                       {{#unless this.editmode}}
+                       disabled readonly
+                       {{/unless}} />
+            </div>
+            <div style="display:none;" id="storageRentalPaymentError"><span class="text-danger small">Please enter a valid price </span></div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 ">
+        <div class="form-group">
+            <label for="wellPaymentsDue">Well Payments Due </label>
+            </br>
+            <select id="wellPaymentsDue" name="wellPaymentsDue" style="min-width: 100%;" multiple="multiple" class="form-control select2"
+                    required
+                    {{#unless this.editmode}}
+                    disabled
+                    {{/unless}}>
+                <option></option>
+                {{#each this.storageWellPaymentMonths}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.monthName}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label for="storageWellPayment">
+                Well Payment
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="storageWellPayment"
+                       class="form-control"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{storage.storageWellPayment}}"
+                       {{#unless this.editmode}}
+                       disabled readonly
+                       {{/unless}} />
+            </div>
+            <div style="display:none;" id="storageWellPaymentError"><span class="text-danger small">Please enter a valid price </span></div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Is this rental subject to inflation?
+            </label>
+            <div>
+                {{#if this.editmode}}
+                <input id="subjectToInflationIndToggle" type="checkbox"
+                       {{#if this.storage.subjectToInflationInd}}
+                       checked
+                       {{/if}}
+                       data-style="ios">
+                {{else}}
+                <input type="text" class="form-control" disabled readonly value="{{#if this.storage.subjectToInflationInd}} Yes {{else}} No {{/if}}" />
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    {{else}}
+
+    <div class="col-sm-12 col-md-6 ">
+        <div class="form-group">
+            <label for="contractRentalPaymentsDue">Rental Payments Due </label>
+            </br>
+            <select id="contractRentalPaymentsDue" name="contractRentalPaymentsDue" style="min-width: 100%;" multiple="multiple" class="form-control select2"
+                    required
+                    {{#unless this.editmode}}
+                    disabled
+                    {{/unless}}>
+                <option></option>
+                {{#each this.contractRentalPaymentMonths}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.monthName}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label for="contractRentalPayment">
+                Rental Payment
+                <a data-toggle="modal" href="#storageRentalModal">
+                    <small class="ml-3">
+                        <i class="fas fa-info-circle"></i>
+                        <i>show payment information</i>
+                    </small>
+                </a>
+            </label>
+            <div class="form-row">
+                <div class="col-4">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox"
+                                       id="contractRentalPaymentOverride"
+                                       {{#unless this.editmode}}
+                                       disabled readonly
+                                       {{/unless}}
+                                       {{#if contract.contractRentalPaymentOverride }}
+                                       checked
+                                       {{/if}} />
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" value="Override" readonly>
+                    </div>
+                </div>
+
+
+
+                <div class="col-8">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                        </div>
+                        <input type="number"
+                               id="contractRentalPayment"
+                               class="form-control"
+                               placeholder="0.00"
+                               step=".01"
+                               min="0"
+                               value="{{contract.contractRentalPayment}}"
+                               {{#if this.editmode}}
+                               {{#unless contract.contractRentalPaymentOverride }}
+                               disabled readonly
+                               {{/unless}}
+                               {{else}}
+                               disabled readonly
+                               {{/if}} />
+                    </div>
+                </div>
+                <div style="display:none;" id="contractRentalPaymentError"><span class="text-danger small">Please enter a valid price </span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label for="secondThroughFourthYearDelayRental">
+                2nd - 4th Year Delay Rental
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="secondThroughFourthYearDelayRental"
+                       class="form-control"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{paymentRequirement.secondThroughFourthYearDelayRental}}"
+                       {{#unless this.editmode}}
+                       disabled readonly
+                       {{/unless}} />
+                <div class="input-group-append">
+                    <span class="input-group-text">per acre</span>
+                </div>
+            </div>
+            <div style="display:none;" id="secondThroughFourthYearDelayRentalError"><span class="text-danger small">Please enter a valid price </span></div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label for="fifthYearOnwardDelayRental">
+                5th Year Onward Delay Rental
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="fifthYearOnwardDelayRental"
+                       class="form-control"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{paymentRequirement.fifthYearOnwardDelayRental}}"
+                       {{#unless this.editmode}}
+                       disabled readonly
+                       {{/unless}} />
+            </div>
+            <div style="display:none;" id="fifthYearOnwardDelayRentalError"><span class="text-danger small">Please enter a valid price </span></div>
+        </div>
+    </div>
+    {{/if}}
+    {{/if}}
+
+    {{#if this.showShutInInd}}
+    {{#unless showStorageFieldInd}}
+
+    <div class="col-sm-12">
+        {{#if this.editmode}}
+        <button type="submit" class="btn btn-secondary btn-sm" data-continue="true">
+            <i class="fas fa-save"></i> Save and Continue
+        </button>
+        <button type="submit" class="btn btn-secondary btn-sm">
+            <i class="fas fa-save"></i> Save and Close
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal">
+            <i class="fas fa-times"></i> Cancel
+        </button>
+        {{/if}}
+
+
+        <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">Shut-In</h3>
+        <hr class="mt-2 mb-5">
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="secondThroughFourthYearShutInRate">
+                2nd - 4th Year Shut-In Rate
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="secondThroughFourthYearShutInRate"
+                       class="form-control"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{paymentRequirement.secondThroughFourthYearShutInRate}}"
+                       {{#unless this.editmode}}
+                       disabled readonly
+                       {{/unless}} />
+                <div class="input-group-append">
+                    <span class="input-group-text">per acre</span>
+                </div>
+            </div>
+            <div style="display:none;" id="secondThroughFourthYearShutInRateError"><span class="text-danger small">Please enter a valid price </span></div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="fifthYearOnwardShutInRate">
+                5th Year Onward Shut-In Rate
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="fifthYearOnwardShutInRate"
+                       class="form-control"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{paymentRequirement.fifthYearOnwardShutInRate}}"
+                       {{#unless this.editmode}}
+                       disabled readonly
+                       {{/unless}} />
+                <div class="input-group-append">
+                    <span class="input-group-text">per acre</span>
+                </div>
+            </div>
+            <div style="display:none;" id="fifthYearOnwardShutInRateError"><span class="text-danger small">Please enter a valid price </span></div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Shut-In Payment Interval<small><i>(Monthly or Annually)</i></small>
+            </label>
+            <div>
+                {{#if this.editmode}}
+                <input id="shutInPaymentIntervalToggle" type="checkbox"
+                       {{#if this.shutInPaymentIntervalToggleIsChecked}}
+                       checked
+                       {{/if}}
+                       data-style="ios">
+
+                {{else}}
+                <input type="text" class="form-control" disabled readonly value="{{this.paymentRequirement.shutInPaymentInterval}}" />
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    {{/unless}}
+    {{/if}}
+
+
+
+
+    {{#if this.showSuretyInd}}
+
+    <div id="pluggingSuretyDetailContainer" class="col-12">
+
+    </div>
+    {{/if}}
+
+
+</div>

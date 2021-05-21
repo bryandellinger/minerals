@@ -1,0 +1,69 @@
+﻿<div class="col-sm-2">
+    <div class="form-group">
+        <label for="apiStates">ApiNum State</label>
+        </br>
+        <select id="apiStateCode" name="tractId" style="min-width: 100%;" class="form-control select2"
+                required>
+            {{#each apiStates}}
+            <option {{#if this.selected}}
+                    selected
+                    {{/if}}
+                    value="{{this.stateCode}}">
+                {{this.text}}
+            </option>
+            {{/each}}
+        </select>
+        <div style="display:none;" id="apiStateCodeError"><span class="text-danger small">Please select a state</span></div>
+    </div>
+</div>
+
+<div class="col-sm-2">
+    <div class="form-group">
+        <label for="apiCounties">ApiNum County</label>
+        </br>
+        <select id="apiStateCounty" name="apiStateCounty" style="min-width: 100%;" class="form-control select2"
+                required>
+            <option></option>
+            {{#each apiCounties}}
+            <option {{#if this.selected}}
+                    selected
+                    {{/if}}
+                    value="{{this.countyCode}}">
+                {{this.text}}
+            </option>
+            {{/each}}
+        </select>
+        <div style="display:none;" id="apiStateCountyCodeError"><span class="text-danger small">Please select a county</span></div>
+    </div>
+</div>
+
+<div class="col-sm-2">
+    <div class="form-group">
+        <label for="apiUniqueIdentifier">ApiNum Id</label>
+        <input type="tel" class="form-control apiNumInput" required id="apiUniqueIdentifier" value="{{apiUniqueIdentifier}}" pattern="[0-9]*" maxlength="5" minlength ="5" placeholder="00000"/>
+        <div style="display:none;" id="apiUniqueIdentifierError"><span class="text-danger small">enter 5 digits</span></div>
+    </div>
+</div>
+
+<div class="col-sm-1">
+    <div class="form-group">
+        <label for="directionalSideTrackCode">Sidetrack</label>
+        <input type="tel" class="form-control apiNumInput" required id="directionalSideTrackCode" value="{{directionalSideTrackCode}}" pattern="[0-9]*" maxlength="2" minlength="2"  />
+        <div style="display:none;" id="directionalSideTrackCodeError"><span class="text-danger small">enter 2 digits</span></div>
+    </div>
+</div>
+
+<div class="col-sm-1">
+    <div class="form-group">
+        <label for="eventSequenceCode">Sequence</label>
+        <input type="tel" class="form-control apiNumInput" required id="eventSequenceCode" value="{{eventSequenceCode}}" pattern="[0-9]*" maxlength="2" minlength="2" />
+        <div style="display:none;" id="eventSequenceCodeError"><span class="text-danger small">enter 2 digits</span></div>
+    </div>
+</div>
+
+<div class="col-sm-4">
+    <div class="form-group">
+        <label>Api Number</label>
+        <input type=text class="form-control" id="derivedApiNum" value="{{derivedApiNum}}" disabled readonly />
+    </div>
+</div>

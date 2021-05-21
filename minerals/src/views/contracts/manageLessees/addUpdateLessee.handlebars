@@ -1,0 +1,36 @@
+﻿<form id="addNewLesseeForm" novalidate onsubmit="event.preventDefault()">
+ 
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="lesseeName">
+                    Add a New Lessee
+                </label>
+                <div class="input-group">
+                    <input id="lesseeName"
+                           name="lesseeName"
+                           type="text"
+                           class="form-control"
+                           required />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-building"></i></span>
+                    </div>
+                </div>
+                <div style="display:none;" id="lesseeNameError"><span class="text-danger small">Please enter a lessee name </span></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" id="addLesseeSubmitBtn">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-danger" id="cancelAddLesseeBtn">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

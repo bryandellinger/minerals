@@ -1,0 +1,370 @@
+﻿<form id="addUpdateSuretyForm" novalidate autocomplete="off" onsubmit="event.preventDefault()">
+    <h3 class="card-title" style="display: inline;  position:relative; top: 5px;">
+        {{#if unit.id}}
+        View / Edit Surety
+        {{else}}
+        Add Surety
+        {{/if}}
+    </h3>
+    {{#if editmode}}
+    <button type="submit" class="btn btn-secondary btn-sm suretySubmitbtn">
+        <i class="fas fa-save"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm  suretySubmitBtnDisabled" disabled style="display: none;">
+        <i class="fas fa-spinner fa-spin"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal">
+        <i class="fas fa-times"></i> Cancel
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{else}}
+    {{#if wellId}}
+    <a href="./Wells?container=addUpdateWellContainer&wellId={{wellId}}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-arrow-left"></i> Back to Well
+    </a>
+    {{/if}}
+    {{#if contractId}}
+    <a href="./Contracts?container=addUpdateContractContainer&contractId={{contractId}}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-arrow-left"></i> Back to Contract
+    </a>
+    {{/if}}
+    <button type="button" class="btn btn-secondary btn-sm editSuretyBtn">
+        <i class="fas fa-edit"></i> Edit
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm addNewSuretyBtn">
+        <i class="fas fa-plus"></i> New
+    </button>
+    <a href="./Surety" class="btn btn-secondary btn-sm">
+        <i class="fas fa-binoculars"></i> Search Surety
+    </a>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{/if}}
+
+    <div class="row pt-4">
+
+        <div class="col-sm-12 col-md-6 col-lg-4 ">
+            <div class="form-group">
+                <label> Surety Type</label>
+                <select id="suretyTypeId" name="suretyTypeId"
+                        class="form-control  suretyInput"
+                        {{#unless editmode}} disabled readonly {{/unless}}>
+                    {{#each this.suretyTypes}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.suretyTypeName}}
+                    </option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4 ">
+            <div class="form-group">
+                <label> Surety Number</label>
+                <input id="suretyNum" name="suretyNum" type="text" required value="{{surety.suretyNum}}"
+                       class="form-control   suretyInput"
+                       {{#unless editmode}} disabled readonly {{/unless}} />
+            </div>
+            <div style="display:none;" id="suretyNumError"><span class="text-danger small">Please enter a Surety Number</span></div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4 ">
+            <div class="form-group">
+                <label> Category</label>
+                <select id="bondCategoryId" name="bondCategoryId"
+                        class="form-control  suretyInput"
+                        {{#unless editmode}} disabled readonly {{/unless}}>
+                    {{#each this.bondCategories}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.bondCategoryName }}
+                    </option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="lesseeId">Lessee / Operator</label>
+                {{#if this.editmode}}
+                </br>
+                <select id="lesseeId" name="lesseeId" style="min-width: 100%;" class="form-control select2  suretyInput" required>
+                    <option></option>
+                    {{#each this.lessees}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.lesseeName}}
+                    </option>
+                    {{/each}}
+                </select>
+                <div style="display:none;" id="lesseeIdError"><span class="text-danger small">Please select a company</span></div>
+                {{else}}
+                <div>
+                    {{#each this.lessees}}
+                    {{#if this.selected}}
+                    <a target="_blank" href="./Contracts?container=manageLesseesContainer&lesseeId={{this.id}}">
+                        <i class="fas fa-link"></i> {{this.lesseeName}}
+                    </a>
+                    {{/if}}
+                    {{/each}}
+                </div>
+                {{/if}}
+            </div>
+        </div>
+
+        {{#unless pluggingIn}}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="contractId">Contract</label>
+                {{#if this.editmode}}
+                </br>
+                <select id="contractId" name="contractId" style="min-width: 100%;" class="form-control select2  suretyInput" required>
+                    <option></option>
+                    {{#each this.contracts}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.contractNum}}
+                    </option>
+                    {{/each}}
+                </select>
+                <div style="display:none;" id="contractIdError"><span class="text-danger small">Please select a contract</span></div>
+                {{else}}
+                <div>
+                    {{#each this.contracts}}
+                    {{#if this.selected}}
+                    <a href="./Contracts?container=addUpdateContractContainer&contractId={{id}}&suretyId={{../surety.id}}">
+                        <i class="fas fa-link"></i> {{contractNum}}
+                    </a>
+                    {{/if}}
+                    {{/each}}
+                </div>
+                {{/if}}
+            </div>
+        </div>
+        {{/unless}}
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="issueDate ">
+                    Issue Date
+                </label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="issueDate" name="issueDate" readonly
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    {{#if this.editmode}}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="issueDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                        <button class="btn btn-outline-secondary" id="issueDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Insurer
+                </label>
+                <input type="text"
+                       id="insurer"
+                       name="insurer"
+                       class="form-control suretyInput"
+                       value="{{surety.insurer}}"
+                       {{#unless editmode}} disabled readonly {{/unless}} />
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4 ">
+            <div class="form-group">
+                <label for="initialSuretyValue">
+                    Initial Value
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    <input type="number"
+                           id="initialSuretyValue"
+                           name="initialSuretyValue"
+                           class="form-control suretyInput"
+                           placeholder="0.00"
+                           step=".01"
+                           min="0"
+                           value="{{surety.initialSuretyValue}}"
+                           {{#unless editmode}} disabled readonly {{/unless}} />
+                </div>
+                <div style="display:none;" id="initialSuretyValueError"><span class="text-danger small">Please enter a valid amount </span></div>
+            </div>
+        </div>
+
+        {{#unless pluggingIn}}
+        <div class="col-sm-12 col-md-6 col-lg-4 ">
+            <div class="form-group">
+                <label for="currentSuretyValue">
+                    Current Value
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    <input type="number"
+                           id="currentSuretyValue"
+                           name="currentSuretyValue"
+                           class="form-control suretyInput"
+                           placeholder="0.00"
+                           step=".01"
+                           min="0"
+                           value="{{surety.currentSuretyValue}}"
+                           {{#unless editmode}} disabled readonly {{/unless}} />
+                </div>
+                <div style="display:none;" id="currentSuretyValueError"><span class="text-danger small">Please enter a valid amount </span></div>
+            </div>
+        </div>
+        {{/unless}}
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Is this surety claimed?
+                </label>
+                <div>
+                    {{#if this.editmode}}
+                    <input id="claimedIndToggle" type="checkbox"
+                           {{#if surety.claimedInd}}
+                           checked
+                           {{/if}}
+                           data-style="ios">
+
+                    {{else}}
+                    <input type="text" class="form-control" disabled readonly
+                           {{#if surety.claimedInd}}
+                           value="Yes"
+                           {{else}}
+                           value="No"
+                           {{/if}} />
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4 ">
+            <div class="form-group">
+                <label> Status</label>
+                <select id="suretyStatus" name="suretyStatus"
+                        class="form-control  suretyInput"
+                        {{#unless editmode}} disabled readonly {{/unless}}>
+                    {{#each this.suretyStatuses}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.suretyStatus}}">
+                        {{this.suretyStatus}}
+                    </option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+
+        {{#if showReleasedIn}}
+        <div class="col-sm-12 col-md-6 col-lg-4 ">
+            <div class="form-group">
+                <label for="releasedSuretyValue">
+                    Released Amount
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    <input type="number"
+                           id="releasedSuretyValue"
+                           name="releasedSuretyValue"
+                           class="form-control suretyInput"
+                           placeholder="0.00"
+                           step=".01"
+                           min="0"
+                           value="{{surety.releasedSuretyValue}}"
+                           {{#unless editmode}} disabled readonly {{/unless}} />
+                </div>
+            </div>
+        </div>
+        {{/if}}
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea class="form-control suretyInput" id="suretyNotes" name="suretyNotes" rows="3"
+                          {{#unless this.editmode}}
+                          disabled
+                          {{/unless}}>{{surety.suretyNotes}}</textarea>
+            </div>
+        </div>
+
+
+
+    </div>
+    {{#if pluggingIn}}
+    <div id="suretyWellContainer" class="row pl-3" />
+    {{/if}}
+    <div id="suretyRiderContainer" class="row pl-3" />
+
+    {{#if editmode}}
+    <div class="row mt-1">
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-info suretySubmitbtn">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-info suretySubmitBtnDisabled" disabled style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-primary scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+            </div>
+        </div>
+    </div>
+    {{else}}
+    <div class="row mt-1">
+        <div class="col-md-12">
+            <div class="form-group">
+                {{#if wellId}}
+                <a href="./Wells?container=addUpdateWellContainer&wellId={{wellId}}" class="btn btn-info">  <i class="fas fa-arrow-left"></i> Back to Well </a>
+                {{/if}}
+                {{#if contractId}}
+                <a href="./Contracts?container=addUpdateContractContainer&contractId={{contractId}}" class="btn btn-info">  <i class="fas fa-arrow-left"></i> Back to Contract </a>
+                {{/if}}
+                <button type="button" class="btn btn-secondary editSuretyBtn">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button type="button" class="btn btn-primary scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+</form>

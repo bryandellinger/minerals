@@ -1,0 +1,567 @@
+﻿<form id="addUpdateStorageFieldForm" novalidate autocomplete="off" onsubmit="event.preventDefault()">
+
+    <h3 class="card-title" style="display: inline;  position:relative; top: 5px;">
+        {{#if storageRental.id}}
+        View / Edit Storage Field Payment
+        {{else}}
+        Add Storage Field Payment
+        {{/if}}
+    </h3>
+    {{#if editmode}}
+    <button type="submit" class="btn btn-secondary btn-sm storageFieldSubmitbtn">
+        <i class="fas fa-save"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm  storageFieldSubmitBtnDisabled" disabled style="display: none;">
+        <i class="fas fa-spinner fa-spin"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#storageFieldModal">
+        <i class="fas fa-times"></i> Cancel
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{else}}
+
+    <button type="button" class="btn btn-secondary btn-sm editStorageFieldBtn">
+        <i class="fas fa-edit"></i> Edit
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm addNewStorageField">
+        <i class="fas fa-plus"></i> New
+    </button>
+    <a href="./Accounting?container=manageStorageFieldsContainer" class="btn btn-secondary btn-sm">
+        <i class="fas fa-binoculars"></i> Search Storage
+    </a>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{/if}}
+
+    {{#if showOverdueInd}}
+    <div class="alert alert-info d-flex flex-row mt-3 col-12">
+        <i class="fas fa-fw fa-info-circle mr-3 align-self-center"></i>
+        <div>
+            This payment is overdue
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if showExpirationInd}}
+    <div class="alert alert-warning d-flex flex-row mt-3 col-12">
+        <i class="fas fa-fw fa-hourglass-end mr-3 align-self-center"></i>
+        <div>
+            This storage field has expired
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if showTerminationInd}}
+    <div class="alert alert-danger d-flex flex-row mt-3 col-12">
+        <i class="fas fa-fw fa-ban mr-3 align-self-center"></i>
+        <div>
+            This storage field is terminated
+        </div>
+    </div>
+    {{/if}}
+
+
+<div class="row mt-1">
+    <div class="col-sm-12">
+        <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">Check Information</h3>
+        <hr class="mt-2 mb-5">
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="form-group">
+            <label for="Name">
+                Check Number
+            </label>
+            {{#if editmode}}
+            <br />
+            <select name="storageRentalCheckNum" class="form-control" id="storageRentalCheckNum" required style="width: 90%">
+            </select>
+            {{else}}
+            <div>
+                <a href="./Accounting?container=addUpdateCheckContainer&checkId={{check.id}}&storageRentalId={{storageRental.id}}">
+                    <i class="fas fa-link"></i> {{check.checkNum}}
+                </a>
+            </div>
+            {{/if}}
+            <div style="display:none;" id="storageRentalCheckNumError"><span class="text-danger small">Please select a Check Number</span></div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="form-group">
+            <label>
+                Check Date
+            </label>
+            <input class="form-control" disabled readonly value="{{check.checkDate}}" />
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="form-group">
+            <label>
+                Check Received Date
+            </label>
+            <input class="form-control" disabled readonly value="{{check.receivedDate}}" />
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="form-group">
+            <label>
+                Company
+            </label>
+            {{#if check.lesseeId}}
+            <div>
+                <a target="_blank" href="./Contracts?container=manageLesseesContainer&lesseeId={{check.lesseeId}}">
+                    <i class="fas fa-link"></i> {{lessee.lesseeName}}
+                </a>
+                {{#if showLesseeNameFromCheckInd}}
+                <div>
+                    <small><i>Name on Check: {{check.lesseeName}}</i></small>
+                </div>
+                {{/if}}
+            </div>
+            {{else}}
+            <input class="form-control" disabled readonly />
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">
+            Contract / Storage Field Information
+            {{#if editmode}}
+            <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" id="contractModalBtn" data-target="#contractModal">
+                <i class="fas fa-border-all"></i> Choose Contract
+            </button>
+            {{/if}}
+        </h3>
+        <hr class="mt-2 mb-5">
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Contract
+            </label>
+            {{#if contract.contractId}}
+            <div>
+                <a href="./Contracts?container=addUpdateContractContainer&contractId={{contract.contractId}}&storageRentalId={{storageRental.id}}">
+                    <i class="fas fa-link"></i> {{contract.contractNum}}
+                </a>
+            </div>
+            {{else}}
+            <input class="form-control" disabled readonly id="storageFieldContract" required />
+            <div style="display:none;" id="storageFieldContractError"><span class="text-danger small">Please select a contract </span></div>
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Storage Field Name
+            </label>
+            <input class="form-control" disabled readonly value="{{contract.altIdInformation}}" />
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Lease Number
+            </label>
+            <input class="form-control" disabled readonly value="{{contract.leaseNum}}" />
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Lessee
+            </label>
+            {{#if contract.lesseeId}}
+            <div>
+                <a target="_blank" href="./Contracts?container=manageLesseesContainer&lesseeId={{contract.lesseeId}}">
+                    <i class="fas fa-link"></i> {{contract.lesseeName}}
+                </a>
+            </div>
+            {{else}}
+            <input class="form-control" disabled readonly />
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Effective Date
+            </label>
+            <input class="form-control" disabled readonly value="{{contract.effectiveDate}}" placeholder="N/A" />
+        </div>
+    </div>
+
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Expiration Date
+            </label>
+            <input class="form-control" disabled readonly value="{{contract.expirationDate}}" placeholder="N/A" />
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Termination Date
+            </label>
+            <input class="form-control" disabled readonly value="{{contract.terminationDate}}" placeholder="N/A" />
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Base Rental Period
+            </label>
+            <input class="form-control" disabled readonly value="{{ storageBaseRentalPeriod}}" />
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4 ">
+        <div class="form-group">
+            <label> Base Rental Payment Month/s</label>
+            </br>
+            <select id="baseRentalPaymentsDue" name="baseRentalPaymentsDue" style="min-width: 100%;" multiple="multiple" class="form-control select2" disabled>
+                <option></option>
+                {{#each this.storageBaseRentalPaymentMonths}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.monthName}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4 ">
+        <div class="form-group">
+            <label for="storageBaseRentalPayment">
+                Base Rental Expected Payment
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="storageBaseRentalPayment"
+                       class="form-control"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{contract.storageBaseRentalPayment}}"
+                       disabled readonly />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Rental Period
+            </label>
+            <input class="form-control" disabled readonly value="{{ storageRentalPeriod}}" />
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4 ">
+        <div class="form-group">
+            <label> Rental Payment Month/s</label>
+            </br>
+            <select id="rentalPaymentsDue" name="rentalPaymentsDue" style="min-width: 100%;" multiple="multiple" class="form-control select2" disabled>
+                <option></option>
+                {{#each this.storageRentalPaymentMonths}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.monthName}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4 ">
+        <div class="form-group">
+            <label for="storageRentalPayment">
+                Rental Expected Payment
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="storageRentalPayment"
+                       class="form-control"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{contract.storageRentalPayment}}"
+                       disabled readonly />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Well Rental Period
+            </label>
+            <input class="form-control" disabled readonly value="{{ storageWellRentalPeriod}}" />
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4 ">
+        <div class="form-group">
+            <label> Well Rental Payment Month/s</label>
+            </br>
+            <select id="wellPaymentsDue" name="wellPaymentsDue" style="min-width: 100%;" multiple="multiple" class="form-control select2" disabled>
+                <option></option>
+                {{#each this.storageWellPaymentMonths}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.monthName}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4 ">
+        <div class="form-group">
+            <label for="storageWellPayment">
+                Well Rental Expected Payment
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="storageWellPayment"
+                       class="form-control"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{contract.storageWellPayment}}"
+                       disabled readonly />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">
+            Payment Information
+        </h3>
+        <hr class="mt-2 mb-5">
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4 ">
+        <div class="form-group">
+            <label> Payment Type</label>
+            <select id="storageRentalPaymentTypeId" name="storageRentalPaymentTypeId"
+                    class="form-control storageRentalInput"
+                    {{#unless editmode}} disabled readonly {{/unless}}>
+                {{#each this.storageRentalPaymentTypes}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.storageRentalPaymentTypeName}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    {{#if showWellInd}}
+    <div class="col-sm-12 col-md-6 col-lg-4 ">
+        <div class="form-group">
+            <label for="well">Well</label>
+            <input class="form-control storageRentalInput" id="well"
+                   value="{{storageRental.well}}"
+                   {{#unless editmode}} disabled readonly {{/unless}} />
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="col-sm-12 col-md-6 col-lg-4 ">
+        <div class="form-group">
+            <label> Period</label>
+            <select id="periodTypeId" name="periodTypeId"
+                    class="form-control storageRentalInput"
+                    {{#unless editmode}} disabled readonly {{/unless}}>
+                {{#each this.periodTypes}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.periodTypeName}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4 ">
+        <div class="form-group">
+            <label>Payment Year</label>
+            <select id="paymentPeriodYear" name="paymentPeriodYear"
+                    class="form-control storageRentalInput"
+                    {{#unless editmode}} disabled readonly {{/unless}}>
+                {{#each this.paymentPeriodYears}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.paymentPeriodYearName}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4 ">
+        <div class="form-group">
+            <label for="rentPay">
+                Payment
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="rentPay"
+                       class="form-control storageRentalInput"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{storageRental.rentPay}}"
+                       {{#unless editmode}} disabled readonly {{/unless}}
+                       required />
+            </div>
+            <div style="display:none;" id="rentPayError"><span class="text-danger small">Please enter a valid amount </span></div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="storageRentalEntryDate">
+                Entry Date
+            </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="storageRentalEntryDate" name="storageRentalEntryDate" readonly
+                       {{#unless this.editmode}}
+                       disabled
+                       {{/unless}} />
+                {{#if this.editmode}}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="storageRentalEntryDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="storageRentalEntryDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="form-group">
+            <label for="notes">Notes</label>
+            <textarea class="form-control storageRentalInput" id="storageRentalNotes" name="storageRentalNotes" rows="3"
+                      {{#unless this.editmode}}
+                      disabled
+                      {{/unless}}>{{storageRental.storageRentalNotes}}</textarea>
+        </div>
+    </div>
+
+    {{#if showOverdueInd}}
+    <div class="col-sm-12">
+        <div class="alert alert-info d-flex flex-row">
+            <i class="fas fa-fw fa-info-circle mr-3 align-self-center"></i>
+            <div>
+                This payment is overdue
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if showExpirationInd}}
+    <div class="col-sm-12">
+        <div class="alert alert-warning d-flex flex-row mt-3">
+            <i class="fas fa-fw fa-hourglass-end mr-3 align-self-center"></i>
+            <div>
+                This storage field has expired
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if showTerminationInd}}
+<div class="col-sm-12">
+    <div class="alert alert-danger d-flex flex-row mt-3">
+        <i class="fas fa-fw fa-ban mr-3 align-self-center"></i>
+        <div>
+            This storage field is terminated
+        </div>
+    </div>
+</div>
+        {{/if}}
+
+
+        {{#if editmode}}
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-info storageFieldSubmitbtn">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-info storageFieldSubmitBtnDisabled" disabled style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#storageFieldModal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-primary scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+            </div>
+        </div>
+
+        {{else}}
+        <div class="col-md-12">
+            <div class="form-group">
+
+                <button type="button" class="btn btn-secondary editStorageFieldBtn">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button type="button" class="btn btn-primary scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</form>

@@ -1,0 +1,265 @@
+﻿<form id="addUpdateUnitForm" novalidate autocomplete="off" onsubmit="event.preventDefault()">
+    <h3 class="card-title" style="display: inline;  position:relative; top: 5px;">
+        {{#if unit.id}}
+        View / Edit Unit
+        {{else}}
+        Add Unit
+        {{/if}}
+    </h3>
+    {{#if editmode}}
+    <button type="submit" class="btn btn-secondary btn-sm unitSubmitbtn">
+        <i class="fas fa-save"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm  unitSubmitBtnDisabled" disabled style="display: none;">
+        <i class="fas fa-spinner fa-spin"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal">
+        <i class="fas fa-times"></i> Cancel
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{else}}
+    {{#if wellId}}
+    <a href="{{wellsUrl}}?container=addUpdateWellContainer&wellId={{wellId}}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-arrow-left"></i> Back to Well
+    </a>
+    {{/if}}
+    {{#if paymentId}}
+    <a href="./Accounting?container=addUpdatePaymentContainer&paymentId={{paymentId}}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-arrow-left"></i> Back to Payment
+    </a>
+    {{/if}}
+    <button type="button" class="btn btn-secondary btn-sm editUnitBtn">
+        <i class="fas fa-edit"></i> Edit
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm addNewUnit">
+        <i class="fas fa-plus"></i> New
+    </button>
+    <a href="{{baseUrl}}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-binoculars"></i> Search Units
+    </a>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+
+    {{/if}}
+
+
+
+
+    <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">General Unit Information</h3>
+    <hr class="mt-2 mb-5">
+
+
+    <div id="mainform" class="row">
+        {{#if unit.id}}
+        {{#if editmode}}
+        {{#if unit.isActiveInd}}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Amendment or Correction?
+                </label>
+                <div>
+
+                    <input id="amendmentIndToggle" type="checkbox"
+                           {{#if amendmentInd}}
+                           checked
+                           {{/if}}
+                           data-style="ios">
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        {{/if}}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="amendmentName">
+                    Amendment Name
+                </label>
+                <input type="text" class="form-control unitinput" id="amendmentName"
+                       {{#if unit.isActiveInd}}
+                       {{#if amendmentInd}}
+                       required
+                       {{/if}}
+                       {{/if}}
+                       name="amendmentName" value="{{unit.amendmentName}}"
+                       {{#unless editmode}}
+                       disabled readonly
+                       {{/unless}}>
+                <div style="display:none;" id="amendmentNameError"><span class="text-danger small">Please enter a Amendment Name</span></div>
+            </div>
+        </div>
+        {{/if}}
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="Name">
+                    Name
+                </label>
+                <input type="text" class="form-control unitinput" id="unitName" required
+                       name="unitName" value="{{unit.unitName}}"
+                       {{#unless editmode}}
+                       disabled readonly
+                       {{/unless}}>
+                <div style="display:none;" id="unitNameError"><span class="text-danger small">Please enter a Name</span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="alternateId">
+                    Alternate Id
+                </label>
+                <input type="text" class="form-control unitinput" id="alternateId"
+                       name="alternateId" value="{{unit.alternateId}}"
+                       {{#unless editmode}}
+                       disabled readonly
+                       {{/unless}}>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="dpuAcresEffectiveDate">
+                    DPU Acreage Effective Date
+                </label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="dpuAcresEffectiveDate" name="dpuAcresEffectiveDate" readonly
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    {{#if this.editmode}}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="dpuAcresEffectiveDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                        <button class="btn btn-outline-secondary" id="dpuAcresEffectiveDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="dpuAcres">
+                    Total DPU Acreage
+                </label>
+                <input type="number" class="form-control unitinput" id="dpuAcres"
+                       step=".000001" min="0"
+                       name="dpuAcres" value="{{unit.dpuAcres}}"
+                       {{#unless editmode}}
+                       disabled readonly
+                       {{/unless}}>
+                <div style="display:none;" id="dpuAcresError"><span class="text-danger small">Please a valid acreage</span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Total Commonwealth Acreage
+                </label>
+                <input type="text" id="totalCopAcres" class="form-control" disabled readonly />
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="privateAcres">
+                    Private Acreage
+                </label>
+                <input type="text" class="form-control" id="privateAcres"
+                       name="privateAcres"
+                       disabled readonly>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="gisAcres">
+                    Total GIS Acreage
+                </label>
+                <input type="number" class="form-control unitinput" id="gisAcres"
+                       step=".000001" min="0"
+                       name="gisAcres" value="{{unit.gisAcres}}"
+                       {{#unless editmode}}
+                       disabled readonly
+                       {{/unless}}>
+                <div style="display:none;" id="gisAcresError"><span class="text-danger small">Please a valid acreage</span></div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">Tracts and Wells</h3>
+    <div id="wellTractTableContainer"></div>
+
+    <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">
+        Documents
+        <small>
+            <i>
+                {{#if editmode}}
+                drag and drop to add files, click a file to download it.
+                {{else}}
+                click a file to download it.
+                {{/if}}
+            </i>
+        </small>
+    </h3>
+    <div id="uploadDocuments" class="dropzone">
+    </div>
+
+
+
+    {{#if editmode}}
+    <div class="row mt-1">
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-info unitSubmitbtn">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-info unitSubmitBtnDisabled" disabled style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-primary scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+            </div>
+        </div>
+    </div>
+    {{else}}
+    <div class="row mt-1">
+        <div class="col-md-12">
+            <div class="form-group">
+                {{#if wellId}}
+                <a href="{{wellsUrl}}?container=addUpdateWellContainer&wellId={{wellId}}" class="btn btn-info">
+                    <i class="fas fa-arrow-left"></i> Back to Well
+                </a>
+                {{/if}}
+                {{#if paymentId}}
+                <a href="./Accounting?container=addUpdatePaymentContainer&paymentId={{paymentId}}" class="btn btn-info">
+                    <i class="fas fa-arrow-left"></i> Back to Payment
+                </a>
+                {{/if}}
+                <button type="button" class="btn btn-secondary editUnitBtn">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button type="button" class="btn btn-primary scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+</form>

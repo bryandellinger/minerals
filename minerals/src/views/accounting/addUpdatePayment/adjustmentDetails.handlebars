@@ -1,0 +1,314 @@
+﻿<form id="updateAdjustmentForm" novalidate autocomplete="off" onsubmit="event.preventDefault()">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">
+                Adjustment Details for {{adjustment.entryDate}}
+                {{#if adjustmentEditMode}}
+                <button type="submit" class="btn btn-secondary btn-sm adjustmentSubmitbtn">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm  adjustmentSubmitBtnDisabled" disabled style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deleteAdjustmentModal">
+                    <i class="fas fa-trash"></i>Delete
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal2">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                {{else}}
+
+                <button type="button" class="btn btn-secondary btn-sm editAdjustmentBtn">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                {{/if}}
+            </h3>
+
+            <hr class="mt-2 mb-5">
+        </div>
+
+
+
+        <div class="col-sm-12 col-md-6 col-lg-3">
+            <div class="form-group">
+                <label for="Name">
+                    Check Number
+                </label>
+                {{#if adjustmentEditMode}}
+                <br />
+                <select name="ajaxSelect2Adjustment" class="form-control" id="ajaxSelect2Adjustment" required style="width: 90%">
+                </select>
+                {{else}}
+                <div>
+                    <a href="./Accounting?container=addUpdateCheckContainer&checkId={{adjustment.checkId}}&paymentId={{payment.id}}">
+                        <i class="fas fa-link"></i> {{adjustment.checkNum}}
+                    </a>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-3">
+            <div class="form-group">
+                <label>
+                    Check Date
+                </label>
+                <input class="form-control" disabled readonly value="{{adjustment.checkDate}}" />
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-3">
+            <div class="form-group">
+                <label>
+                    Check Received Date
+                </label>
+                <input class="form-control" disabled readonly value="{{adjustment.receivedDate}}" />
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-3">
+            <div class="form-group">
+                <label>
+                    Check Total Amount
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    <input type="number"
+                           class="form-control"
+                           placeholder="0.00"
+                           step=".01"
+                           min="0"
+                           required
+                           value="{{adjustment.totalAmount}}"
+                           disabled readonly />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-3">
+            <div class="form-group">
+                <label>
+                    Adjustment Volume
+                </label>
+                <div class="input-group">
+                    {{#if adjustmentEditMode}}
+                    <input type="number" id="adjustmentVolume"
+                           class="form-control"
+                           placeholder="0.00"
+                           step=".01"
+                           min="0"
+                           required
+                           {{#if showGasOilInd }}
+                           value="{{adjustment.volume}}"
+                           {{/if}}
+                           {{#if showLiqVolumeInd }}
+                           value="{{adjustment.liqVolume}}"
+                           {{/if}}
+                           />
+                    {{else}}
+                    <input class="form-control" disabled readonly value="{{expandedAdjustmentInformation.volumeWithChange}}"/>
+                    {{/if}}
+                </div>
+                <div>
+                    <div><small class="text-muted">Payment Value: {{payment.currentVolume}}</small></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-3">
+            <div class="form-group">
+                <label>
+                    Adjustment Payment
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    {{#if adjustmentEditMode}}
+                    <input type="number"
+                           id="adjustmentPayment"
+                           class="form-control"
+                           placeholder="0.00"
+                           step=".01"
+                           min="0"
+                           required
+                           value="{{adjustment.payment}}" />
+                    {{else}}
+                    <input class="form-control" disabled readonly value="{{expandedAdjustmentInformation.paymentWithChange}}" />
+                    {{/if}}
+
+                </div>
+                <div><small class="text-muted">Payment Value: ${{payment.currentPayment}}</small></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-3">
+            <div class="form-group">
+                <label>
+                    NRI
+                </label>
+                {{#if adjustmentEditMode}}
+                <div class="input-group">
+                    <input type="number" class="form-control adjustmentInput" placeholder="0.000000000"
+                           id="adjustment_nri"
+                           min="0" step=".000000001"
+                           value="{{adjustment.nri}}" />
+                </div>
+                {{else}}
+                <input class="form-control" disabled readonly value="{{expandedAdjustmentInformation.nriWithChange}}" />
+                {{/if}}
+                <div><small class="text-muted">Payment Value: {{payment.currentNri}}</small></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-3">
+            <div class="form-group">
+                <label>
+                    Price Per Unit
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    {{#if adjustmentEditMode}}
+                    <input type="number" class="form-control adjustmentInput"
+                           id="adjustment_salesPrice"
+                           placeholder="0.0000"
+                           min="0" step=".0001"
+                           name="salesPrice" value="{{adjustment.salesPrice}}">
+                    {{else}}
+                    <input class="form-control" disabled readonly value="{{expandedAdjustmentInformation.salesPriceWithChange}}" />
+                    {{/if}}
+                </div>
+                <div><small class="text-muted">Payment Value: ${{payment.currentSalesPrice}}</small></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-3">
+            <div class="form-group">
+                <label>
+                    Deduction
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    {{#if adjustmentEditMode}}
+                    <input type="number" class="form-control adjustmentInput" placeholder="0.00"
+                           id="adjustment_deduction"
+                           min="0" step=".01"
+                           value="{{adjustment.deduction}}">
+                    {{else}}
+                    <input class="form-control" disabled readonly value="{{expandedAdjustmentInformation.deductionWithChange}}" />
+                    {{/if}}
+                </div>
+                <div><small class="text-muted">Payment Value: ${{payment.currentDeduction}}</small></div>
+            </div>
+        </div>
+
+        {{#if showGasOilInd}}
+
+
+        <div class="col-sm-12 col-md-6 col-lg-3">
+            <div class="form-group">
+                <label>
+                    Transportation Deduction
+                </label>
+                <div class="input-group adjustmentInput">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    {{#if adjustmentEditMode}}
+                    <input type="number" class="form-control" placeholder="0.00"
+                           min="0" step=".01"
+                           id="adjustment_transDeduction"
+                           value="{{adjustment.transDeduction}}">
+                    {{else}}
+                    <input class="form-control" disabled readonly value="{{expandedAdjustmentInformation.transDeductionWithChange}}" />
+                    {{/if}}
+                </div>
+                <div><small class="text-muted">Payment Value: ${{payment.currentTransDeduction}}</small></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-3">
+            <div class="form-group">
+                <label>
+                    Compression Deduction
+                </label>
+                <div class="input-group adjustmentInput">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    {{#if adjustmentEditMode}}
+                    <input type="number" class="form-control" placeholder="0.00"
+                           id="adjustment_compressDeduction"
+                           min="0" step=".01"
+                           value="{{adjustment.compressDeduction}}">
+                    {{else}}
+                    <input class="form-control" disabled readonly value="{{expandedAdjustmentInformation.compressDeductionWithChange}}" />
+                    {{/if}}
+                </div>
+                <div><small class="text-muted">Payment Value: ${{payment.currentCompressDeduction}}</small></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-3">
+            <div class="form-group">
+                <label>
+                    Flaring
+                </label>
+                <div>
+                    {{#if adjustmentEditMode}}
+                    <input id="adjustmentflaringToggle" type="checkbox"
+                           {{#if adjustment.flaring}}
+                           checked
+                           {{/if}}
+                           data-style="ios">
+                    {{else}}
+                    <input type="text" class="form-control" disabled readonly
+                           {{#if adjustment.flaring}}
+                           value="Yes"
+                           {{else}}
+                           value="No"
+                           {{/if}} />
+                    {{/if}}
+                </div>
+                <div>
+                    <small class="text-muted">
+                        Payment Value:
+                        {{#if payment.flaring}}Yes{{else}}No{{/if}}
+                    </small>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</form>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteAdjustmentModal" tabindex="-1" role="dialog" aria-labelledby="deleteAdjustmentModalabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteAdjustmentModalLabel">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this adjustment?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" id="deleteAdjustmentBtn" data-dismiss="modal" class="btn btn-primary">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

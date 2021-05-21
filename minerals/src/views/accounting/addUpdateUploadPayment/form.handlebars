@@ -1,0 +1,317 @@
+﻿<form id="addUpdateUploadPaymentForm" novalidate autocomplete="off" onsubmit="event.preventDefault()">
+
+    <h3 class="card-title" style="display: inline;  position:relative; top: 5px;">
+        {{#if uploadPayment.id}}
+        View / Edit Payment Upload
+        {{else}}
+        Upload Payments
+        {{/if}}
+    </h3>
+    {{#if editmode}}
+    <button type="submit" class="btn btn-secondary btn-sm uploadPaymentSubmitbtn">
+        <i class="fas fa-save"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm  uploadPaymentSubmitBtnDisabled" disabled style="display: none;">
+        <i class="fas fa-spinner fa-spin"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#uploadPaymentModal">
+        <i class="fas fa-times"></i> Cancel
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{else}}
+
+    <button type="button" class="btn btn-secondary btn-sm editUploadPaymentBtn">
+        <i class="fas fa-edit"></i> Edit
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm addNewUploadPayment">
+        <i class="fas fa-plus"></i> New
+    </button>
+    <a href="./Accounting?container=manageUploadPaymentsContainer" class="btn btn-secondary btn-sm">
+        <i class="fas fa-binoculars"></i> Search Payment Uploads
+    </a>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{/if}}
+
+
+
+    <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">
+        {{#if this.editmode}}
+        Upload a CSV Payment File 
+        {{else}}
+        CSV Payment File
+        {{/if}}
+        <small>
+            <i>
+                {{#if editmode}}
+                drag and drop to add a csv payment file, click the file to download and view it.  <br />
+              
+               <span class="text-info">The file name must be in the format yyyy-mm-dd-templatename-Check No. yourchecknum.</span>
+                {{else}}
+                click the csv payment file to download and view it.
+                {{/if}}
+            </i>
+        </small>
+    </h3>
+
+
+    <div id="uploadPaymentDocuments" class="dropzone">
+    </div>
+
+    <div class="col-sm-12">
+        <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">General Information</h3>
+        <hr class="mt-2 mb-5">
+    </div>
+    <div class="row pl-3">
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="uploadTemplateId">
+                    Template
+                </label>
+                {{#if editmode}}
+                <br />
+                <select id="uploadTemplateId" name="uploadTemplateId"
+                        style="min-width: 100%"
+                        class="form-control select2 uploadPaymentInput"
+                        required>
+                    <option></option>
+                    {{#each this.uploadTemplates}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.templateName}}
+                    </option>
+                    {{/each}}
+                </select>
+                {{else}}
+                {{#if uploadPayment.uploadTemplateId}}
+                {{#each this.uploadTemplates}}
+                {{#if this.selected}}
+                <div>
+                    <a href="./Administration?container=addUpdateTemplateContainer&templateId={{this.id}}&uploadPaymentId={{../uploadPayment.id}}">
+                        <i class="fas fa-link"></i> {{this.templateName}}
+                    </a>
+                </div>
+                {{/if}}
+                {{/each}}
+                {{else}}
+                <input class="form-control" disabled readonly />
+                {{/if}}
+                {{/if}}
+            </div>
+            <div style="display:none;" id="uploadTemplateIdError"><span class="text-danger small">Please choose a template</span></div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Company
+                </label>
+                {{#if uploadPayment.uploadTemplateId}}
+                {{#each this.uploadTemplates}}
+                {{#if this.selected}}
+                <div>
+                    <a target="_blank" href="./Contracts?container=manageLesseesContainer&lesseeId={{this.lesseeId}}">
+                        <i class="fas fa-link"></i> {{this.lesseeName}}
+                    </a>
+                </div>
+                {{/if}}
+                {{/each}}
+                {{else}}
+                <input class="form-control" disabled readonly />
+                {{/if}}
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="uploadPaymentEntryDate">
+                    Upload Entry Date
+                </label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="uploadPaymentEntryDate" name="uploadPaymentEntryDate" readonly
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    {{#if this.editmode}}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="uploadPaymentEntryDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                        <button class="btn btn-outline-secondary" id="uploadPaymentEntryDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea class="form-control uploadPaymentInput" id="uploadPaymentNotes" name="uploadPaymentNotes" rows="3"
+                          {{#unless this.editmode}}
+                          disabled
+                          {{/unless}}>{{uploadPayment.uploadPaymentNotes}}</textarea>
+            </div>
+        </div>
+
+    </div>
+
+   
+
+    <div class="row pl-3">
+
+        <div class="col-sm-12">
+            <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">
+                Check Information
+                {{#if showGenerateCheckInd}}
+                <small class="ml-1 text-info">
+                    <i>
+                        Check Number {{checkNoFromCSV}} does not exist. Would you like the system to
+                        <button type="button" id="createCheckBtn" class="btn btn-outline-info">Create The Check</button> ?
+                    </i>
+                </small>
+                {{/if}}
+                {{#unless editmode}}
+                <button type="button" class="btn btn-secondary btn-sm editUploadPaymentBtn">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                {{/unless}}
+            </h3>
+            <hr class="mt-2 mb-5">
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="Name">
+                    Check Number
+                </label>
+                {{#if editmode}}
+                <br />
+                <select name="uploadPaymentCheckNum"
+                        class="form-control" id="uploadPaymentCheckNum" required style="width: 90%">
+                </select>
+                {{else}}
+                {{#if check.id}}
+                <div>
+                    <a href="./Accounting?container=addUpdateCheckContainer&checkId={{check.id}}&uploadPaymentId={{uploadPayment.id}}">
+                        <i class="fas fa-link"></i> {{check.checkNum}}
+                    </a>
+                </div>
+                {{else}}
+                <input class="form-control" disabled readonly />
+                {{/if}}
+                {{/if}}
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Check Date
+                </label>
+                <input class="form-control" disabled readonly value="{{check.checkDate}}" />
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Check Received Date
+                </label>
+                <input class="form-control" disabled readonly value="{{check.receivedDate}}" />
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Company
+                </label>
+                {{#if check.lesseeId}}
+                <div>
+                    <a target="_blank" href="./Contracts?container=manageLesseesContainer&lesseeId={{check.lesseeId}}">
+                        <i class="fas fa-link"></i> {{lessee.lesseeName}}
+                    </a>
+                    {{#if showLesseeNameFromCheckInd}}
+                    <div>
+                        <small><i>Name on Check: {{check.lesseeName}}</i></small>
+                    </div>
+                    {{/if}}
+                </div>
+                {{else}}
+                <input class="form-control" disabled readonly />
+                {{/if}}
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>
+                    Total Amount
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    <input name="totalAmount"
+                           type="number"
+                           class="form-control"
+                           placeholder="0.00"
+                           step=".01"
+                           min="0"
+                           value="{{check.totalAmount}}"
+                           disabled />
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row" id="csvPaymentContainer">
+
+    </div>
+
+    
+
+        {{#if editmode}}
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-info uploadPaymentSubmitbtn">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-info uploadPaymentSubmitBtnDisabled" disabled style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#uploadPaymentModal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-primary scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+            </div>
+        </div>
+
+        {{else}}
+        <div class="col-md-12">
+            <div class="form-group">
+
+                <button type="button" class="btn btn-secondary editUploadPaymentBtn">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button type="button" class="btn btn-primary scrollToTopBtn faa-parent animated-hover">
+                    <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+                </button>
+            </div>
+        </div>
+        {{/if}}
+
+
+
+</form>

@@ -1,0 +1,124 @@
+﻿{{#if this.editmode}}
+<button type="submit" class="btn btn-secondary btn-sm" data-continue="true">
+    <i class="fas fa-save"></i> Save and Continue
+</button>
+<button type="submit" class="btn btn-secondary btn-sm">
+    <i class="fas fa-save"></i> Save and Close
+</button>
+<button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal">
+    <i class="fas fa-times"></i> Cancel
+</button>
+{{/if}}
+
+<h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">
+    Plugging Surety Details
+    {{#if this.editmode}}
+    <small><i>drag and drop rows to reorder</i></small>
+    {{/if}}
+</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">From Depth</th>
+            <th scope="col">To Depth</th>
+            <th scope="col">Minimum Bond Amount</th>
+            <th scope="col">
+                {{#if this.editmode}}
+                <small><i>(Choose Measurement Type) </i></small>
+                <input type="checkbox"
+                       {{#if this.measurementTypeToggleIsChecked}} checked {{/if}}
+                       id="measurementTypeToggle" />
+                {{else}} Measurement Type
+                {{/if}}
+            </th>
+        </tr>
+    </thead>
+    <tbody id="pluggingSuretyTableTbody">
+        {{#if this.pluggingSuretyDetails.length}}
+        {{#each this.pluggingSuretyDetails}}
+        <tr id="pluggingSuretyRow_{{@index}}">
+            <th scope="row">
+                <div class="input-group">
+                    <input type="number"
+                           placeholder="0"
+                           class="form-control pluggingSuretyDetailInput"
+                           step="1"
+                           min="0"
+                           value="{{this.fromDepth}}"
+                           {{#unless @root.editmode}}
+                           disabled readonly
+                           {{/unless}}
+                           data-element="fromDepth"
+                           data-index="{{@index}}"
+                           data-type="int" />
+                    <div class="input-group-append">
+                        <span class="input-group-text">Ft</span>
+                    </div>
+                </div>
+            </th>
+            <td>
+                <div class="input-group">
+                    <input type="number"
+                           placeholder="0"
+                           class="form-control pluggingSuretyDetailInput"
+                           step="1"
+                           min="0"
+                           value="{{this.toDepth}}"
+                           {{#unless @root.editmode}}
+                           disabled readonly
+                           {{/unless}}
+                           data-element="toDepth"
+                           data-index="{{@index}}"
+                           data-type="int" />
+                    <div class="input-group-append">
+                        <span class="input-group-text">Ft</span>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    <input type="number"
+                           placeholder="0.00"
+                           class="form-control pluggingSuretyDetailInput"
+                           step=".01"
+                           min="0"
+                           value="{{this.minimumBondAmount}}"
+                           {{#unless @root.editmode}}
+                           disabled readonly
+                           {{/unless}}
+                           data-element="minimumBondAmount"
+                           data-index="{{@index}}"
+                           data-type="decimal" />
+                </div>
+            </td>
+            <td>
+                {{#if @root.editmode}}
+                <div class="btn-group btn-group" role="group">
+                    <button type="button" class="btn btn-success addRecord" data-index="{{@index}}"><i class="fa fa-plus" aria-hidden="true"></i> </button>
+                    <button type="button" class="btn btn-danger removeRecord" data-index="{{@index}}"><i class="fa fa-times" aria-hidden="true"></i></button>
+                </div>
+                {{else}}
+                <input type="text" class="form-control" value="{{this.measurementType}}" disabled readonly />
+                {{/if}}
+            </td>
+        </tr>
+        {{/each}}
+
+        {{else}}
+        <tr>
+            <td colspan="4">
+                <div class="alert alert-secondary" role="alert">
+                    There are no plugging detail records.
+                    {{#if this.editmode}}
+                    Would you like to  <a href="#" id="createPluggingDetailLink" class="alert-link">add a record</a>?
+                    {{/if}}
+                </div>
+            </td>
+        </tr>
+        {{/if}}
+    </tbody>
+</table>

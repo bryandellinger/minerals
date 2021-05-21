@@ -1,0 +1,122 @@
+﻿<div class="card">
+    {{> ../../shared/cardheader}}
+    <div class="card-body">
+        {{#if adjustments.length}}
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#homepayment">Payment</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#adjustments">Adjustments</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane container active" id="homepayment">
+                {{> form}}
+            </div>
+            <div class="tab-pane container fade" id="adjustments">
+                <div class="mt-3"></div>
+                <table id="adjustmentsTable" class="display" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Entry Date</th>
+                            <th>Check Number</th>
+                            <th>Volume</th>
+                            <th>Payment</th>
+                            <th>NRI</th>
+                            <th>Price Per Unit</th>
+                            <th>Legacy Data</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="adjustmentContainer"></div>
+            </div>
+        </div>
+        {{else}}
+        {{> form}}
+        {{/if}}
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">Cancel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to cancel?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" id="cancelPaymentChangesBtn" data-dismiss="modal" class="btn btn-primary">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="wellOwnershipModal" tabindex="-1" role="dialog" aria-labelledby="wellOwnershipModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="wellOwnershipModalLabel">
+                    Choose a Well Ownership Record
+                    {{#if check.lesseeName}}
+                    for {{check.lesseeName}}
+                    {{/if}}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="wellOwnershipTableContainer">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="modalCloseBtn" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="paymentWarningModal" tabindex="-1" role="dialog" aria-labelledby="paymentWarningModallLabel" aria-hidden="true">
+    <div class="modal-dialog alert alert-warning" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentWarningModalLabel"><i class="fas fa-exclamation-triangle"></i> Warnings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group list-group-flush mb-3">
+                    {{#each warnings}}
+                    <li class="list-group-item">{{this}}</li>
+                    {{/each}}
+                </ul>
+             
+                Are you sure you want to save this as a new payment?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" id="saveDuplicatePaymentBtn" data-dismiss="modal" class="btn btn-primary">Yes</button>
+                {{#if showSaveAsAdjustmentButtonInd}}
+                <button type="button" id="saveAsAdjustmentBtn" data-dismiss="modal" class="btn btn-info">Save As Adjustment Instead</button>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

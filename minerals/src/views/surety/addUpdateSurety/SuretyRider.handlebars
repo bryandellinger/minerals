@@ -1,0 +1,84 @@
+﻿<h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">
+    Surety Riders
+</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Rider</th>
+            <th scope="col">Effective Date</th>
+            {{#if this.editmode}}
+            <th></th>
+            {{/if}}
+        </tr>
+    </thead>
+    <tbody id="suretyRiderTableTbody">
+        {{#if this.suretyRiders.length}}
+        {{#each this.suretyRiders}}
+        <tr id="suretyRiderRow_{{@index}}">
+            <td>
+                {{#if @root.editmode}}
+                <select class="form-control suretyRiderRiderReasonSelect suretyRiderInput"
+                           data-element="riderReasonId"
+                           data-index="{{@index}}"
+                           data-type="int">
+                    {{#each this.riderReasons}}
+                    <option value="{{this.id}}"
+                            {{#if this.selected}}
+                            selected
+                            {{/if}}>
+                        {{this.riderReasonName}}
+                    </option>
+                    {{/each}}
+                </select>
+                {{else}}
+                {{#each this.riderReasons}}
+                {{#if this.selected}}
+                  <input class="form-control" disabled readonly value="{{this.riderReasonName}}" />
+                {{/if}}
+                {{/each}}
+                {{/if}}
+            </td>
+            <td>
+
+                <div class="input-group">
+                    <input type="text" class="form-control suretyEffectiveDate" readonly
+                           data-element="riderReasonId"
+                           data-index="{{@index}}"
+                           data-type="date"
+                           {{#unless @root.editmode}}
+                           disabled
+                           {{/unless}} />
+                    {{#if @root.editmode}}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary suretyEffectiveDateBtn" type="button"   data-index="{{@index}}"><i class="fas fa-calendar-alt" data-index="{{@index}}"></i></button>
+                    </div>
+                    {{/if}}
+                </div>
+
+            </td>
+            {{#if @root.editmode}}
+            <td>
+                <div class="btn-group btn-group" role="group">
+                    <button type="button" class="btn btn-success addRecord" data-index="{{@index}}"><i class="fa fa-plus" aria-hidden="true"></i> </button>
+                    <button type="button" class="btn btn-danger removeRecord" data-index="{{@index}}"><i class="fa fa-times" aria-hidden="true"></i></button>
+                </div>
+            </td>
+            {{/if}}
+        </tr>
+        {{/each}}
+        {{else}}
+        <tr>
+            <td colspan="2">
+                <div class="alert alert-secondary" role="alert">
+                    There are no riders.
+                    {{#if this.editmode}}
+                     Would you like to  <a href="#" id="createSuretyRiderLink" class="alert-link">add a rider</a>?
+                    {{/if}}
+                </div>
+            </td>
+        </tr>
+        {{/if}}
+    </tbody>
+</table>
+

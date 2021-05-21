@@ -1,0 +1,15 @@
+﻿ <div class="sidebar-top-right">
+   <button class="btn btn-sm btn-outline-dark faa-parent animated-hover" id="sidemenutogglebtn" type="button">
+     <i class="fas fa-chevron-circle-up faa-vertical"></i></button>
+ </div>
+ {{#each this.menuItems}}
+   <button type="button" value="{{this.value}}" 
+ class=
+           {{#if this.selected}}
+            "btn btn-primary btn-lg btn-block mt-2 spa-btn"
+            {{else}}
+             "btn btn-light btn-lg btn-block mt-2 spa-btn"
+            {{/if}}
+   >{{this.name}}</button>
+  {{/each}}
+  <a href="./Home" class="btn btn-light btn-lg btn-block mt-2">Home</a>

@@ -1,0 +1,150 @@
+﻿<div class="card">
+    {{> ../../shared/cardheader}}
+    <div class="card-body">     
+          {{> form}}      
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="contractRentalModal" tabindex="-1" role="dialog" aria-labelledby="contractRentalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contractRentalModalLabel">Cancel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to cancel?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" id="cancelContractRentalChangesBtn" data-dismiss="modal" class="btn btn-primary">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="storageRentalModal" tabindex="-1" role="dialog" aria-labelledby="storageRentalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="storageRentalModalLabel">Storage Rental Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-sm-8 col-form-label">Number of Producing Wells:</label>
+                    <div class="col-sm-4">
+                        <input type="text" readonly class="form-control-plaintext" value="{{rentalPayment.numberOfProducingWells}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-8 col-form-label">Number of Producing Unitized Wells:</label>
+                    <div class="col-sm-4">
+                        <input type="text" readonly class="form-control-plaintext" value="{{rentalPayment.numberOfProducingUnitizedWells}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-8 col-form-label">Number of Producing Non-Unitized Wells:</label>
+                    <div class="col-sm-4">
+                        <input type="text" readonly class="form-control-plaintext" value="{{rentalPayment.numberOfProducingNonUnitizedWells}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-8 col-form-label">Acreage Attributable per Producing Non-Unitized Well:</label>
+                    <div class="col-sm-4">
+                        <input type="text" readonly class="form-control-plaintext" value="{{rentalPayment.nonUnizedAverageAcreageAttributable}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-8 col-form-label">Total Acreage HBP for Producing Non-Unitized Wells:</label>
+                    <div class="col-sm-4">
+                        <input type="text" readonly class="form-control-plaintext" value="{{rentalPayment.nonUnitizedTotalAcreageHeldByProduction}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-8 col-form-label">Total Acreage HBP due to Units :</label>
+                    <div class="col-sm-4">
+                        <input type="text" readonly class="form-control-plaintext" value="{{rentalPayment.unitizedTotalAcreageHeldByProduction}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-8 col-form-label">Total Acreage HBP:</label>
+                    <div class="col-sm-4">
+                        <input type="text" readonly class="form-control-plaintext" value="{{rentalPayment.allTotalAcreageAttributable}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-8 col-form-label">Leased Tract Acreage:</label>
+                    <div class="col-sm-4">
+                        <input type="text" readonly class="form-control-plaintext" value="{{rentalPayment.leasedTractAcreage}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-8 col-form-label">Acreage to apply to Rental Calculation:</label>
+                    <div class="col-sm-4">
+                        <input type="text" readonly class="form-control-plaintext" value="{{rentalPayment.acreageToApplyToRentalCalculation}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-8 col-form-label">Rent per Acre:</label>
+                    <div class="col-sm-4">
+                        <input type="text" readonly class="form-control-plaintext" value="${{rentalPayment.rentPerAcre}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-8 col-form-label">Amount Due:</label>
+                    <div class="col-sm-4">
+                        <input type="text" readonly class="form-control-plaintext" value="${{rentalPayment.rentalPaymentDue}}">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="contractRentalTableModal" tabindex="-1" role="dialog" 
+     aria-labelledby="contractRentalTableModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contractRentalTableModalLabel">
+                    Choose a Contract
+
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="contractRentalsModalTable" class="display" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Contract</th>
+                           <th>Tract</th>
+                            <th>Effective Date</th>
+                            <th>Termination Date</th>
+                            <th>Expiration Date</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="contractRentalTableModalCloseBtn" 
+                        class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

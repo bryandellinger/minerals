@@ -1,0 +1,21 @@
+<form id="searchform" onsubmit="event.preventDefault()">
+    <div class="form-row">
+        {{#each this}}
+        <div class="form-group col-md-2">
+            <label for="{{this.column}}">{{this.name}}</label>
+            <input type="search" class="form-control" id="{{this.column}}" name="{{this.column}}">
+        </div>
+        {{/each}}
+        <div class="form-group col-md-1  align-self-end">
+            <button id="searchbtn" type="submit" class="btn btn-primary form-control">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="form-group col-md-1  align-self-end">
+            <button id="clearsearchbtn" type="button" class="btn btn-danger form-control">
+                <i class="fas fa-times"></i>
+                Clear
+            </button>
+        </div>
+    </div>
+</form>

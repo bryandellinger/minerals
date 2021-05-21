@@ -1,0 +1,137 @@
+﻿
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>Digital Well Logs</label>
+                </br>
+                <select multiple id='digitalLogs' style="min-width: 100%;" class="form-control select2 select2-selectall"
+                        {{#unless this.editmode}}
+                        disabled
+                        {{/unless}}>
+                    <option value="0">select all</option>
+                    {{#each this.digitalLogs}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.wellLogTestName}}
+                    </option>
+                    {{/each}}
+
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>Digital Image Well Logs</label>
+                </br>
+                <select multiple id='digitalImageLogs' style="min-width: 100%;" class="form-control select2 select2-selectall"
+                        {{#unless this.editmode}}
+                        disabled
+                        {{/unless}}>
+                    <option value="0">select all</option>
+                    {{#each this.digitalImageLogs}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.wellLogTestName}}
+                    </option>
+                    {{/each}}
+
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label>Hardcopy Well Logs</label>
+                </br>
+                <select multiple id='hardCopyLogs' style="min-width: 100%;" class="form-control select2 select2-selectall"
+                        {{#unless this.editmode}}
+                        disabled
+                        {{/unless}}>
+                    <option value="0">select all</option>
+                    {{#each this.hardCopyLogs}}
+                    <option {{#if this.selected}}
+                            selected
+                            {{/if}}
+                            value="{{this.id}}">
+                        {{this.wellLogTestName}}
+                    </option>
+                    {{/each}}
+
+                </select>
+            </div>
+        </div>
+
+  
+
+        <div class="col-md-6 col-lg-6"
+             {{#unless editmode}}
+             {{#unless well.logStartDepth}}
+             style="display: none;"
+             {{/unless}}
+             {{/unless}}>
+            <div class="form-group">
+                <label for="logStartDepth">
+                    Start Depth
+                </label>
+                <div class="input-group">
+                    <input type="number" class="form-control wellinput" id="logStartDepth" placeholder="0"
+                           min="0" step="1"
+                           name="logStartDepth" value="{{well.logStartDepth}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}}>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Ft.</span>
+                    </div>
+                </div>
+                <div style="display:none;" id="logStartDepthError"><span class="text-danger small">Please enter a postive integer</span></div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6"
+             {{#unless editmode}}
+             {{#unless well.logEndDepth}}
+             style="display: none;"
+             {{/unless}}
+             {{/unless}}>
+            <div class="form-group">
+                <label for="logEndDepth">
+                    End Depth
+                </label>
+                <div class="input-group">
+                    <input type="number" class="form-control wellinput" id="logEndDepth" placeholder="0"
+                           min="0" step="1"
+                           name="logEndDepth" value="{{well.logEndDepth}}"
+                           {{#unless editmode}}
+                           disabled readonly
+                           {{/unless}}>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Ft.</span>
+                    </div>
+                </div>
+                <div style="display:none;" id="logEndDepthError"><span class="text-danger small">Please enter a postive integer</span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12"
+             {{#unless editmode}}
+             {{#unless well.logNotes}}
+             style="display: none;"
+             {{/unless}}
+             {{/unless}}>
+            <div class="form-group">
+                <label for="logNotes">Notes</label>
+                <textarea class="form-control wellinput" id="logNotes" rows="3"
+                          {{#unless this.editmode}}
+                          disabled
+                          {{/unless}}>{{well.logNotes}}</textarea>
+            </div>
+        </div>
+    </div>
+
+

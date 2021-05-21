@@ -1,0 +1,178 @@
+﻿<form id="addUpdateTractForm" novalidate onsubmit="event.preventDefault()">
+    <hr class="mt-2 mb-5">
+    <h3 class="card-title" style="display: inline;  position:relative; top: 5px;">
+        {{#if tract.id}}
+        View / Edit Tract {{tract.tractNum}}
+        {{else}}
+        Add New Tract
+        {{/if}}
+    </h3>
+    {{#unless editmode}}
+    <button type="button" class="btn btn-secondary btn-sm editTractBtn">
+        <i class="fas fa-edit"></i> Edit
+    </button>
+    {{/unless}}
+<div class="row">
+    {{#unless tract.id}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="tractTractNum">
+                Tract
+            </label>
+            <input type="text" class="form-control" id="tractTractNum" name="tractTractNum" required />
+            <div style="display:none;" id="tractTractNumError"><span class="text-danger small">Please enter a tract number </span></div>
+            <div style="display:none;" id="duplicateTractError"><span class="text-danger small">This tract already exists </span></div>
+        </div>
+    </div>
+    {{/unless}}
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="altTractNum">
+                Alternate Tract Name
+            </label>
+            <input type="text" class="form-control"  id="altTractNum" name="altTractNum" value="{{this.tract.altTractNum}}"
+                   {{#unless this.editmode}}
+                   disabled readonly
+                   {{/unless}} />
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Is this an admin tract?
+            </label>
+            <div>
+                {{#if this.editmode}}
+                <input id="administrativeIndToggle" type="checkbox"
+                       {{#if this.tract.administrative}}
+                       checked
+                       {{/if}}
+                       data-style="ios">
+
+                {{else}}
+                <input type="text" class="form-control" disabled readonly
+                       {{#if this.tract.administrative}}
+                       value="Yes"
+                       {{else}}
+                       value="No"
+                       {{/if}} />
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Is this tract terminated?
+            </label>
+            <div>
+                {{#if this.editmode}}
+                <input id="terminatedIndToggle" type="checkbox"
+                       {{#if this.tract.terminated}}
+                       checked
+                       {{/if}}
+                       data-style="ios">
+
+                {{else}}
+                <input type="text" class="form-control" disabled readonly
+                       {{#if this.tract.terminated}}
+                       value="Yes"
+                       {{else}}
+                       value="No"
+                       {{/if}} />
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="tractAcreage">
+                Acreage
+            </label>
+            <input type="number" class="form-control" placeholder="00000000.0000" id="tractAcreage" name="tractAcreage" value="{{this.tract.acreage}}"
+                   step=".0001" min="0" max="99999999.9999" ;
+                   {{#unless this.editmode}}
+                   disabled readonly
+                   {{/unless}} />
+            <div style="display:none;" id="tractAcreageError"><span class="text-danger small">Please enter a number from 0 - 99999999.9999 </span></div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="districttracts">Districts</label>
+            </br>
+            <select id="districttracts" name="districttracts" style="min-width: 100%;" multiple="multiple" class="form-control select2"
+                    {{#unless this.editmode}}
+                    disabled
+                    {{/unless}}>
+                <option></option>
+                {{#each this.districts}}
+                <option {{#if this.selected}}
+                        selected
+                        {{/if}}
+                        value="{{this.id}}">
+                    {{this.name}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="terminatedDate">
+                Termination Date
+            </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="terminatedDate" name="terminatedDate" readonly
+                       {{#unless this.editmode}}
+                       disabled
+                       {{/unless}} />
+                {{#if this.editmode}}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="terminatedDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="terminatedDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="reversionDate">
+                Reversion Date
+            </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="reversionDate" name="reversionDate" readonly
+                       {{#unless this.editmode}}
+                       disabled
+                       {{/unless}} />
+                {{#if this.editmode}}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="reversionDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="reversionDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>
+    {{#if editmode}}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" id="tractSubmitbtn">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-primary" disabled id="tractSubmitBtnDisabled" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#tractModal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+</form>

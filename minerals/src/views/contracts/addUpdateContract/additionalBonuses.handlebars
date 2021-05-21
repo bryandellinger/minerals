@@ -1,0 +1,36 @@
+﻿{{#each additionalBonuses }}
+<div class="col-sm-12 col-md-6 col-lg-4 additionalBonusContainer">
+    <div class="form-group">
+        <label>
+            Additional Bonus Amount {{indexer @index}}
+            {{#if @root.editmode}}
+            <a href="#" class="addAdditionalBonus ml-1"  data-index="{{@index}}" >
+                <small>
+                    <i data-index="{{@index}}">add</i>
+                </small>
+            </a>
+            <a href="#" class="deleteAdditionalBonus"  data-index="{{@index}}">
+                <small>
+                    <i class="text-danger" data-index="{{@index}}">delete</i>
+                </small>
+            </a>
+            {{/if}}
+        </label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+            </div>
+            <input type="number"
+                   class="form-control additionalBonus"
+                   data-index="{{@index}}"
+                   placeholder="0.00"
+                   step=".01"
+                   min="0"
+                   value="{{this.additionalBonusAmount}}"
+                   {{#unless @root.editmode}}
+                   disabled readonly
+                   {{/unless}} />
+        </div>
+    </div>
+</div>
+{{/each}}

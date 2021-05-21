@@ -1,0 +1,38 @@
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Check</th>
+            <th>Well</th>
+            <th>Tract</th>
+             <th>Pad</th>
+             <th>Posted</th>
+             <th>Check Dt</th>
+             <th>Rec Dt</th>
+             <th>Gas</th>
+             <th>Royalty</th>
+             <th>Oil</th>
+             <th>Royalty</th>
+        </tr>
+    </thead>
+    <tbody>
+         {{#each this.rows}}
+        <tr>
+            <td>{{this.id}}</td>
+            <td>{{this.lesseeName}}</td>
+            <td>{{this.checkNum}}</td>
+            <td>{{this.wellNum}}</td>
+            <td>{{this.tractNum}}</td>
+            <td>{{this.padName}}</td>
+            <td>{{this.postYear}} {{this.postMonth}}</td>
+            <td>{{checkDate}}</td>
+            <td>{{recvDate}}</td>
+            <td>{{gasProd}}</td>
+            <td>{{gasRoyalty}}</td>
+            <td>{{oilProd}}</td>
+            <td>{{oilRoyalty}}</td>
+        </tr>
+       {{/each}}
+    </tbody>
+</table>

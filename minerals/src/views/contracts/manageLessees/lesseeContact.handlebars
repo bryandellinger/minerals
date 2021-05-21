@@ -1,0 +1,361 @@
+﻿<form id="addUpdateLesseeContactForm" novalidate onsubmit="event.preventDefault()">
+    <div class="row">
+        <div class="col col-sm-auto">
+            <h5 class="card-title pb-3 pt-2">
+                <span>{{this.lessee.lesseeName}}</span> <small>{{this.title}}  {{this.lesseeContact.firstName}} {{this.lesseeContact.lastName}} </small>
+            </h5>
+        </div>
+        <div class="col">
+            <div class="btn-group float-right" role="group" aria-label="Basic example">
+                {{#if this.editmode}}
+                <button type="submit" class="btn btn-secondary"><i class="fas fa-save"></i> Save </button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cancelContactModal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                {{else}}
+                <button type="button" id="closeContactInfo" class="btn btn-secondary"><i class="far fa-window-close"></i> Close</button>
+                <button type="button" id="editContactInfo" class="btn btn-secondary"><i class="fas fa-edit"></i> Edit</button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#deleteContactModal">
+                    <i class="fas fa-trash-alt"></i> Delete
+                </button>
+                {{#if this.lesseeContact.email}}
+                <a class="btn btn-secondary" href="mailto:{{this.lesseeContact.email}}"><i class="fa fa-envelope" aria-hidden="true"></i> Email </a>
+                {{/if}}
+                {{#if this.lesseeContact.address1}}
+                <a class="btn btn-secondary" href="{{this.mapUrl}}" target="_blank"><i class="fas fa-map"></i> Map </a>
+                {{/if}}
+                {{/if}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="firstName">
+                    First Name
+                </label>
+                <div class="input-group">
+                    <input id="firstName"
+                           name="firstName"
+                           type="text"
+                           class="form-control contactInput"
+                           required
+                           value="{{this.lesseeContact.firstName}}"
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    </div>
+                </div>
+                <div style="display:none;" id="firstNameError"><span class="text-danger small">Please enter a first name </span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="lastName">
+                    Last Name
+                </label>
+                <div class="input-group">
+                    <input id="lastName"
+                           name="lastName"
+                           type="text"
+                           class="form-control contactInput"
+                           required
+                           value="{{this.lesseeContact.lastName}}"
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    </div>
+                </div>
+                <div style="display:none;" id="lastNameError"><span class="text-danger small">Please enter a last name </span></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="title">
+                    Title
+                </label>
+                <div class="input-group">
+                    <input id="title"
+                           name="title"
+                           type="text"
+                           class="form-control contactInput"
+                           value="{{this.lesseeContact.title}}"
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-street-view"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 ">
+            <div class="form-group">
+                <label for="address1">
+                    Address 1
+                </label>
+                <div class="input-group">
+                    <input id="address1"
+                           name="address1"
+                           type="text"
+                           class="form-control contactInput"
+                           value="{{this.lesseeContact.address1}}"
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 ">
+            <div class="form-group">
+                <label for="address2">
+                    Address 2
+                </label>
+                <div class="input-group">
+                    <input id="address2"
+                           name="address2"
+                           type="text"
+                           class="form-control contactInput"
+                           value="{{this.lesseeContact.address2}}"
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="city">
+                    City
+                </label>
+                <div class="input-group">
+                    <input id="city"
+                           name="city"
+                           type="text"
+                           class="form-control contactInput"
+                           value="{{this.lesseeContact.city}}"
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-city"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="state">
+                    State
+                </label>
+                <div class="input-group">
+                    <input id="state"
+                           name="state"
+                           type="text"
+                           class="form-control contactInput"
+                           value="{{this.lesseeContact.state}}"
+                               {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-flag"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="zip">
+                    Zip
+                </label>
+                <div class="input-group contactInput">
+                    <input id="zip"
+                           name="zip"
+                           type="text"
+                           class="form-control"
+                           value="{{this.lesseeContact.zip}}"
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-globe"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="phone1">
+                    Primary Phone Number
+                </label>
+                <div class="input-group">
+                    <input id="phone1"
+                           name="phone1"
+                           type="text"
+                           class="form-control contactInput"
+                           value="{{this.lesseeContact.phone1}}"
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="phone2">
+                    Alternate Phone Number
+                </label>
+                <div class="input-group">
+                    <input id="phone2"
+                           name="phone2"
+                           type="text"
+                           class="form-control contactInput"
+                           value="{{this.lesseeContact.phone2}}"
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="email">
+                    Email
+                </label>
+                <div class="input-group">
+                    <input id="email"
+                           name="email"
+                           type="email"
+                           class="form-control contactInput"
+                           value="{{this.lesseeContact.email}}"
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div style="display:none;" id="emailError"><span class="text-danger small">Please enter a valid email </span></div>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="fax">
+                    Fax
+                </label>
+                <div class="input-group">
+                    <input id="fax"
+                           name="fax"
+                           type="text"
+                           class="form-control contactInput"
+                           value="{{this.lesseeContact.fax}}"
+                           {{#unless this.editmode}}
+                           disabled
+                           {{/unless}} />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-fax" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div style="display:none;" id="emailError"><span class="text-danger small">Please enter a valid email </span></div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea class="form-control contactInput" id="notes" rows="3"
+                          {{#unless this.editmode}}
+                          disabled
+                          {{/unless}}
+                          >{{this.lesseeContact.notes}}</textarea>
+            </div>
+        </div>
+    </div>
+    {{#if this.editmode}}
+    <hr class="mt-2 mb-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" id="contractSubmitbtn">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#cancelContactModal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+</form>
+
+<!-- Modal -->
+<div class="modal fade" id="cancelContactModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cancel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to cancel?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" id="cancelContactChangesBtn" data-dismiss="modal" class="btn btn-primary">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteContactModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Contact</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this contact?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" id="deleteContactBtn" data-dismiss="modal" class="btn btn-primary">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>

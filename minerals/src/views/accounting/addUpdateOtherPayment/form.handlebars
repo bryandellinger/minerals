@@ -1,0 +1,229 @@
+﻿<form id="addUpdateOtherPaymentForm" novalidate autocomplete="off" onsubmit="event.preventDefault()">
+
+    <h3 class="card-title" style="display: inline;  position:relative; top: 5px;">
+        {{#if contractRental.id}}
+        View / Edit Other Payment
+        {{else}}
+        Add Other Payment
+        {{/if}}
+    </h3>
+    {{#if editmode}}
+    <button type="submit" class="btn btn-secondary btn-sm otherPaymentSubmitbtn">
+        <i class="fas fa-save"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm  otherPaymentSubmitBtnDisabled" disabled style="display: none;">
+        <i class="fas fa-spinner fa-spin"></i>
+        Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#otherPaymentModal">
+        <i class="fas fa-times"></i> Cancel
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{else}}
+
+    <button type="button" class="btn btn-secondary btn-sm editOtherPaymentBtn">
+        <i class="fas fa-edit"></i> Edit
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm addNewOtherPayment">
+        <i class="fas fa-plus"></i> New
+    </button>
+    <a href="./Accounting?container=manageOtherPaymentsContainer" class="btn btn-secondary btn-sm">
+        <i class="fas fa-binoculars"></i> Search Other Payments
+    </a>
+    <button type="button" class="btn btn-secondary btn-sm scrollToBottomBtn faa-parent animated-hover">
+        <i class="fas fa-hand-point-down faa-falling"></i> Scroll to Bottom
+    </button>
+    {{/if}}
+
+<div class="row mt-1">
+    <div class="col-sm-12">
+        <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">Check Information</h3>
+        <hr class="mt-2 mb-5">
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="form-group">
+            <label for="Name">
+                Check Number
+            </label>
+            {{#if editmode}}
+            <br />
+            <select name="otherPaymentCheckNum"
+                    class="form-control" id="otherPaymentCheckNum" required style="width: 90%">
+            </select>
+            {{else}}
+            {{#if check.id}}
+            <div>
+                <a href="./Accounting?container=addUpdateCheckContainer&checkId={{check.id}}&otherPaymentId={{otherPayment.id}}">
+                    <i class="fas fa-link"></i> {{check.checkNum}}
+                </a>
+            </div>
+            {{else}}
+            <input class="form-control" disabled readonly />
+            {{/if}}
+            {{/if}}
+        </div>
+        <div style="display:none;" id="otherPaymentCheckNumError"><span class="text-danger small">Please choose a check </span></div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="form-group">
+            <label>
+                Check Date
+            </label>
+            <input class="form-control" disabled readonly value="{{check.checkDate}}" />
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="form-group">
+            <label>
+                Check Received Date
+            </label>
+            <input class="form-control" disabled readonly value="{{check.receivedDate}}" />
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="form-group">
+            <label>
+                Company
+            </label>
+            {{#if check.lesseeId}}
+            <div>
+                <a target="_blank" href="./Contracts?container=manageLesseesContainer&lesseeId={{check.lesseeId}}">
+                    <i class="fas fa-link"></i> {{lessee.lesseeName}}
+                </a>
+                {{#if showLesseeNameFromCheckInd}}
+                <div>
+                    <small><i>Name on Check: {{check.lesseeName}}</i></small>
+                </div>
+                {{/if}}
+            </div>
+            {{else}}
+            <input class="form-control" disabled readonly />
+            {{/if}}
+        </div>
+    </div>
+
+
+
+
+    <div class="col-sm-12">
+        <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">
+            Payment Information
+        </h3>
+        <hr class="mt-2 mb-5">
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label>
+                Payment Type
+            </label>
+            <input type="text"
+                   id="otherPaymentType"
+                   name="otherPaymentType"
+                   class="form-control otherPaymentInput"
+                   value="{{otherPayment.otherPaymentType}}"
+                   {{#unless editmode}} disabled readonly {{/unless}}
+                   required />
+        </div>
+        <div style="display:none;" id="otherPaymentTypeError"><span class="text-danger small">Please enter a payment type </span></div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4 ">
+        <div class="form-group">
+            <label for="contractRentPay">
+                Payment
+            </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="number"
+                       id="otherRentPay"
+                       name="otherRentPay"
+                       class="form-control otherPaymentInput"
+                       placeholder="0.00"
+                       step=".01"
+                       min="0"
+                       value="{{otherPayment.otherRentPay}}"
+                       required
+                       {{#unless editmode}} disabled readonly {{/unless}} />
+            </div>
+            <div style="display:none;" id="otherRentPayError"><span class="text-danger small">Please enter a valid amount </span></div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="otherPaymentEntryDate">
+                Entry Date
+            </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="otherRentalEntryDate" name="otherRentalEntryDate" readonly
+                       {{#unless this.editmode}}
+                       disabled
+                       {{/unless}} />
+                {{#if this.editmode}}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="otherRentalEntryDateBtn" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary" id="otherRentalEntryDateDateClearBtn" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="form-group">
+            <label for="notes">Notes</label>
+            <textarea class="form-control otherPaymentInput" id="otherRentalNotes" name="otherRentalNotes" rows="3"
+                      {{#unless this.editmode}}
+                      disabled
+                      {{/unless}}>{{otherPayment.otherRentalNotes}}</textarea>
+        </div>
+    </div>
+
+
+
+
+    {{#if editmode}}
+    <div class="col-md-12">
+        <div class="form-group">
+            <button type="submit" class="btn btn-info otherPaymentSubmitbtn">
+                <i class="fas fa-save"></i>
+                Save
+            </button>
+            <button type="button" class="btn btn-info otherPaymentSubmitBtnDisabled" disabled style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i>
+                Save
+            </button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#otherPaymentModal">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button type="button" class="btn btn-primary scrollToTopBtn faa-parent animated-hover">
+                <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+            </button>
+        </div>
+    </div>
+
+    {{else}}
+    <div class="col-md-12">
+        <div class="form-group">
+
+            <button type="button" class="btn btn-secondary editOtherPaymentBtn">
+                <i class="fas fa-edit"></i> Edit
+            </button>
+            <button type="button" class="btn btn-primary scrollToTopBtn faa-parent animated-hover">
+                <i class="fas fa-hand-point-up faa-bounce"></i> Scroll to Top
+            </button>
+        </div>
+    </div>
+    {{/if}}
+</div>
+</form>

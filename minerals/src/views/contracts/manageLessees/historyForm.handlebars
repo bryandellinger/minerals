@@ -1,0 +1,78 @@
+﻿<form id="updateLesseeForm" novalidate onsubmit="event.preventDefault()">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="btn-group float-right" role="group" aria-label="Basic example">
+                {{#if this.editmode}}
+                <button type="submit" class="btn btn-secondary"><i class="fas fa-save"></i> Save </button>
+                <button type="button" id="cancelHistoryForm" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                {{else}}
+                <button type="button" id="closeHistoryForm" class="btn btn-secondary"><i class="far fa-window-close"></i> Close</button>
+                <button type="button" id="editHistoryForm" class="btn btn-secondary"><i class="fas fa-edit"></i> Edit</button>
+                {{/if}}
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="lesseeName">
+                    Lessee of Record
+                </label>
+                <div class="form-row">
+
+                    <div class="{{#if this.editmode}} col-8 {{else}} col {{/if}}">
+                        <div class="input-group ">
+                            <input id="lesseeName"
+                                   name="lesseeName"
+                                   type="text"
+                                   value="{{this.lessee.lesseeName}}"
+                                   class="form-control"
+                                   required
+                                   {{#unless this.editmode}}
+                                   disabled
+                                   {{/unless}} />
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-building"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{#if this.editmode}}
+                    <div class="col-4">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox"
+                                           id="legalNameChangeInd"
+                                           {{#if this.legalNameChangeInd}}
+                                           checked
+                                           {{/if}} />
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" value="Legal Name Change" readonly>
+                        </div>
+                    </div>
+                    {{/if}}
+
+
+                    <div style="display:none;" id="lesseeNameError"><span class="text-danger small">Please enter a lessee name </span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{#if this.editmode}}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" id="editLesseeSubmitBtn">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-danger" id="cancelEditLesseeBtn">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+</form>

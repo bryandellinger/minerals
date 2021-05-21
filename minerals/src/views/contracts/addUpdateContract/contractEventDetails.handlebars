@@ -1,0 +1,60 @@
+﻿{{#if this.editmode}}
+<button type="submit" class="btn btn-secondary btn-sm" data-continue="true">
+    <i class="fas fa-save"></i> Save and Continue
+</button>
+<button type="submit" class="btn btn-secondary btn-sm">
+    <i class="fas fa-save"></i> Save and Close
+</button>
+<button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal">
+    <i class="fas fa-times"></i> Cancel
+</button>
+{{/if}}
+
+<h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">
+    Lessee Information
+    {{#unless this.editmode}}
+    <button type="button" class="btn btn-secondary btn-sm" id="editContractBtn3">
+        <i class="fas fa-edit"></i> Edit
+    </button>
+    {{/unless}}
+</h3>
+<hr class="mt-2 mb-5">
+
+<ul class="nav nav-tabs" id="contractEventsTabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="activeevents-tab" data-toggle="tab" href="#activeEvents" role="tab" aria-controls="activeevents" aria-selected="true">Current Info</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="historicalevents-tab" data-toggle="tab" href="#historicalEvents" role="tab" aria-controls="historicalevents" aria-selected="false">Historical Info</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="wellownership-tab" data-toggle="tab" href="#wellownership" role="tab" aria-controls="wellownership" aria-selected="false">Well Ownership</a>
+    </li>
+
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="activeEvents" role="tabpanel" aria-labelledby="activeevents-tab">
+        <div id="activeEventsTableContainer"></div>
+    </div>
+    <div class="tab-pane fade" id="historicalEvents" role="tabpanel" aria-labelledby="historicalevents-tab">
+        <div id="historicalEventsTableContainer"></div>
+    </div>
+    <div class="tab-pane fade" id="wellownership" role="tabpanel" aria-labelledby="wellownership-tab">
+        <div class="mt-3"></div>
+        <table id="historicalOwnershipTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>Well Name</th>
+                    <th>Api</th>
+                    <th>Tract</th>
+                    <th>Contract</th>
+                    <th>Owner</th>
+                    <th>% Ownership</th>
+                    <th>Automatic Update Enabled</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
