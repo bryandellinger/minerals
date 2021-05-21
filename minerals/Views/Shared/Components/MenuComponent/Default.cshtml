@@ -1,0 +1,25 @@
+﻿@model MenuDataViewModel
+    <ul class="navbar-nav mr-auto">
+        @foreach (var item in Model.menu.Modules)
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @item.ModuleName
+                </a>
+                <div class="dropdown-menu" aria-labelledby="@($"{item.ModuleName}dropdown")">
+                    @foreach (var p in item.Pages)
+                    {
+                        @if (p.AspRouteContainer != null)
+                            {
+                                <a class="dropdown-item" asp-controller="@item.ModuleName" asp-action="Index" asp-route-container="@p.AspRouteContainer">@p.PageName </a>
+                            }
+                            else
+                            {
+                                <a class="dropdown-item" asp-controller="@item.ModuleName" asp-action="Index">@p.PageName </a>
+                            }
+                    }
+                </div>
+            </li>
+         }
+        </ul>
+

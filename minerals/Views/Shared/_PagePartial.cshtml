@@ -1,0 +1,11 @@
+﻿
+<li>
+    @if (@Model.AspRouteContainer != null)
+    {
+        <a class="@ViewBag.TextColor" asp-controller="@ViewBag.ModuleName" asp-action="Index" asp-route-container="@Model.AspRouteContainer">@Model.PageName </a>
+    }
+    else
+    {
+        <a class="@ViewBag.TextColor" asp-controller="@ViewBag.ModuleName" asp-action="Index">@Model.PageName </a>
+    }
+</li>

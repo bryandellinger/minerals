@@ -1,0 +1,20 @@
+﻿@model IEnumerable<ModulePageViewModel>
+@{
+    ViewData["Title"] = "Units Module"; }
+<div class="container-fluid flex-wrapper">
+    <div class="row justify-content-center  account-menu-items flex-content">
+        <div class="col-2 hidden-md-down bg-secondary text-white pt-5 sidebar" id="accountsidebar"></div>
+        <div class="col-10 accountContainer" id="manageUnitsContainer"></div>
+        @foreach (var item in Model.Where(x => x.AspRouteContainer != null))
+        {
+            <div class="col-10 accountContainer" id="@item.AspRouteContainer" style="display: none;"></div>
+        }
+    </div>
+</div>
+<div class="spinner fa-3x">
+    <i class="fas fa-spinner fa-spin"></i>
+</div>
+<div class="spinner2 fa-3x">
+    <i class="fas fa-spinner fa-spin"></i>
+</div>
+<script src="~/webpack/units.bundle.js" asp-append-version="true"></script>

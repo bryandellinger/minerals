@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ModuleViewModel>
+@{
+    ViewData["Title"] = "The Minerals Application"; }
+    <div class="container-fluid px-5">
+        <div class="card-columns">
+            @foreach (var item in Model)
+            {
+                <div class="card homecard @item.CardColor @item.TextColor">
+                    <div class="card-header">
+                        <h3 class="card-h3"> <i class="@item.Icon pr-2 fa-2x"></i>@item.ModuleName</h3>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">The @item.ModuleName Module</h5>
+                        <p class="card-text">
+                            <ul>                         
+                                    @foreach (var p in item.Pages)
+                                    {
+                                        <partial name="_PagePartial"
+                                         model = "p"
+                                         view-data='@new ViewDataDictionary(ViewData) { { "ModuleName", item.ModuleName }, {"TextColor", item.TextColor } }'
+                                        />                                       
+                                    }
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+       </div>
+       

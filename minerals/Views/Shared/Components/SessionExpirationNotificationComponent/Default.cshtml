@@ -1,0 +1,84 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+<!-- Modal -->
+<div class="modal fade" id="timeoutModal" tabindex="-1" role="dialog" aria-labelledby="timeoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Your session is about to expire</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                You will be automatically signed out in
+                <span id="logout-counter-span">@Configuration.GetSection("CookieAuthentication")["SessionExpireNotificationMinutes"]:00</span>
+                minutes
+                <p>
+                    To continue your session, select <strong>Stay Signed In</strong>.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="stay-logged-in-button">Stay Signed In</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+     function resetCounters() {
+            clearInterval(notificationInterval);
+            clearInterval(logoutInterval);
+            logoutCounterSpan.text("@Configuration.GetSection("CookieAuthentication")["SessionExpireNotificationMinutes"]:00");
+            startNotificationCounter();
+        }
+
+        $("#stay-logged-in-button").click(function() {
+                $.get("@Url.Action("Index", "KeepAlive", new {area = ""})",
+                    null,
+                    function(data) {
+                        resetCounters();
+                        $('#timeoutModal').modal('hide');
+                    }
+                );
+            });
+
+    function startLogoutCounter() {
+        var minutes = @Configuration.GetSection("CookieAuthentication")["SessionExpireNotificationMinutes"];
+            var counter = minutes * 60;
+            logoutInterval = setInterval(function() {
+                counter--;
+                    if (counter < 0) {
+                        //$("#logoutForm").submit();
+                    } else {
+                        var m = Math.floor(counter / 60);
+                        var s = Math.floor(counter % 60);
+                        var mDisplay = m < 10 ? "0" + m : m;
+                        var sDisplay = s < 10 ? "0" + s : s;
+                        logoutCounterSpan.text(mDisplay + ":" + sDisplay);
+                    }
+                },
+                1000);
+        }
+
+     function startNotificationCounter() {
+            var counter = @Configuration.GetSection("CookieAuthentication")["ExpireMinutes"];
+            notificationInterval = setInterval(function() {
+                counter--;
+                    if (counter === @Configuration.GetSection("CookieAuthentication")["SessionExpireNotificationMinutes"]) {
+                       $('#timeoutModal').modal('show');
+                        startLogoutCounter();
+                    }
+                },
+                 60 * 1000);
+        }
+   
+    $(function () {
+           $('#timeoutModal').modal('hide');
+            logoutCounterSpan = $("#logout-counter-span");
+            startNotificationCounter();
+        });
+</script>
+
