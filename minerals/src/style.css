@@ -1,0 +1,183 @@
+input.error {
+    border: 1px solid red;
+  }
+  
+  label.error {
+    font-weight: normal;
+    color: red;
+  }
+
+a {
+    color: #0000EE;
+  }
+
+  
+        
+        .vertical-align-alert {
+          display: flex;
+          align-items: center;
+      }
+      
+      input.error {
+        border: 1px solid red;
+      }
+      
+      label.error {
+        font-weight: normal;
+        color: red;
+      }
+
+      .card{
+        cursor: pointer;
+      }
+
+      .draggable{
+          cursor: grab;
+      }
+
+      .homecard:hover {
+        -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        opacity: 0.9;
+        }
+
+.select2-selection__rendered {
+    line-height: 31px !important;
+}
+
+.select2-container .select2-selection--single {
+    height: 35px !important;
+}
+
+.select2-selection__arrow {
+    height: 34px !important;
+}
+
+.flex-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 100px);
+}
+
+.flex-content {
+    flex-grow: 1;
+}
+
+.sidebar {
+    position: relative;
+    min-height: calc(100vh - 100px);
+}
+
+.sidebar-top-right {
+  right: 0; /* new */
+  top: 0; /* new */
+  position: absolute; /* new */
+}
+
+.ui-autocomplete.ui-front {
+  max-height: 400px;
+  overflow-y: auto;   /* prevent horizontal scrollbar */
+  overflow-x: hidden; /* add padding to account for vertical scrollbar */
+  z-index:1000 !important;
+}
+
+.ui-autocomplete {
+    max-height: 400px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+    /* add padding to account for vertical scrollbar */
+    padding-right: 20px;
+} 
+
+.showMenuContainer{
+  position: relative;
+}
+
+.top-left{
+  left: 0; /* new */
+  top: 0; /* new */
+  position: absolute; /* new */
+}
+
+.showmenubtn{
+  display: none;
+}
+
+.no_overflow th, .no_overflow td {
+    word-break: break-all; 
+    word-break: break-word; 
+}
+
+.select2-results__options[aria-multiselectable="true"] li {
+    padding-left: 30px;
+    position: relative
+}
+
+    .select2-results__options[aria-multiselectable="true"] li:before {
+        position: absolute;
+        left: 8px;
+        opacity: .6;
+        top: 6px;
+        content: "\2610";
+    }
+
+    .select2-results__options[aria-multiselectable="true"] li[aria-selected="true"]:before {
+        content: "\2611";
+    }
+
+.is-invalid .select2-selection {
+    border-color: rgb(185, 74, 72) !important;
+}
+
+select2-search__field{
+    height: 200px;
+}
+
+.spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+.spinner2 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+span.ui-datepicker-year {
+    display: none;
+}
+
+input:-ms-input-placeholder {
+    line-height: normal;
+    display: inline-block;
+}
+
+.toggle.ios, .toggle-on.ios, .toggle-off.ios {
+    border-radius: 20rem;
+}
+
+.toggle.ios .toggle-handle {
+        border-radius: 20rem;
+    }
+
+.hide-day-calender .ui-datepicker-calendar {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .modal-xl {
+        width: 90%;
+        max-width: 1200px;
+    }
+}
+
+
+
